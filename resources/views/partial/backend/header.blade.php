@@ -10,6 +10,21 @@
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
+        @if (session()->get('locale')== 'ar ')
+            <li class="nav-item">
+            <a class="nav-link" href="#">
+                English
+            </a>
+            </li>
+        @else
+            <li class="nav-item">
+            <a class="nav-link" href="#">
+                عربي
+            </a>
+            </li>
+        @endif
+
+
 
         @if(auth()->user()->ability('admin', 'manage_supervisors,show_supervisors'))
         <li class="nav-item">
