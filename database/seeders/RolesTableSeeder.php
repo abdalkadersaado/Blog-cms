@@ -48,16 +48,16 @@ class RolesTableSeeder extends Seeder
         $editor->attachRole($editorRole);
 
 
-        $user1 = User::create(['name' => 'Sami Mansour', 'username' => 'sami', 'email' => 'sami@bloggi.test', 'mobile' => '966500000003', 'email_verified_at' => Carbon::now(), 'password' => bcrypt('123123123'), 'status' => 1,]);
+        $user1 = User::create(['name' => 'abdulkader saado', 'username' => 'abd', 'email' => 'abd@gmail.com', 'mobile' => '963500000003', 'email_verified_at' => Carbon::now(), 'password' => bcrypt('123123123'), 'status' => 1,]);
         $user1->attachRole($userRole);
 
-        $user2 = User::create(['name' => 'Mansour Sami', 'username' => 'mansour', 'email' => 'mansour@bloggi.test', 'mobile' => '966500000004', 'email_verified_at' => Carbon::now(), 'password' => bcrypt('123123123'), 'status' => 1,]);
+        $user2 = User::create(['name' => 'user2', 'username' => 'username2', 'email' => 'mansour@bloggi.test', 'mobile' => '963500000004', 'email_verified_at' => Carbon::now(), 'password' => bcrypt('123123123'), 'status' => 1,]);
         $user2->attachRole($userRole);
 
-        $user3 = User::create(['name' => 'Mais Sami', 'username' => 'mais', 'email' => 'mais@bloggi.test', 'mobile' => '966500000005', 'email_verified_at' => Carbon::now(), 'password' => bcrypt('123123123'), 'status' => 1,]);
+        $user3 = User::create(['name' => 'abd sa', 'username' => 'abd_sa', 'email' => 'mais@bloggi.test', 'mobile' => '963500000005', 'email_verified_at' => Carbon::now(), 'password' => bcrypt('123123123'), 'status' => 1,]);
         $user3->attachRole($userRole);
 
-        for ($i = 0; $i <10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $user = User::create([
                 'name' => $faker->name,
                 'username' => $faker->userName,
@@ -69,7 +69,5 @@ class RolesTableSeeder extends Seeder
             ]);
             $user->attachRole($userRole);
         }
-
-
     }
 }
