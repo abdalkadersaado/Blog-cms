@@ -10,17 +10,16 @@
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-
         @if (session()->get('locale')== 'ar')
             <li class="nav-item">
             <a class="nav-link" href="{{ route('change_locale','en') }}">
-               <img  src="{{ asset('backend/img/lang_en.png') }}" style="max-width: 20px;" alt="EN"> English
+               English <img  src="{{ asset('backend/img/lang_en.png') }}" style="max-width: 20px;" alt="EN">
             </a>
             </li>
         @else
             <li class="nav-item">
             <a class="nav-link" href="{{ route('change_locale','ar') }}">
-                <img src="{{ asset('backend/img/lang_ar.png') }}" style="max-width:20px;" alt="AR">عربي
+                عربي <img src="{{ asset('backend/img/lang_ar.png') }}" style="max-width:20px;" alt="AR">
             </a>
             </li>
         @endif
@@ -30,7 +29,7 @@
         @if(auth()->user()->ability('admin', 'manage_supervisors,show_supervisors'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.supervisors.index') }}">
-                Supervisors
+                {{ __('BackEnd/general.supervisors') }}
             </a>
         </li>
         @endif
@@ -38,7 +37,7 @@
         @if(auth()->user()->ability('admin', 'manage_settings,show_settings'))
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.settings.index') }}">
-                Settings
+                {{ __('BackEnd/general.settings') }}
             </a>
         </li>
         @endif
@@ -63,12 +62,12 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
+                    {{ __('BackEnd/general.profile') }}
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    {{ __('BackEnd/general.logout') }}
                 </a>
                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                     @csrf

@@ -3,7 +3,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold text-primary">Supervisors</h6>
+            <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/supervisors.supervisors') }}</h6>
             <div class="ml-auto">
                 <a href="{{ route('admin.supervisors.create') }}" class="btn btn-primary">
                     <span class="icon text-white-50">

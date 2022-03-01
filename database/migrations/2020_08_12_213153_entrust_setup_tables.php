@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,10 +15,12 @@ class EntrustSetupTables extends Migration
     {
         // Create table for storing roles
         Schema::create('roles', function (Blueprint $table) {
-            $table->id('id');
+            $table->id();
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
+            $table->string('display_name_en')->nullable();
             $table->string('description')->nullable();
+            $table->string('description_en')->nullable();
             $table->string('allowed_route')->nullable();
             $table->timestamps();
         });
@@ -34,7 +37,9 @@ class EntrustSetupTables extends Migration
             $table->id('id');
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
+            $table->string('display_name_en')->nullable();
             $table->string('description')->nullable();
+            $table->string('description_en')->nullable();
             $table->string('route')->nullable();
             $table->string('module')->nullable();
             $table->string('as')->nullable();
@@ -60,7 +65,6 @@ class EntrustSetupTables extends Migration
             $table->foreignId('permission_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->primary(['user_id', 'permission_id']);
         });
-
     }
 
     /**

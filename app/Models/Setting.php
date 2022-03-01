@@ -10,5 +10,8 @@ class Setting extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-
+    public function display_name()
+    {
+        return config('app.locale') == 'ar' ? $this->display_name : $this->display_name_en;
+    }
 }

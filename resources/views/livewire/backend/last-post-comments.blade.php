@@ -8,16 +8,16 @@
             <!-- Project Card Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Last posts</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/general.last_posts') }}</h6>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Comments</th>
-                            <th>Status</th>
-                            <th>Date</th>
+                            <th>{{ __('BackEnd/general.title') }}</th>
+                            <th>{{ __('BackEnd/general.comment') }}</th>
+                            <th>{{ __('BackEnd/general.status') }}</th>
+                            <th>{{ __('BackEnd/general.date') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -30,7 +30,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4">No posts found</td>
+                            <td colspan="4">{{ __('BackEnd/general.no_comments_found') }}</td>
                         </tr>
                         @endforelse
                         </tbody>
@@ -44,16 +44,16 @@
             <!-- Illustrations -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Last comments</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/general.last_comment') }}</h6>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Comment</th>
-                            <th>Status</th>
-                            <th>Date</th>
+                            <th>{{ __('BackEnd/general.name') }}</th>
+                            <th>{{ __('BackEnd/general.comment') }}</th>
+                            <th>{{ __('BackEnd/general.status') }}</th>
+                            <th>{{ __('BackEnd/general.date') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -66,7 +66,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">No comments found</td>
+                                <td colspan="4">{{ __('BackEnd/general.no_comments_found') }}</td>
                             </tr>
                         @endforelse
                         </tbody>

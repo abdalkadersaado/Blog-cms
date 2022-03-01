@@ -17,6 +17,8 @@ class Post extends Model
         return [
             'slug' => [
                 'source' => 'title'
+            ], 'slug_en' => [
+                'source' => 'title_en'
             ]
         ];
     }
@@ -24,9 +26,24 @@ class Post extends Model
     protected $searchable = [
         'columns'   => [
             'posts.title'       => 10,
+            'posts.title_en'       => 10,
             'posts.description' => 10,
+            'posts.description_en' => 10,
         ],
     ];
+
+    public function title()
+    {
+        return config('app.locale') == 'ar' ? $this->title : $this->title_en;
+    }
+    public function url_slug()
+    {
+        return config('app.locale') == 'ar' ? $this->slug : $this->slug_en;
+    }
+    public function description()
+    {
+        return config('app.locale') == 'ar' ? $this->description : $this->description_en;
+    }
 
     public function scopeActive($query)
     {
@@ -72,7 +89,4 @@ class Post extends Model
     {
         return $this->status == 1 ? 'Active' : 'Inactive';
     }
-
-
-
 }

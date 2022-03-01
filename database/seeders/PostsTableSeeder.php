@@ -31,12 +31,16 @@ class PostsTableSeeder extends Seeder
             $months = ['01', '02', '03', '04', '05', '06', '07', '08'];
             $post_date = "2020-" . Arr::random($months) . "-" . Arr::random($days) . " 01:01:01";
             $post_title = $faker->sentence(mt_rand(3, 6), true);
+            $post_title_en = $faker->sentence(mt_rand(3, 6), true);
 
 
             $posts[] = [
                 'title'         => $post_title,
+                'title_en'         => $post_title_en,
                 'slug'          => Str::slug($post_title),
+                'slug_en'          => Str::slug($post_title_en),
                 'description'   => $faker->paragraph(),
+                'description_en'   => $faker->paragraph(),
                 'status'        => rand(0, 1),
                 'comment_able'  => rand(0, 1),
                 'user_id'       => $user->random(),
@@ -58,6 +62,7 @@ class PostsTableSeeder extends Seeder
             $months = ['01', '02', '03', '04', '05', '06', '07', '08'];
             $post_date = "2020-" . Arr::random($months) . "-" . Arr::random($days) . " 01:01:01";
             $post_title = $faker->sentence(mt_rand(3, 6), true);
+            $post_title_en = $faker->sentence(mt_rand(3, 6), true);
             $tmp_images = [
                 public_path('assets/tmp/01.jpg'),
                 public_path('assets/tmp/01.jpg'),
@@ -93,6 +98,9 @@ class PostsTableSeeder extends Seeder
                 'title'         => $post_title,
                 'slug'          => Str::slug($post_title),
                 'description'   => $faker->paragraph(),
+                'title_en'         => $post_title_en,
+                'slug_en'          => Str::slug($post_title_en),
+                'description_en'   => $faker->paragraph(),
                 'status'        => rand(0, 1),
                 'comment_able'  => rand(0, 1),
                 'user_id'       => rand(3, 5),
@@ -101,7 +109,7 @@ class PostsTableSeeder extends Seeder
                 'updated_at'    => $post_date,
             ]);
 
-            $filename = ''.$userPosts->slug.'.jpg';
+            $filename = '' . $userPosts->slug . '.jpg';
             $path = public_path('/assets/posts/' . $filename);
             Image::make(Arr::random($tmp_images))->save($path, 100);
 
@@ -110,8 +118,6 @@ class PostsTableSeeder extends Seeder
                 'file_size' => 5465564,
                 'file_type' => 'image/jpg',
             ]);
-
         }
-
     }
 }

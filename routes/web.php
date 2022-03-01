@@ -56,14 +56,11 @@ Route::group(['middleware' => 'web'], function () {
         Route::delete('/delete-post/{post_id}', [FrontendUsersController::class, 'destroy_post'])->name('post.destroy');
         Route::post('/delete-post-media/{media_id}', [FrontendUsersController::class, 'destroy_post_media'])->name('post.media.destroy');
         Route::get('/comments', [FrontendUsersController::class, 'show_comments'])->name('comments');
-        Route::get('/edit-comment/{comment_id}',            [FrontendUsersController::class, 'edit_comment'])->name('comment.edit');
-        Route::put('/edit-comment/{comment_id}',            [FrontendUsersController::class, 'update_comment'])->name('comment.update');
-        Route::delete('/delete-comment/{comment_id}',       [FrontendUsersController::class, 'destroy_comment'])->name('comment.destroy');
+        Route::get('/edit-comment/{comment_id}', [FrontendUsersController::class, 'edit_comment'])->name('comment.edit');
+        Route::put('/edit-comment/{comment_id}', [FrontendUsersController::class, 'update_comment'])->name('comment.update');
+        Route::delete('/delete-comment/{comment_id}', [FrontendUsersController::class, 'destroy_comment'])->name('comment.destroy');
     });
 });
-
-
-
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Authentication Routes...
@@ -74,29 +71,29 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::any('/notifications/get', [BackendNotificationsController::class, 'getNotifications']);
         Route::any('/notifications/read', [BackendNotificationsController::class, 'markAsRead']);
         Route::get('/', [AdminController::class, 'index'])->name('index_route');
-        Route::get('/index',                            [AdminController::class, 'index'])->name('index');
-        Route::post('/posts/removeImage/{media_id}',    [PostsController::class, 'removeImage'])->name('posts.media.destroy');
-        Route::resource('posts',                        PostsController::class);
-        Route::post('/pages/removeImage/{media_id}',    [PagesController::class, 'removeImage'])->name('pages.media.destroy');
-        Route::resource('pages',                        PagesController::class);
-        Route::resource('post_comments',                PostCommentsController::class);
-        Route::resource('post_categories',              PostCategoriesController::class);
-        Route::resource('post_tags',                    PostTagsController::class);
-        Route::resource('contact_us',                   ContactUsController::class);
-        Route::post('/users/removeImage',               [BackendUsersController::class, 'removeImage'])->name('users.remove_image');
-        Route::resource('users',                        BackendUsersController::class);
-        Route::post('/supervisors/removeImage',         [SupervisorsController::class, 'removeImage'])->name('supervisors.remove_image');
-        Route::resource('supervisors',                  SupervisorsController::class);
-        Route::resource('settings',                     SettingsController::class);
+        Route::get('/index', [AdminController::class, 'index'])->name('index');
+        Route::post('/posts/removeImage/{media_id}', [PostsController::class, 'removeImage'])->name('posts.media.destroy');
+        Route::resource('posts', PostsController::class);
+        Route::post('/pages/removeImage/{media_id}', [PagesController::class, 'removeImage'])->name('pages.media.destroy');
+        Route::resource('pages', PagesController::class);
+        Route::resource('post_comments',  PostCommentsController::class);
+        Route::resource('post_categories', PostCategoriesController::class);
+        Route::resource('post_tags', PostTagsController::class);
+        Route::resource('contact_us', ContactUsController::class);
+        Route::post('/users/removeImage', [BackendUsersController::class, 'removeImage'])->name('users.remove_image');
+        Route::resource('users',  BackendUsersController::class);
+        Route::post('/supervisors/removeImage', [SupervisorsController::class, 'removeImage'])->name('supervisors.remove_image');
+        Route::resource('supervisors', SupervisorsController::class);
+        Route::resource('settings', SettingsController::class);
     });
 });
 
-Route::get('/contact-us',                               [IndexController::class, 'contact'])->name('frontend.contact');
-Route::post('/contact-us',                              [IndexController::class, 'do_contact'])->name('frontend.do_contact');
-Route::get('/category/{category_slug}',                 [IndexController::class, 'category'])->name('frontend.category.posts');
-Route::get('/tag/{tag_slug}',                           [IndexController::class, 'tag'])->name('frontend.tag.posts');
-Route::get('/archive/{date}',                           [IndexController::class, 'archive'])->name('frontend.archive.posts');
-Route::get('/author/{username}',                        [IndexController::class, 'author'])->name('frontend.author.posts');
-Route::get('/search',                                   [IndexController::class, 'search'])->name('frontend.search');
-Route::get('/{post}',                                   [IndexController::class, 'post_show'])->name('frontend.posts.show');
-Route::post('/{post}',                                  [IndexController::class, 'store_comment'])->name('frontend.posts.add_comment');
+Route::get('/contact-us', [IndexController::class, 'contact'])->name('frontend.contact');
+Route::post('/contact-us', [IndexController::class, 'do_contact'])->name('frontend.do_contact');
+Route::get('/category/{category_slug}', [IndexController::class, 'category'])->name('frontend.category.posts');
+Route::get('/tag/{tag_slug}', [IndexController::class, 'tag'])->name('frontend.tag.posts');
+Route::get('/archive/{date}', [IndexController::class, 'archive'])->name('frontend.archive.posts');
+Route::get('/author/{username}', [IndexController::class, 'author'])->name('frontend.author.posts');
+Route::get('/search', [IndexController::class, 'search'])->name('frontend.search');
+Route::get('/{post}', [IndexController::class, 'post_show'])->name('frontend.posts.show');
+Route::post('/{post}', [IndexController::class, 'store_comment'])->name('frontend.posts.add_comment');

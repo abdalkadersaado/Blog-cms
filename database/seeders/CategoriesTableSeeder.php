@@ -14,10 +14,9 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        Category::create(['name' => 'un-categorized', 'status' => 1]);
-        Category::create(['name' => 'Natural', 'status' => 1]);
-        Category::create(['name' => 'Flowers', 'status' => 1]);
-        Category::create(['name' => 'Kitchen', 'status' => 0]);
-
+        Category::create(['name_en' => 'un-categorized', 'name' => 'غير مصنفة', 'status' => 1]);
+        Category::create(['name_en' => 'Natural', 'name' => 'طبيعة', 'status' => 1]);
+        Category::create(['name_en' => 'Flowers', 'name' => 'أزهار', 'status' => 1]);
+        Category::create(['name_en' => 'Kitchen', 'name' => 'مطابخ', 'status' => 0]);
     }
 }
