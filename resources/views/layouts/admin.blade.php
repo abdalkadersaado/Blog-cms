@@ -18,7 +18,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('backend/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    @if(session()->get('locale') == 'ar')
+        <link rel="stylesheet" href="{{ asset('backend/css/rtl/sb-admin-2.css') }}">
+    @else
+        <link href="{{ asset('backend/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    @endif
+
     <link href="{{ asset('backend/vendor/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/vendor/summernote/summernote-bs4.min.css') }}" rel="stylesheet">
     @yield('style')

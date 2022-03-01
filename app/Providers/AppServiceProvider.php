@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         $locale = config('app.locale') == 'ar' ?  'ar' : config('app.locale');
+
         App::setLocale($locale);
         Lang::setLocale($locale);
         Session::put('locale', $locale);

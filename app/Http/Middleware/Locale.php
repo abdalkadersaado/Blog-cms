@@ -7,7 +7,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
-use PhpParser\Node\Stmt\Foreach_;
 
 class Locale
 {

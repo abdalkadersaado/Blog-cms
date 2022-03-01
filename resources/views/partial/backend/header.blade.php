@@ -10,16 +10,17 @@
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-        @if (session()->get('locale')== 'ar ')
+
+        @if (session()->get('locale')== 'ar')
             <li class="nav-item">
-            <a class="nav-link" href="#">
-                English
+            <a class="nav-link" href="{{ route('change_locale','en') }}">
+               <img  src="{{ asset('backend/img/lang_en.png') }}" style="max-width: 20px;" alt="EN"> English
             </a>
             </li>
         @else
             <li class="nav-item">
-            <a class="nav-link" href="#">
-                عربي
+            <a class="nav-link" href="{{ route('change_locale','ar') }}">
+                <img src="{{ asset('backend/img/lang_ar.png') }}" style="max-width:20px;" alt="AR">عربي
             </a>
             </li>
         @endif
