@@ -17,7 +17,7 @@
             <table class="table table-hover">
                 <tbody>
                     <tr>
-                        <td colspan="4"><a href="{{ route('admin.posts.show', $post->id) }}">{{ $post->title }}</a></td>
+                        <td colspan="4"><a href="{{ route('admin.posts.show', $post->id) }}">{{ $post->title() }}</a></td>
                     </tr>
                     <tr>
                         <th>Comments</th>
@@ -27,7 +27,7 @@
                     </tr>
                     <tr>
                         <th>Category</th>
-                        <td>{{ $post->category->name }}</td>
+                        <td>{{ $post->category->name() }}</td>
                         <th>Author</th>
                         <td>{{ $post->user->name }}</td>
                     </tr>

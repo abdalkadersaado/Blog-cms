@@ -41,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function receivesBroadcastNotificationsOn()
     {
-        return 'App.User.'.$this->id;
+        return 'App.User.' . $this->id;
     }
 
     protected $searchable = [
@@ -66,13 +66,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function status()
     {
-        return $this->status == '1' ? 'Active' : 'Inactive';
+        return $this->status == '1' ? __('BackEnd/user.active') : __('BackEnd/user.inactive');
     }
 
     public function userImage()
     {
-        return $this->user_image != '' ? asset('assets/users/' .$this->user_image) : asset('assets/users/default.png');
+        return $this->user_image != '' ? asset('assets/users/' . $this->user_image) : asset('assets/users/default.png');
     }
-
-
 }

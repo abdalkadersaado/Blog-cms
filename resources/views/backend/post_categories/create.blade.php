@@ -15,27 +15,39 @@
         </div>
         <div class="card-body">
 
-            {!! Form::open(['route' => 'admin.post_categories.store', 'method' => 'post']) !!}
+            <form action="{{ route('admin.post_categories.store') }}" method="post">
+                @csrf
             <div class="row">
-                <div class="col-8">
+               <div class="col-4">
                     <div class="form-group">
-                        {!! Form::label('name', 'Name') !!}
-                        {!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
+                        <label for="name">Name</label>
+                        <input type="text" name="name" value="{{ old('name') }}" class="form-control">
                         @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="name_en">Name English</label>
+                        <input type="text" name="name_en" value="{{ old('name_en') }}" class="form-control">
+                        @error('name_en')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
                 <div class="col-4">
-                    {!! Form::label('status', 'status') !!}
-                    {!! Form::select('status', ['1' => 'Active', '0' => 'Inactive'], old('status'), ['class' => 'form-control']) !!}
+                    <label for="name">Status</label>
+                    <select name="status" class="form-control">
+                    <option value=""> --- </option>
+                    <option value="1" {{ old('status',request('status')) == '1' ? 'selected': '' }}>Active</option>
+                    <option value="0" {{ old('status',request('status')) == '0' ? 'selected': '' }}>Inactive</option>
+                     </select>
                     @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="form-group pt-4">
-                {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-            {!! Form::close() !!}
+            </form>
         </div>
     </div>
 

@@ -7,6 +7,8 @@ return [
     'title' => 'العنوان',
     'status' => 'الحالة',
     'created_at' => 'تاريخ الارسال',
+    'active' => 'مفعلة',
+    'inactive' => 'غير مفعلة',
     'actions' => 'العمليات',
     'no_messages_found' => 'لاتوجد رسائل',
     'messages' => 'الرسائل',
@@ -16,10 +18,14 @@ return [
     'search_here' => 'ابحث هنا',
     'read' => 'مقروءة',
     'new' => 'جديدة',
-    'name' => 'الاسم',
     'created_at' => 'أنشئت في',
     'ascending' => 'تصاعدي',
     'descending' => 'تنازلي',
+    'id' => 'بطاقة تعريف',
+    'created_at' => 'أنشئت في',
+    'name' => 'الاسم',
+    'search' => 'بحث',
+    'No_pages_found' => 'لاتوجد صفحات لعرضها',
 
 
 

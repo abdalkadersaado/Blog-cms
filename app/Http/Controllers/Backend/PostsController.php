@@ -20,7 +20,7 @@ class PostsController extends Controller
 
     public function __construct()
     {
-        if (\auth()->check()){
+        if (\auth()->check()) {
             $this->middleware('auth');
         } else {
             return view('backend.auth.login');
@@ -33,36 +33,28 @@ class PostsController extends Controller
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $categoryId = (isset(\request()->category_id) && \request()->category_id != '') ? \request()->category_id : null;
-        $tagId = (isset(\request()->tag_id) && \request()->tag_id != '') ? \request()->tag_id : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
+        $posts = Post::with(['user', 'category', 'comments'])
+            ->wherePostType('post')
+            ->when(request('keyword') != '', function ($query) {
+                $query->search(request('keyword'));
+            })
+            ->when(request('category_id') != '', function ($query) {
+                $query->whereCategoryId(request('category_id'));
+            })
+            ->when(request('tag_id') != '', function ($query) {
+                $query->WhereHas('tags', function ($q) {
+                    $q->where('id', request('tag_id'));
+                });
+            })
+            ->when(request('status') != '', function ($query) {
+                $query->whereStatus(request('status'));
+            })
+            ->orderBy(request('sort_by') ?? 'id', request('order_by') ?? 'desc')
+            ->paginate(request('limit_by') ?? 10)
+            ->withQueryString(); // to save variable that I change it filtering.
 
-        $posts = Post::with(['user', 'category', 'comments'])->wherePostType('post');
-        if ($keyword != null) {
-            $posts = $posts->search($keyword);
-        }
-        if ($categoryId != null) {
-            $posts = $posts->whereCategoryId($categoryId);
-        }
-        if ($tagId != null) {
-            $posts = $posts->whereHas('tags', function ($query) use ($tagId) {
-                $query->where('id', $tagId);
-            });
-        }
-        if ($status != null) {
-            $posts = $posts->whereStatus($status);
-        }
-
-        $posts = $posts->orderBy($sort_by, $order_by);
-        $posts = $posts->paginate($limit_by);
-
-        $categories = Category::orderBy('id', 'desc')->pluck('name', 'id');
+        $categories = Category::orderBy('id', 'desc')->select('id', 'name', 'name_en')->get();
         return view('backend.posts.index', compact('categories', 'posts'));
-
     }
 
     public function create()
@@ -71,8 +63,8 @@ class PostsController extends Controller
             return redirect('admin/index');
         }
 
-        $tags = Tag::pluck('name', 'id');
-        $categories = Category::orderBy('id', 'desc')->pluck('name', 'id');
+        $tags = Tag::select('id', 'name', 'name_en')->get();
+        $categories = Category::orderBy('id', 'desc')->select('id', 'name', 'name_en')->get();
         return view('backend.posts.create', compact('categories', 'tags'));
     }
 
@@ -84,19 +76,23 @@ class PostsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title'         => 'required',
+            'title_en'         => 'required',
             'description'   => 'required|min:50',
+            'description_en'   => 'required|min:50',
             'status'        => 'required',
             'comment_able'  => 'required',
             'category_id'   => 'required',
             'images.*'      => 'nullable|mimes:jpg,jpeg,png,gif|max:20000',
             'tags.*'        => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $data['title']              = $request->title;
+        $data['title_en']              = $request->title_en;
         $data['description']        = Purify::clean($request->description);
+        $data['description_en']        = Purify::clean($request->description_en);
         $data['status']             = $request->status;
         $data['post_type']          = 'post';
         $data['comment_able']       = $request->comment_able;
@@ -107,7 +103,7 @@ class PostsController extends Controller
         if ($request->images && count($request->images) > 0) {
             $i = 1;
             foreach ($request->images as $file) {
-                $filename = $post->slug.'-'.time().'-'.$i.'.'.$file->getClientOriginalExtension();
+                $filename = $post->slug . '-' . time() . '-' . $i . '.' . $file->getClientOriginalExtension();
                 $file_size = $file->getSize();
                 $file_type = $file->getMimeType();
                 $path = public_path('assets/posts/' . $filename);
@@ -164,8 +160,8 @@ class PostsController extends Controller
         if (!\auth()->user()->ability('admin', 'update_posts')) {
             return redirect('admin/index');
         }
-        $tags = Tag::pluck('name', 'id');
-        $categories = Category::orderBy('id', 'desc')->pluck('name', 'id');
+        $tags = Tag::select('id', 'name', 'name_en')->get();
+        $categories = Category::orderBy('id', 'desc')->select('id', 'name', 'name_en')->get();
         $post = Post::with(['media'])->whereId($id)->wherePostType('post')->first();
 
         return view('backend.posts.edit', compact('categories', 'post', 'tags'));
@@ -179,14 +175,16 @@ class PostsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title'         => 'required',
+            'title_en'         => 'required',
             'description'   => 'required|min:50',
+            'description_en'   => 'required|min:50',
             'status'        => 'required',
             'comment_able'  => 'required',
             'category_id'   => 'required',
             'images.*'      => 'nullable|mimes:jpg,jpeg,png,gif|max:20000',
             'tags.*'        => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -194,8 +192,11 @@ class PostsController extends Controller
 
         if ($post) {
             $data['title']              = $request->title;
+            $data['title_en']              = $request->title_en;
             $data['slug']               = null;
+            $data['slug_en']               = null;
             $data['description']        = Purify::clean($request->description);
+            $data['description_en']        = Purify::clean($request->description_en);
             $data['status']             = $request->status;
             $data['comment_able']       = $request->comment_able;
             $data['category_id']        = $request->category_id;
@@ -205,7 +206,7 @@ class PostsController extends Controller
             if ($request->images && count($request->images) > 0) {
                 $i = 1;
                 foreach ($request->images as $file) {
-                    $filename = $post->slug.'-'.time().'-'.$i.'.'.$file->getClientOriginalExtension();
+                    $filename = $post->slug . '-' . time() . '-' . $i . '.' . $file->getClientOriginalExtension();
                     $file_size = $file->getSize();
                     $file_type = $file->getMimeType();
                     $path = public_path('assets/posts/' . $filename);
@@ -240,7 +241,6 @@ class PostsController extends Controller
                 'message' => 'Post updated successfully',
                 'alert-type' => 'success',
             ]);
-
         }
         return redirect()->route('admin.posts.index')->with([
             'message' => 'Something was wrong',
@@ -294,5 +294,4 @@ class PostsController extends Controller
         }
         return false;
     }
-
 }

@@ -15,56 +15,67 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($comment, ['route' => ['admin.post_comments.update', $comment->id], 'method' => 'patch']) !!}
+
+            <form action="{{ route('admin.post_comments.update', $comment->id) }}" method="post">
+            @csrf
+            @method('PATCH')
+
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        {!! Form::label('name', 'name') !!} {{ $comment->user_id != '' ? '(Member)' : '' }}
-                        {!! Form::text('name', old('name', $comment->name), ['class' => 'form-control']) !!}
+                        <label for="name">Name</label>
+                        <input type="text" name="name" value="{{ old('name',$comment->name) }}" class="form-control">
                         @error('name')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        {!! Form::label('email', 'email') !!}
-                        {!! Form::email('email', old('email', $comment->email), ['class' => 'form-control']) !!}
+                        <label for="email">Email</label>
+                        <input type="text" name="email" value="{{ old('email',$comment->email) }}" class="form-control">
                         @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        {!! Form::label('url', 'url') !!}
-                        {!! Form::text('url', old('url', $comment->url), ['class' => 'form-control']) !!}
+                        <label for="url">Url</label>
+                        <input type="text" name="url" value="{{ old('url',$comment->url) }}" class="form-control">
                         @error('url')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
+
             </div>
 
             <div class="row">
-                <div class="col-6">
-                    {!! Form::label('ip_address', 'ip_address') !!}
-                    {!! Form::text('ip_address', old('ip_address', $comment->ip_address), ['class' => 'form-control']) !!}
-                    @error('ip_address')<span class="text-danger">{{ $message }}</span>@enderror
+
+                 <div  class="col-6">
+                        <label for="ip_address">ip address</label>
+                        <input type="text" name="ip_address" value="{{ old('ip_address',$comment->ip_address) }}" class="form-control">
+                        @error('ip_address')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
-                <div class="col-6">
-                    {!! Form::label('status', 'status') !!}
-                    {!! Form::select('status', ['1' => 'Active', '0' => 'Inactive'], old('status', $comment->status), ['class' => 'form-control']) !!}
-                    @error('status')<span class="text-danger">{{ $message }}</span>@enderror
+                 <div  class="col-4">
+                        <label for="status">status</label>
+                        <select name="status" class="form-control">
+                            <option value="1" {{ old('status',$comment->status) == '1' ? 'select' : '' }} >Active</option>
+                            <option value="0" {{ old('status',$comment->status) == '0' ? 'select' : '' }} >InActive</option>
+                        </select>
+                        <input type="text" name="status" value="{{ old('status',$comment->status) }}" class="form-control">
+                        @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
+
             </div>
 
             <div class="row">
-                <div class="col-12">
-                    {!! Form::label('comment', 'comment') !!}
-                    {!! Form::textarea('comment', old('comment', $comment->comment), ['class' => 'form-control', 'rows' => 5]) !!}
-                    @error('comment')<span class="text-danger">{{ $message }}</span>@enderror
+                <div  class="col-12">
+                        <label for="comment">comment</label>
+                        <textarea type="text" name="comment" class="form-control" rows="5">{{ old('comment',$comment->comment) }}</textarea>
+                        @error('comment')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="form-group pt-4">
-                {!! Form::submit('Update comment', ['class' => 'btn btn-primary']) !!}
+                <button type="submit" class="btn btn-primary" >Update comment</button>
             </div>
-            {!! Form::close() !!}
+           </form>
         </div>
     </div>
 

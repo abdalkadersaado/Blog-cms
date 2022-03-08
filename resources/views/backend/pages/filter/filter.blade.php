@@ -1,41 +1,66 @@
 <div class="card-body">
-    {!! Form::open(['route' => 'admin.pages.index', 'method' => 'get']) !!}
+    <form action="{{ route('admin.pages.index') }}" method="get">
     <div class="row">
         <div class="col-2">
             <div class="form-group">
-                {!! Form::text('keyword', old('keyword', request()->input('keyword')), ['class' => 'form-control', 'placeholder' => __('BackEnd/pages.search_here')]) !!}
+                <input type="text" name="keyword" value="{{ old('keyword',request('keyword')) }}" class="form-control" autocomplete="off" placeholder="{{ __('BackEnd/contact_us.search_here') }}">
             </div>
         </div>
         <div class="col-2">
             <div class="form-group">
-                {!! Form::select('category_id', ['' => '---'] + $categories->toArray(), old('category_id', request()->input('category_id')), ['class' => 'form-control']) !!}
+            <select name="category_id" class="form-control">
+                <option value=""> --- </option>
+                @foreach ($categories as $cat )
+                <option value="{{ $cat->id }}" {{ old('category_id',request('category_id')) == $cat->id ? 'selected': '' }}>{{ $cat->name() }}</option>
+                @endforeach
+            </select>
             </div>
         </div>
         <div class="col-2">
             <div class="form-group">
-                {!! Form::select('status', ['' => '---', '1' => __('BackEnd/pages.active'), '0' => __('BackEnd/pages.inactive')], old('status', request()->input('status')), ['class' => 'form-control']) !!}
+             <select name="status" class="form-control">
+                <option value=""> --- </option>
+                <option value="1" {{ old('status',request('status')) == '1' ? 'selected': '' }}>{{ __('BackEnd/pages.active') }}</option>
+                <option value="0" {{ old('status',request('status')) == '0' ? 'selected': '' }}>{{ __('BackEnd/pages.inactive') }}</option>
+            </select>
+
             </div>
         </div>
         <div class="col-2">
             <div class="form-group">
-                {!! Form::select('sort_by', ['' => '---', 'title' => __('BackEnd/pages.title'), 'created_at' => __('BackEnd/pages.created_at')], old('sort_by', request()->input('sort_by')), ['class' => 'form-control']) !!}
+                <select name="sort_by" class="form-control">
+                <option value=""> --- </option>
+                <option value="title" {{ old('sort_by',request('sort_by')) == 'title' ? 'selected': '' }}>{{ __('BackEnd/pages.title') }}</option>
+                <option value="created_at" {{ old('sort_by',request('sort_by')) == 'created_at' ? 'selected': '' }}>{{ __('BackEnd/pages.created_at') }}</option>
+            </select>
             </div>
         </div>
         <div class="col-2">
             <div class="form-group">
-                {!! Form::select('order_by', ['' => '---', 'asc' => __('BackEnd/pages.ascending'), 'desc' => __('BackEnd/pages.descending')], old('order_by', request()->input('order_by')), ['class' => 'form-control']) !!}
+                <select name="order_by" class="form-control">
+                <option value=""> --- </option>
+                <option value="asc" {{ old('order_by',request('order_by')) == 'asc' ? 'selected': '' }}>{{ __('BackEnd/pages.ascending') }}</option>
+                <option value="desc" {{ old('order_by',request('order_by')) == 'desc' ? 'selected': '' }}>{{ __('BackEnd/pages.descending') }}</option>
+                 </select>
             </div>
         </div>
         <div class="col-1">
             <div class="form-group">
-                {!! Form::select('limit_by', ['' => '---', '10' => '10', '20' => '20', '50' => '50', '100' => '100'], old('limit_by', request()->input('limit_by')), ['class' => 'form-control']) !!}
+                <select name="limit_by" class="form-control">
+                <option value=""> --- </option>
+                <option value="10" {{ old('limit_by',request('limit_by')) == '10' ? 'selected': '' }}>10</option>
+                <option value="20" {{ old('limit_by',request('limit_by')) == '20' ? 'selected': '' }}>20</option>
+                <option value="50" {{ old('limit_by',request('limit_by')) == '50' ? 'selected': '' }}>50</option>
+                <option value="100" {{ old('limit_by',request('limit_by')) == '100' ? 'selected': '' }}>100</option>
+
+                 </select>
             </div>
         </div>
         <div class="col-1">
             <div class="form-group">
-                {!! Form::button(__('BackEnd/pages.search_here'), ['class' => 'btn btn-link', 'type' => 'submit']) !!}
+                <button type="submit" class="btn btn-link">{{ __('BackEnd/pages.search') }}</button>
             </div>
         </div>
     </div>
-    {!! Form::close() !!}
+    </form>
 </div>

@@ -8,9 +8,12 @@
                 <ul class="list-group list-group-flush">
                     @foreach($settings_sections as $settings_section)
                         <li class="list-group-item">
-                            <a href="{{ route('admin.settings.index', ['section' => $settings_section]) }}" class="nav-link"><i class="fa fa-gear"></i> {{ $settings_section }}</a>
+                            <a href="{{ route('admin.settings.index', ['section' => $settings_section->section()]) }}" class="nav-link">
+                                <i class="fa fa-gear"></i> {{ $settings_section->section() }}</a>
                         </li>
                     @endforeach
+
+
                 </ul>
             </div>
         </div>
@@ -18,12 +21,15 @@
             <div class="card">
                 <div class="card-header">Settings {{ $section }}</div>
                 <div class="card-body">
-                    {!! Form::model($settings, ['route' => ['admin.settings.update', 1], 'method' => 'patch']) !!}
+                    <form action="{{ route('admin.settings.update', 1) }}" method="post">
+                    @csrf
+                    @method('PATCH')
+
                     @foreach($settings as $setting)
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="title">{{ $setting->display_name }}</label>
+                                <label for="title">{{ $setting->display_name() }}</label>
                                 @if ($setting->type == 'text')
                                     <input type="text" name="value[{{ $loop->index }}]" id="value" class="form-control" value="{{ $setting->value }}">
                                 @elseif($setting->type == 'textarea')
@@ -31,11 +37,16 @@
                                 @elseif($setting->type == 'image')
                                     <input type="file" name="value[{{ $loop->index }}]" id="value" class="form-control">
                                 @elseif($setting->type == 'select')
-                                    {!! Form::select('value[' . $loop->index . ']', explode('|', $setting->details) , $setting->value , ['id' => 'value', 'class' => 'form-control']) !!}
+                                    <select name="value['{{ $loop->index }}']" id="value" class="form-control">
+                                        @foreach ( explode('|', $setting->details) as $detail )
+                                        <option value="{{ $detail }}" {{ $detail == $setting->value ? 'selected' : '' }} >{{ $detail }}</option>
+                                        @endforeach
+                                    </select>
+
                                 @elseif($setting->type == 'checkbox')
-                                    {!! Form::checkbox('value[' . $loop->index . ']', 1, $setting->value == 1 ? true : false , ['id' => 'value', 'class' => 'styled']) !!}
+                                    <input type="checkbox" name="value['{{ $loop->index }}']" value="1" class="styled" id="value" {{ $setting->value == 1 ? true : false }} >
                                 @elseif($setting->type == 'radio')
-                                    {!! Form::radio('value[' . $loop->index . ']', 1, $setting->value == 1 ? true : false , ['id' => 'value', 'class' => 'styled']) !!}
+                                    <input type="radio" name="value['{{ $loop->index }}']" value="1" class="styled" id="value" {{ $setting->value == 1 ? true : false }}>
                                 @endif
 
                                 <input type="hidden" name="key[{{ $loop->index }}]" id="key" class="form-control" value="{{ $setting->key }}" readonly>
@@ -49,9 +60,9 @@
                     @endforeach
 
                     <div class="text-right">
-                        {!! Form::button('Submit', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                        <button type="submit" class="btn btn-primary">{{ __('BackEnd/settings.submit') }}</button>
                     </div>
-                    {!! Form::close() !!}
+                    </form>
                 </div>
             </div>
         </div>

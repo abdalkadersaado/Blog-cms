@@ -19,7 +19,7 @@ class SupervisorsController extends Controller
 
     public function __construct()
     {
-        if (\auth()->check()){
+        if (\auth()->check()) {
             $this->middleware('auth');
         } else {
             return view('backend.auth.login');
@@ -32,24 +32,19 @@ class SupervisorsController extends Controller
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
-
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'editor');
-        });
-        if ($keyword != null) {
-            $users = $users->search($keyword);
-        }
-        if ($status != null) {
-            $users = $users->whereStatus($status);
-        }
-
-        $users = $users->orderBy($sort_by, $order_by);
-        $users = $users->paginate($limit_by);
+        $users = User::query()
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'editor');
+            })
+            ->when(request('keyword') != '', function ($query) {
+                $query->search(request('keyword'));
+            })
+            ->when(request('status') != '', function ($query) {
+                $query->whereStatus(request('status'));
+            })
+            ->orderBy(request('sort_by') ?? 'id', request('order_by') ?? 'desc')
+            ->paginate(request('limit_by') ?? 10)
+            ->withQueryString();
 
         return view('backend.supervisors.index', compact('users'));
     }
@@ -59,7 +54,7 @@ class SupervisorsController extends Controller
         if (!\auth()->user()->ability('admin', 'create_supervisors')) {
             return redirect('admin/index');
         }
-        $permissions = Permission::pluck('display_name', 'id');
+        $permissions = Permission::select('id', 'display_name', 'display_name_en')->get();
         return view('backend.supervisors.create', compact('permissions'));
     }
 
@@ -78,7 +73,7 @@ class SupervisorsController extends Controller
             'password'      => 'required|min:8',
             'permissions.*' => 'required'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -93,7 +88,7 @@ class SupervisorsController extends Controller
         $data['receive_email']  = $request->receive_email;
 
         if ($user_image = $request->file('user_image')) {
-            $filename = Str::slug($request->username).'.'.$user_image->getClientOriginalExtension();
+            $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
             $path = public_path('assets/users/' . $filename);
             Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -104,7 +99,7 @@ class SupervisorsController extends Controller
         $user = User::create($data);
         $user->attachRole(Role::whereName('editor')->first()->id);
 
-        if (isset($request->permissions) && count($request->permissions) > 0 ){
+        if (isset($request->permissions) && count($request->permissions) > 0) {
             $user->permissions()->sync($request->permissions);
         }
 
@@ -129,7 +124,6 @@ class SupervisorsController extends Controller
             'message' => 'Something was wrong',
             'alert-type' => 'danger',
         ]);
-
     }
 
     public function edit($id)
@@ -138,10 +132,12 @@ class SupervisorsController extends Controller
             return redirect('admin/index');
         }
 
+
         $user = User::whereId($id)->first();
         if ($user) {
-            $permissions = Permission::pluck('display_name', 'id');
-            $userPermissions = UserPermission::whereUserId($id)->pluck('permission_id');
+            $permissions = Permission::select('id', 'display_name', 'display_name_en')->get();
+            $userPermissions = UserPermission::whereUserId($id)->pluck('permission_id')->toArray();
+            // to connect between supervisor and permissions
             return view('backend.supervisors.edit', compact('user', 'permissions', 'userPermissions'));
         }
         return redirect()->route('admin.supervisors.index')->with([
@@ -158,13 +154,13 @@ class SupervisorsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
-            'username'      => 'required|max:20|unique:users,username,'.$id,
-            'email'         => 'required|email|max:255|unique:users,email,'.$id,
-            'mobile'        => 'required|numeric|unique:users,mobile,'.$id,
+            'username'      => 'required|max:20|unique:users,username,' . $id,
+            'email'         => 'required|email|max:255|unique:users,email,' . $id,
+            'mobile'        => 'required|numeric|unique:users,mobile,' . $id,
             'status'        => 'required',
             'password'      => 'nullable|min:8',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -188,7 +184,7 @@ class SupervisorsController extends Controller
                         unlink('assets/users/' . $user->user_image);
                     }
                 }
-                $filename = Str::slug($request->username).'.'.$user_image->getClientOriginalExtension();
+                $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
                 $path = public_path('assets/users/' . $filename);
                 Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
@@ -198,7 +194,7 @@ class SupervisorsController extends Controller
 
             $user->update($data);
 
-            if (isset($request->permissions) && count($request->permissions) > 0 ){
+            if (isset($request->permissions) && count($request->permissions) > 0) {
                 $user->permissions()->sync($request->permissions);
             }
 
@@ -206,7 +202,6 @@ class SupervisorsController extends Controller
                 'message' => 'User updated successfully',
                 'alert-type' => 'success',
             ]);
-
         }
         return redirect()->route('admin.supervisors.index')->with([
             'message' => 'Something was wrong',

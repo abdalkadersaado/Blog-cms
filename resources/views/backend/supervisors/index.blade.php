@@ -9,7 +9,7 @@
                     <span class="icon text-white-50">
                         <i class="fa fa-plus"></i>
                     </span>
-                    <span class="text">Add new supervisor</span>
+                    <span class="text">{{ __('BackEnd/supervisor.Add_new_supervisor') }}</span>
                 </a>
             </div>
         </div>
@@ -20,12 +20,12 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Email & Mobile</th>
-                    <th>Status</th>
-                    <th>Created at</th>
-                    <th class="text-center" style="width: 30px;">Actions</th>
+                    <th>{{ __('BackEnd/supervisor.Image') }}</th>
+                    <th>{{ __('BackEnd/supervisor.Name') }}</th>
+                    <th>{{ __('BackEnd/supervisor.Email') }} & {{ __('BackEnd/supervisor.Mobile') }}</th>
+                    <th>{{ __('BackEnd/supervisor.Status') }}</th>
+                    <th>{{ __('BackEnd/supervisor.Created_at') }}</th>
+                    <th class="text-center" style="width: 30px;">{{ __('BackEnd/supervisor.Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,7 +61,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">No supervisors found</td>
+                        <td colspan="6" class="text-center">{{ __('BackEnd/supervisor.No_supervisors_found') }}</td>
                     </tr>
                 @endforelse
                 </tbody>
@@ -69,7 +69,7 @@
                 <tr>
                     <th colspan="6">
                         <div class="float-right">
-                            {!! $users->appends(request()->input())->links() !!}
+                            {!! $users->links() !!}
                         </div>
                     </th>
                 </tr>

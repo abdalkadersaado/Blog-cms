@@ -27,8 +27,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if (config('app.locale') == 'ar')
+        <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-rtl.css') }}">
+    @endif
     <link rel="stylesheet" href="{{ asset('frontend/css/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style-'. $dir_lang .'.css') }}">
     <link href="{{ asset('frontend/js/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
 
     <!-- Modernizer js -->

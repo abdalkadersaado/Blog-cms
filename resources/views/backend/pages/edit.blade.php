@@ -3,7 +3,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/pages.edit_page') }} ({{ $page->title }})</h6>
+            <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/pages.edit_page') }} ({{ $page->title() }})</h6>
             <div class="ml-auto">
                 <a href="{{ route('admin.pages.index') }}" class="btn btn-primary">
                     <span class="icon text-white-50">
@@ -15,56 +15,84 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($page, ['route' => ['admin.pages.update', $page->id], 'method' => 'patch', 'files' => true]) !!}
+             <form action="{{ route('admin.pages.update',$page->id) }}" method="patch" enctype="multipart/form-data" >
+            @csrf
+            @method('PATCH')
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group">
-                        {!! Form::label('title', __('BackEnd/pages.title')) !!}
-                        {!! Form::text('title', old('title', $page->title), ['class' => 'form-control']) !!}
+                        <label for="title">{{ __('BackEnd/pages.title') }}</label>
+                        <input type="text" name="title" value="{{ old('title',$page->title) }}" class="form-control">
                         @error('title')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="form-group">
-                        {!! Form::label('description', __('BackEnd/pages.description')) !!}
-                        {!! Form::textarea('description', old('description', $page->description), ['class' => 'form-control summernote']) !!}
-                        @error('description')<span class="text-danger">{{ $message }}</span>@enderror
+                        <label for="title_en">{{ __('BackEnd/pages.title_en') }}</label>
+                        <input type="text" name="title_en" value="{{ old('title_en',$page->title_en) }}" class="form-control">
+                        @error('title_en')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
             </div>
 
             <div class="row">
+
+                    <div class="col-6">
+                    <div class="form-group">
+                        <label for="description">{{ __('BackEnd/pages.Description') }}</label>
+                        <textarea name="description" class="form-control summernote" >{!! old('description',$page->description)  !!}</textarea>
+                        @error('description')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+
                 <div class="col-6">
-                    {!! Form::label('category_id', __('BackEnd/pages.category')) !!}
-                    {!! Form::select('category_id', ['' => '---'] + $categories->toArray(), old('category_id', $page->category_id), ['class' => 'form-control']) !!}
+                    <div class="form-group">
+                        <label for="description_en">{{ __('BackEnd/pages.Description_en') }}</label>
+                        <textarea name="description_en" class="form-control summernote" >{!! old('description_en',$page->description_en)  !!}</textarea>
+                        @error('description_en')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="category_id">{{ __('BackEnd/pages.category') }}</label>
+                    <select name="category_id" class="form-control">
+                        <option value=""> --- </option>
+                        @foreach ($categories as $cat )
+                        <option value="{{ $cat->id }}" {{ old('category_id',$page->category_id) == $cat->id ? 'selected': '' }}>{{ $cat->name() }}</option>
+                        @endforeach
+                    </select>
                     @error('category_id')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
                 <div class="col-6">
-                    {!! Form::label('status', 'status') !!}
-                    {!! Form::select('status', ['1' => __('BackEnd/pages.active'), '0' => __('BackEnd/pages.inactive')], old('status', $page->status), ['class' => 'form-control']) !!}
+                    <label for="status">{{ __('BackEnd/pages.status') }}</label>
+                    <select name="status" class="form-control">
+                        <option value="1" {{ old('status',$page->status) == '1' ? 'selected' : ''  }}>{{ __('BackEnd/pages.active') }}</option>
+                        <option value="0" {{ old('status',$page->status) == '0' ? 'selected' : ''  }}>{{ __('BackEnd/pages.inactive') }}</option>
+                    </select>
                     @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="row pt-4">
                 <div class="col-12">
-                    {!! Form::label('Sliders', __('BackEnd/pages.images')) !!}
+                    <label for="sliders">{{ __('BackEnd/pages.images') }}</label>
                     <br>
                     <div class="file-loading">
-                        {!! Form::file('images[]', ['id' => 'page-images', 'class' => 'file-input-overview', 'multiple' => 'multiple']) !!}
-                        <span class="form-text text-muted">Image width should be 800px x 500px</span>
+                        <input type="file" name="images[]" id="page-images" class="file-input-overview" multiple='multiple'>
+                        <span class="form-text text-muted">{{ __('BackEnd/pages.Image_width') }}</span>
                         @error('images')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
             </div>
 
             <div class="form-group pt-4">
-                {!! Form::submit(__('BackEnd/pages.update_page'), ['class' => 'btn btn-primary']) !!}
+                <button type="submit" class="btn btn-primary">{{ __('BackEnd/pages.update') }}</button>
             </div>
-            {!! Form::close() !!}
+             </form>
         </div>
     </div>
 

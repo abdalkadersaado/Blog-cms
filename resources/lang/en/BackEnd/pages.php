@@ -24,5 +24,12 @@ return [
     'search' => 'Search',
     'author' => 'Author',
     'edit_page' => 'Edit Page',
-    'update_page' => 'Update Page'
+    'update_page' => 'Update Page',
+    'title_en' => 'Title (English)',
+    'Description' => 'Description',
+    'Description_en' => 'Description (English)',
+    'Image_width' => 'Image width should be 800px x 500px',
+    'update' => 'Update',
+
+
 ];

@@ -24,6 +24,12 @@ return [
     'search' => 'ابحث',
     'author' => 'المالك',
     'edit_page' => 'تعديل الصفحة',
-    'update_page' => 'تعديل الصفحة'
+    'update_page' => 'تعديل الصفحة',
+    'title_en' => 'العنوان (English)',
+    'Description' => 'الوصف',
+    'Description_en' => 'الوصف (English)',
+    'Image_width' => 'الصورة يجب ان تكون 300*300 px',
+    'update' => 'تعديل',
+
 
 ];

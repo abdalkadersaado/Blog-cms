@@ -17,7 +17,7 @@ class PostCommentsController extends Controller
 {
     public function __construct()
     {
-        if (\auth()->check()){
+        if (\auth()->check()) {
             $this->middleware('auth');
         } else {
             return view('backend.auth.login');
@@ -30,30 +30,29 @@ class PostCommentsController extends Controller
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $postId = (isset(\request()->post_id) && \request()->post_id != '') ? \request()->post_id : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
+        // $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
+        // $postId = (isset(\request()->post_id) && \request()->post_id != '') ? \request()->post_id : null;
+        // $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
+        // $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
+        // $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
+        // $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
 
-        $comments = Comment::query();
-        if ($keyword != null) {
-            $comments = $comments->search($keyword);
-        }
-        if ($postId != null) {
-            $comments = $comments->wherePostId($postId);
-        }
-        if ($status != null) {
-            $comments = $comments->whereStatus($status);
-        }
+        $comments = Comment::query()
+            ->when(request('keyword') != '', function ($query) {
+                $query->search(request('keyword'));
+            })
+            ->when(request('post_id') != '', function ($query) {
+                $query->wherePostId(request('post_id'));
+            })
+            ->when(request('status') != '', function ($query) {
+                $query->whereStatus(request('status'));
+            })
+            ->orderBy(request('sort_by') ?? 'id', request('order_by') ?? 'desc')
+            ->paginate(request('limit_by') ?? 10)
+            ->withQueryString();
 
-        $comments = $comments->orderBy($sort_by, $order_by);
-        $comments = $comments->paginate($limit_by);
-
-        $posts = Post::wherePostType('post')->pluck('title', 'id');
+        $posts = Post::wherePostType('post')->select('id', 'title', 'title_en')->get();
         return view('backend.post_comments.index', compact('comments', 'posts'));
-
     }
 
     public function create()
@@ -94,7 +93,7 @@ class PostCommentsController extends Controller
             'status'        => 'required',
             'comment'       => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -115,7 +114,6 @@ class PostCommentsController extends Controller
                 'message' => 'Comment updated successfully',
                 'alert-type' => 'success',
             ]);
-
         }
         return redirect()->route('admin.post_comments.index')->with([
             'message' => 'Something was wrong',
@@ -137,5 +135,4 @@ class PostCommentsController extends Controller
             'alert-type' => 'success',
         ]);
     }
-
 }

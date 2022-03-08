@@ -5,10 +5,12 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\PagesController;
 use App\Http\Controllers\Backend\PostsController;
+use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\PostTagsController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ContactUsController;
+use App\Http\Controllers\Backend\PermissionsController;
 use App\Http\Controllers\Backend\SupervisorsController;
 use App\Http\Controllers\Backend\PostCommentsController;
 use App\Http\Controllers\Backend\PostCategoriesController;
@@ -85,6 +87,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('/supervisors/removeImage', [SupervisorsController::class, 'removeImage'])->name('supervisors.remove_image');
         Route::resource('supervisors', SupervisorsController::class);
         Route::resource('settings', SettingsController::class);
+
+        Route::resource('roles', RolesController::class);
+        Route::resource('permissions', PermissionsController::class);
     });
 });
 

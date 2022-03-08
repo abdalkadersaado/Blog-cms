@@ -17,7 +17,7 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        if (\auth()->check()){
+        if (\auth()->check()) {
             $this->middleware('auth');
         } else {
             return view('backend.auth.login');
@@ -30,24 +30,19 @@ class UsersController extends Controller
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
-
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'user');
-        });
-        if ($keyword != null) {
-            $users = $users->search($keyword);
-        }
-        if ($status != null) {
-            $users = $users->whereStatus($status);
-        }
-
-        $users = $users->orderBy($sort_by, $order_by);
-        $users = $users->paginate($limit_by);
+        $users = User::query()
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'user');
+            })
+            ->when(request('keyword') != '', function ($query) {
+                $query->search(request('keyword'));
+            })
+            ->when(request('status') != '', function ($query) {
+                $query->whereStatus(request('status'));
+            })
+            ->orderBy(request('sort_by') ?? 'id', request('order_by') ?? 'desc')
+            ->paginate(request('limit_by') ?? 10)
+            ->withQueryString();
 
         return view('backend.users.index', compact('users'));
     }
@@ -74,7 +69,7 @@ class UsersController extends Controller
             'status'        => 'required',
             'password'      => 'required|min:8',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -89,7 +84,7 @@ class UsersController extends Controller
         $data['receive_email']  = $request->receive_email;
 
         if ($user_image = $request->file('user_image')) {
-            $filename = Str::slug($request->username).'.'.$user_image->getClientOriginalExtension();
+            $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
             $path = public_path('assets/users/' . $filename);
             Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -120,7 +115,6 @@ class UsersController extends Controller
             'message' => 'Something was wrong',
             'alert-type' => 'danger',
         ]);
-
     }
 
     public function edit($id)
@@ -147,13 +141,13 @@ class UsersController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
-            'username'      => 'required|max:20|unique:users,username,'.$id,
-            'email'         => 'required|email|max:255|unique:users,email,'.$id,
-            'mobile'        => 'required|numeric|unique:users,mobile,'.$id,
+            'username'      => 'required|max:20|unique:users,username,' . $id,
+            'email'         => 'required|email|max:255|unique:users,email,' . $id,
+            'mobile'        => 'required|numeric|unique:users,mobile,' . $id,
             'status'        => 'required',
             'password'      => 'nullable|min:8',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -177,7 +171,7 @@ class UsersController extends Controller
                         unlink('assets/users/' . $user->user_image);
                     }
                 }
-                $filename = Str::slug($request->username).'.'.$user_image->getClientOriginalExtension();
+                $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
                 $path = public_path('assets/users/' . $filename);
                 Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
@@ -191,7 +185,6 @@ class UsersController extends Controller
                 'message' => 'User updated successfully',
                 'alert-type' => 'success',
             ]);
-
         }
         return redirect()->route('admin.users.index')->with([
             'message' => 'Something was wrong',

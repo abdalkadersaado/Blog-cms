@@ -15,21 +15,35 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($tag, ['route' => ['admin.post_tags.update', $tag->id], 'method' => 'patch']) !!}
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group">
-                        {!! Form::label('name', 'Name') !!}
-                        {!! Form::text('name', old('name', $tag->name), ['class' => 'form-control']) !!}
-                        @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                <form action="{{ route('admin.post_tags.update',$tag->id) }}" method="post">
+                @csrf
+                @method('PATCH')
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" value="{{ old('name',$tag->name) }}" class="form-control">
+                                    @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                                </div>
+                            </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="name_en">Name English</label>
+                                <input type="text" name="name_en" value="{{ old('name_en',$tag->name_en) }}" class="form-control">
+                                @error('name_en')<span class="text-danger">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-group pt-4">
-                {!! Form::submit('Update tag', ['class' => 'btn btn-primary']) !!}
+                <button type="submit" class="btn btn-primary" >Update tag</button>
             </div>
-            {!! Form::close() !!}
+            </form>
         </div>
     </div>
 

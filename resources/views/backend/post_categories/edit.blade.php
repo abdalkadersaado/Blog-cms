@@ -15,27 +15,38 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($category, ['route' => ['admin.post_categories.update', $category->id], 'method' => 'patch']) !!}
+            <form action="{{ route('admin.post_categories.update',$category->id) }}" method="post">
+            @csrf
+            @method('PATCH')
+
             <div class="row">
-                <div class="col-8">
-                    <div class="form-group">
-                        {!! Form::label('name', 'Name') !!}
-                        {!! Form::text('name', old('name', $category->name), ['class' => 'form-control']) !!}
+                 <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" value="{{ old('name',$category->name) }}" class="form-control">
                         @error('name')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+                 <div class="form-group">
+                        <label for="name_en">Name English</label>
+                        <input type="text" name="name_en" value="{{ old('name_en',$category->name_en) }}" class="form-control">
+                        @error('name_en')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
                 <div class="col-4">
-                    {!! Form::label('status', 'status') !!}
-                    {!! Form::select('status', ['1' => 'Active', '0' => 'Inactive'], old('status', $category->status), ['class' => 'form-control']) !!}
+                    <select name="status" class="form-control">
+                    <option value=""> --- </option>
+                    <option value="1" {{ old('status',request('status',$category->status)) == '1' ? 'selected': '' }}>Active</option>
+                    <option value="0" {{ old('status',request('status',$category->status)) == '0' ? 'selected': '' }}>Inactive</option>
+                     </select>
                     @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
 
             <div class="form-group pt-4">
-                {!! Form::submit('Update category', ['class' => 'btn btn-primary']) !!}
+                <button type="submit" class="btn btn-primary">Update Category</button>
             </div>
-            {!! Form::close() !!}
+            </form>
         </div>
     </div>
 
