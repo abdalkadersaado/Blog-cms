@@ -69,7 +69,7 @@
 
                         <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tags[]',[])) ? 'selected': '' }}  >{{ $tag->name() }}</option>
                         @endforeach
-            </select>
+                    </select>
                         @error('tags')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>

@@ -28,9 +28,13 @@
                                 <a
                                     :href="`edit-comment/${item.data.id}`"
                                     @click="readNotifications(item)"
-                                    >You have new comment on your post:
-                                    {{ item.data.post_title }}</a
                                 >
+                                    {{
+                                        trans("notification.user_new_comment", {
+                                            post_title: item.data.post_title,
+                                        })
+                                    }}
+                                </a>
                             </div>
                         </div>
                     </div>

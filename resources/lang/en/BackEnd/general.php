@@ -24,5 +24,6 @@ return [
     'settings'                   => 'settings',
     'profile'                    => 'Profile',
     'logout'                     => 'Logout',
-
+    'active'                     => 'Active',
+    'active'                     => 'Inactive',
 ];

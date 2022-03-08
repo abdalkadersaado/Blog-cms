@@ -27,8 +27,11 @@ class UsersController extends Controller
 
     public function index()
     {
-        $posts = auth()->user()->posts()->with(['media', 'category', 'user'])
-            ->withCount('comments')->orderBy('id', 'desc')->paginate(10);
+        $posts = auth()->user()->posts()
+            ->with(['media', 'category', 'user'])
+            ->withCount('comments')->orderBy('id', 'desc')
+            ->paginate(10)
+            ->withQueryString();
         return view('frontend.users.dashboard', compact('posts'));
     }
 
@@ -47,7 +50,7 @@ class UsersController extends Controller
             'receive_email' => 'required',
             'user_image'    => 'nullable|image|max:20000,mimes:jpeg,jpg,png'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -58,12 +61,12 @@ class UsersController extends Controller
         $data['receive_email']  = $request->receive_email;
 
         if ($image = $request->file('user_image')) {
-            if (auth()->user()->user_image != ''){
-                if (File::exists('/assets/users/' . auth()->user()->user_image)){
+            if (auth()->user()->user_image != '') {
+                if (File::exists('/assets/users/' . auth()->user()->user_image)) {
                     unlink('/assets/users/' . auth()->user()->user_image);
                 }
             }
-            $filename = Str::slug(auth()->user()->username).'.'.$image->getClientOriginalExtension();
+            $filename = Str::slug(auth()->user()->username) . '.' . $image->getClientOriginalExtension();
             $path = public_path('assets/users/' . $filename);
             Image::make($image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -76,12 +79,12 @@ class UsersController extends Controller
 
         if ($update) {
             return redirect()->back()->with([
-                'message' => 'Information updated successfully',
+                'message' => __('Frontend/general.updated_successfully'),
                 'alert-type' => 'success',
             ]);
         } else {
             return redirect()->back()->with([
-                'message' => 'Something was wrong',
+                'message' => __('Frontend/general.something_was_wrong'),
                 'alert-type' => 'danger',
             ]);
         }
@@ -93,7 +96,7 @@ class UsersController extends Controller
             'current_password'  => 'required',
             'password'          => 'required|confirmed'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -105,19 +108,18 @@ class UsersController extends Controller
 
             if ($update) {
                 return redirect()->back()->with([
-                    'message' => 'Password updated successfully',
+                    'message' => __('Frontend/general.password_updated'),
                     'alert-type' => 'success',
                 ]);
             } else {
                 return redirect()->back()->with([
-                    'message' => 'Something was wrong',
+                    'message' => __('Frontend/general.something_was_wrong'),
                     'alert-type' => 'danger',
                 ]);
             }
-
         } else {
             return redirect()->back()->with([
-                'message' => 'Something was wrong',
+                'message' => __('Frontend/general.something_was_wrong'),
                 'alert-type' => 'danger',
             ]);
         }
@@ -125,8 +127,8 @@ class UsersController extends Controller
 
     public function create_post()
     {
-        $tags = Tag::pluck('name', 'id');
-        $categories = Category::whereStatus(1)->pluck('name', 'id');
+        $tags = Tag::select('id', 'name', 'name_en')->get();
+        $categories = Category::whereStatus(1)->select('id', 'name', 'name_en')->get();
         return view('frontend.users.create_post', compact('categories', 'tags'));
     }
 
@@ -135,17 +137,21 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'title'         => 'required',
             'description'   => 'required|min:50',
+            'title_en'         => 'required',
+            'description_en'   => 'required|min:50',
             'status'        => 'required',
             'comment_able'  => 'required',
             'category_id'   => 'required',
             'tags.*'        => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $data['title']              = $request->title;
         $data['description']        = Purify::clean($request->description);
+        $data['title_en']              = $request->title_en;
+        $data['description_en']        = Purify::clean($request->description_en);
         $data['status']             = $request->status;
         $data['comment_able']       = $request->comment_able;
         $data['category_id']        = $request->category_id;
@@ -155,7 +161,9 @@ class UsersController extends Controller
         if ($request->images && count($request->images) > 0) {
             $i = 1;
             foreach ($request->images as $file) {
-                $filename = $post->slug.'-'.time().'-'.$i.'.'.$file->getClientOriginalExtension();
+                // $filename = $post->slug . '-' . time() . '-' . $i . '.' . $file->getClientOriginalExtension();
+
+                $filename = time() . '-' . $i . '.' . $file->getClientOriginalExtension();
                 $file_size = $file->getSize();
                 $file_type = $file->getMimeType();
                 $path = public_path('assets/posts/' . $filename);
@@ -192,11 +200,9 @@ class UsersController extends Controller
         }
 
         return redirect()->back()->with([
-            'message' => 'Post created successfully',
+            'message' => __('Frontend/general.post_created'),
             'alert-type' => 'success',
         ]);
-
-
     }
 
     public function edit_post($post_id)
@@ -204,8 +210,8 @@ class UsersController extends Controller
         $post = Post::whereSlug($post_id)->orWhere('id', $post_id)->whereUserId(auth()->id())->first();
 
         if ($post) {
-            $tags = Tag::pluck('name', 'id');
-            $categories = Category::whereStatus(1)->pluck('name', 'id');
+            $tags = Tag::select('id', 'name', 'name_en')->get();
+            $categories = Category::whereStatus(1)->select('id', 'name', 'name_en')->get();
             return view('frontend.users.edit_post', compact('post', 'categories', 'tags'));
         }
 
@@ -217,19 +223,25 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'title'         => 'required',
             'description'   => 'required|min:50',
+            'title_en'         => 'required',
+            'description_en'   => 'required|min:50',
             'status'        => 'required',
             'comment_able'  => 'required',
             'category_id'   => 'required',
             'tags.*'        => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $post = Post::whereSlug($post_id)->orWhere('id', $post_id)->whereUserId(auth()->id())->first();
 
         if ($post) {
             $data['title']              = $request->title;
+            $data['slug']              = null;
             $data['description']        = Purify::clean($request->description);
+            $data['title_en']              = $request->title_en;
+            $data['slug_en']              = null;
+            $data['description_en']        = Purify::clean($request->description_en);
             $data['status']             = $request->status;
             $data['comment_able']       = $request->comment_able;
             $data['category_id']        = $request->category_id;
@@ -239,7 +251,7 @@ class UsersController extends Controller
             if ($request->images && count($request->images) > 0) {
                 $i = 1;
                 foreach ($request->images as $file) {
-                    $filename = $post->slug.'-'.time().'-'.$i.'.'.$file->getClientOriginalExtension();
+                    $filename = $post->slug . '-' . time() . '-' . $i . '.' . $file->getClientOriginalExtension();
                     $file_size = $file->getSize();
                     $file_type = $file->getMimeType();
                     $path = public_path('assets/posts/' . $filename);
@@ -271,16 +283,14 @@ class UsersController extends Controller
             }
 
             return redirect()->back()->with([
-                'message' => 'Post updated successfully',
+                'message' => __('Frontend/general.post_updated'),
                 'alert-type' => 'success',
             ]);
-
         }
         return redirect()->back()->with([
-            'message' => 'Something was wrong',
+            'message' => __('Frontend/general.something_was_wrong'),
             'alert-type' => 'danger',
         ]);
-
     }
 
     public function destroy_post($post_id)
@@ -298,16 +308,15 @@ class UsersController extends Controller
             $post->delete();
 
             return redirect()->back()->with([
-                'message' => 'Post deleted successfully',
+                'message' => __('Frontend/general.post_deleted'),
                 'alert-type' => 'success',
             ]);
         }
 
         return redirect()->back()->with([
-            'message' => 'Something was wrong',
+            'message' => __('Frontend/general.something_was_wrong'),
             'alert-type' => 'danger',
         ]);
-
     }
 
     public function destroy_post_media($media_id)
@@ -317,7 +326,7 @@ class UsersController extends Controller
             if (File::exists('assets/posts/' . $media->file_name)) {
                 unlink('assets/posts/' . $media->file_name);
             }
-             $media->delete();
+            $media->delete();
             return true;
         }
         return false;
@@ -350,11 +359,10 @@ class UsersController extends Controller
             return view('frontend.users.edit_comment', compact('comment'));
         } else {
             return redirect()->back()->with([
-                'message' => 'Something was wrong',
+                'message' => __('Frontend/general.something_was_wrong'),
                 'alert-type' => 'danger',
             ]);
         }
-
     }
 
     public function update_comment(Request $request, $comment_id)
@@ -366,7 +374,7 @@ class UsersController extends Controller
             'status'        => 'required',
             'comment'       => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -388,17 +396,15 @@ class UsersController extends Controller
             }
 
             return redirect()->back()->with([
-                'message' => 'Comment updated successfully',
+                'message' => __('Frontend/general.comment_created'),
                 'alert-type' => 'success',
             ]);
-
         } else {
             return redirect()->back()->with([
                 'message' => 'Something was wrong',
                 'alert-type' => 'danger',
             ]);
         }
-
     }
 
     public function destroy_comment($comment_id)
@@ -413,18 +419,14 @@ class UsersController extends Controller
             Cache::forget('recent_comments');
 
             return redirect()->back()->with([
-                'message' => 'Comment deleted successfully',
+                'message' => __('Frontend/general.comment_deleted'),
                 'alert-type' => 'success',
             ]);
-
         } else {
             return redirect()->back()->with([
-                'message' => 'Something was wrong',
+                'message' => __('Frontend/general.something_was_wrong'),
                 'alert-type' => 'danger',
             ]);
         }
     }
-
-
-
 }

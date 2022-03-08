@@ -87,6 +87,6 @@ class Post extends Model
 
     public function status()
     {
-        return $this->status == 1 ? 'Active' : 'Inactive';
+        return $this->status == 1 ? __('BackEnd/general.active') : __('backend/general.Inactive');
     }
 }

@@ -2325,6 +2325,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2386,6 +2391,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -44257,7 +44266,11 @@ var render = function () {
           },
           [
             _c("h6", { staticClass: "dropdown-header" }, [
-              _vm._v("Alerts Center"),
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.trans("notification.alerts_Center")) +
+                  "\n        "
+              ),
             ]),
             _vm._v(" "),
             _vm._l(_vm.unread, function (item) {
@@ -44289,8 +44302,13 @@ var render = function () {
                     _vm._v(" "),
                     _c("span", { staticClass: "font-weight-bold" }, [
                       _vm._v(
-                        "There is a new comment on:\n                    " +
-                          _vm._s(item.data.post_title)
+                        "\n                    " +
+                          _vm._s(
+                            _vm.trans("notification.new_comment", {
+                              post_title: item.data.post_title,
+                            })
+                          ) +
+                          "\n                "
                       ),
                     ]),
                   ]),
@@ -44392,8 +44410,13 @@ var render = function () {
                           },
                           [
                             _vm._v(
-                              "You have new comment on your post:\n                                " +
-                                _vm._s(item.data.post_title)
+                              "\n                                " +
+                                _vm._s(
+                                  _vm.trans("notification.user_new_comment", {
+                                    post_title: item.data.post_title,
+                                  })
+                                ) +
+                                "\n                            "
                             ),
                           ]
                         ),
@@ -56631,17 +56654,36 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //window.Vue = require("vue");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+ // window._ = require("lodash");
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.trans = function (string, args) {
+  var value = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.get(window.i18n, string);
+
+  lodash__WEBPACK_IMPORTED_MODULE_1___default.a.eachRight(args, function (paramVal, paramKey) {
+    value = lodash__WEBPACK_IMPORTED_MODULE_1___default.a.replace(value, ":".concat(paramKey), paramVal);
+  });
+
+  return value;
+};
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -56652,15 +56694,16 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component("user-notification", __webpack_require__(/*! ./components/UserNotification.vue */ "./resources/js/components/UserNotification.vue")["default"]);
-Vue.component("admin-notification", __webpack_require__(/*! ./components/AdminNotification.vue */ "./resources/js/components/AdminNotification.vue")["default"]);
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("user-notification", __webpack_require__(/*! ./components/UserNotification.vue */ "./resources/js/components/UserNotification.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component("admin-notification", __webpack_require__(/*! ./components/AdminNotification.vue */ "./resources/js/components/AdminNotification.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
+var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: "#app"
 });
 
@@ -56676,13 +56719,11 @@ var app = new Vue({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
-window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
-
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -56884,8 +56925,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\LENOVO\Desktop\New folder (11)\laravel-cms-api-master\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\LENOVO\Desktop\New folder (11)\laravel-cms-api-master\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\LENOVO\Desktop\New folder (11)\Blog_Cms_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\LENOVO\Desktop\New folder (11)\Blog_Cms_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

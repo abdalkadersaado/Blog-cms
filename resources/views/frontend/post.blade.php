@@ -33,7 +33,7 @@
 
                 <div class="post_wrapper">
                     <div class="post_header">
-                        <h2>{{ $post->title }}</h2>
+                        <h2>{{ $post->title() }}</h2>
                         <div class="blog-date-categori">
                             <ul>
                                 <li>{{ $post->created_at->format('M d, Y') }}</li>
@@ -42,13 +42,13 @@
                         </div>
                     </div>
                     <div class="post_content">
-                        <p>{!! $post->description !!}</p>
+                        <p>{!! $post->description() !!}</p>
 
                         @if ($post->tags->count() > 0)
                             <div class="post__meta">
                                 <span>Tags : </span>
                                 @foreach($post->tags as $tag)
-                                    <a href="{{ route('frontend.tag.posts', $tag->slug) }}" class="bg-info p-1"><span class="text-white">{{ $tag->name }}</span></a>
+                                    <a href="{{ route('frontend.tag.posts', $tag->url_slug()) }}" class="bg-info p-1"><span class="text-white">{{ $tag->name() }}</span></a>
                                 @endforeach
                             </div>
                         @endif
@@ -57,7 +57,7 @@
                     <ul class="blog_meta">
                         <li><a href="#">{{ $post->approved_comments->count() }} comment(s)</a></li>
                         <li> / </li>
-                        <li>Category:<span>{{ $post->category->name }}</span></li>
+                        <li>Category:<span>{{ $post->category->name() }}</span></li>
                     </ul>
                 </div>
             </article>
@@ -89,7 +89,7 @@
             <div class="comment_respond">
                 <h3 class="reply_title">Leave a Reply <small></small></h3>
 
-                {!! Form::open(['route' => ['frontend.posts.add_comment', $post->slug], 'method' => 'post', 'class' => 'comment__form']) !!}
+                {!! Form::open(['route' => ['frontend.posts.add_comment', $post->url_slug()], 'method' => 'post', 'class' => 'comment__form']) !!}
                 <p>Your email address will not be published.Required fields are marked </p>
                 <div class="input__box">
                     {!! Form::textarea('comment', old('comment'), ['placeholder' => 'Your comment here']) !!}
