@@ -61,18 +61,23 @@ class LoginController extends Controller
     {
 
         if ($user->status == 1) {
-            return redirect()->route('users.dashboard')->with([
-                'message' => 'Logged in successfully.',
-                'alert-type' => 'success'
-            ]);
+            if ($user->status_password == 0) {
+                return redirect()->route('users.edit_password')->with([
+                    'message' => 'Logged in successfully.',
+                    'alert-type' => 'success'
+                ]);
+            } else {
+                return redirect()->route('users.dashboard')->with([
+                    'message' => 'Logged in successfully.',
+                    'alert-type' => 'success'
+                ]);
+            }
         }
 
         return redirect()->route('frontend.index')->with([
-            'message' => 'Please contact Bloggi Admin.',
+            'message' => 'Please contact Dar Al nuzum Admin.',
             'alert-type' => 'warning'
         ]);
-
-
     }
 
     public function redirectToProvider($provider)
@@ -90,7 +95,7 @@ class LoginController extends Controller
         $id = $socialUser->getId();
         $nickName = $socialUser->getNickname();
         $name = $socialUser->getName();
-        $email = $socialUser->getEmail() == '' ? trim(Str::lower(Str::replaceArray(' ', ['_'], $name))).'@'.$provider.'.com' : $socialUser->getEmail();
+        $email = $socialUser->getEmail() == '' ? trim(Str::lower(Str::replaceArray(' ', ['_'], $name))) . '@' . $provider . '.com' : $socialUser->getEmail();
         $avatar = $socialUser->getAvatar();
 
         $user = User::firstOrCreate([
@@ -108,7 +113,7 @@ class LoginController extends Controller
         ]);
 
         if ($user->user_image == '') {
-            $filename = '' . $user->username .'.jpg';
+            $filename = '' . $user->username . '.jpg';
             $path = public_path('/assets/users/' . $filename);
             Image::make($avatar)->save($path, 100);
             $user->update(['user_image' => $filename]);
@@ -121,9 +126,5 @@ class LoginController extends Controller
             'message' => 'Logged in successfully',
             'alert-type' => 'success'
         ]);
-
-
     }
-
-
 }

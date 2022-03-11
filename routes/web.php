@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Backend\AdminController;
@@ -24,6 +26,24 @@ use App\Http\Controllers\Backend\Auth\LoginController as BackendLoginController;
 use App\Http\Controllers\Frontend\Auth\LoginController as FrontendLoginController;
 use App\Http\Controllers\Backend\NotificationsController as BackendNotificationsController;
 use App\Http\Controllers\Frontend\NotificationsController as FrontendNotificationsController;
+
+Route::get('dar-alnuzum', function () {
+    $posts = Post::with(['media', 'user', 'tags'])
+        ->whereHas('category', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->whereHas('user', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->post()
+        ->active()
+        ->orderBy('id', 'desc')
+        ->paginate(5)
+        ->withQueryString();
+
+    $services = Service::Selection()->latest()->paginate(10);
+    return view('dar_al_nuzum.index', compact('posts', 'services'));
+});
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
@@ -51,8 +71,15 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/user/notifications/get',  [FrontendNotificationsController::class, 'getNotifications']);
         Route::get('/dashboard', [FrontendUsersController::class, 'index'])->name('dashboard');
         Route::post('/user/notifications/read', [FrontendNotificationsController::class, 'markAsRead']);
+
         Route::get('/edit-info', [FrontendUsersController::class, 'edit_info'])->name('edit_info');
-        Route::post('/edit-info', [FrontendUsersController::class, 'update_info'])->name('update_info');
+        Route::post('/update-info', [FrontendUsersController::class, 'update_info'])->name('update_info');
+
+        Route::post('/edit-info', [FrontendUsersController::class, 'update_personal_info'])->name('update_personal_info');
+
+        Route::get('/edit-password', [FrontendUsersController::class, 'edit_password'])->name('edit_password');
+        Route::get('/edit-information-company', [FrontendUsersController::class, 'edit_information_company'])->name('edit_information_company');
+
         Route::post('/edit-password', [FrontendUsersController::class, 'update_password'])->name('update_password');
         Route::get('/create-post', [FrontendUsersController::class, 'create_post'])->name('post.create');
         Route::post('/create-post', [FrontendUsersController::class, 'store_post'])->name('post.store');

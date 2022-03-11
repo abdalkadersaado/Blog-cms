@@ -31,12 +31,12 @@ class PagesController extends Controller
             return redirect('admin/index');
         }
 
-        $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
-        $categoryId = (isset(\request()->category_id) && \request()->category_id != '') ? \request()->category_id : null;
-        $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
-        $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
-        $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
-        $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
+        // $keyword = (isset(\request()->keyword) && \request()->keyword != '') ? \request()->keyword : null;
+        // $categoryId = (isset(\request()->category_id) && \request()->category_id != '') ? \request()->category_id : null;
+        // $status = (isset(\request()->status) && \request()->status != '') ? \request()->status : null;
+        // $sort_by = (isset(\request()->sort_by) && \request()->sort_by != '') ? \request()->sort_by : 'id';
+        // $order_by = (isset(\request()->order_by) && \request()->order_by != '') ? \request()->order_by : 'desc';
+        // $limit_by = (isset(\request()->limit_by) && \request()->limit_by != '') ? \request()->limit_by : '10';
 
         $pages = Page::wherePostType('page')
             ->when(request('keyword') != '', function ($query) {

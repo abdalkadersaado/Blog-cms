@@ -71,12 +71,11 @@ class SupervisorsController extends Controller
             'mobile'        => 'required|numeric|unique:users',
             'status'        => 'required',
             'password'      => 'required|min:8',
-            'permissions.*' => 'required'
+            'permissions.*' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
         $data['name']           = $request->name;
         $data['username']       = $request->username;
         $data['email']          = $request->email;
@@ -87,12 +86,14 @@ class SupervisorsController extends Controller
         $data['bio']            = $request->bio;
         $data['receive_email']  = $request->receive_email;
 
+
         if ($user_image = $request->file('user_image')) {
             $filename = Str::slug($request->username) . '.' . $user_image->getClientOriginalExtension();
             $path = public_path('assets/users/' . $filename);
             Image::make($user_image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($path, 100);
+
             $data['user_image']  = $filename;
         }
 

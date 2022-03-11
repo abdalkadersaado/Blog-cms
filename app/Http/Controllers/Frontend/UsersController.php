@@ -35,12 +35,24 @@ class UsersController extends Controller
         return view('frontend.users.dashboard', compact('posts'));
     }
 
+
+
     public function edit_info()
     {
         return view('frontend.users.edit_info');
     }
 
-    public function update_info(Request $request)
+    public function edit_information_company()
+    {
+        return view('frontend.users.information_company');
+    }
+
+    public function edit_contract_details()
+    {
+        return view('frontend.users.contract_details');
+    }
+
+    public function update_personal_info(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
@@ -48,7 +60,23 @@ class UsersController extends Controller
             'mobile'        => 'required|numeric',
             'bio'           => 'nullable|min:10',
             'receive_email' => 'required',
-            'user_image'    => 'nullable|image|max:20000,mimes:jpeg,jpg,png'
+            // 'user_image'    => 'nullable|image|max:20000,mimes:jpeg,jpg,png',
+            // 'company_name' => 'required',
+            // 'license_number' => 'required|numeric',
+            // 'Commercial_Register' => 'required',
+            // 'date_contract' => 'required',
+            // 'contract_pdf' => 'required',
+            // 'about_company' => 'required',
+            // 'about_owner_company' => 'required',
+            // 'partners_company' => 'nullable',
+            // 'emirates_id' => 'required',
+            // 'id_number' => 'nullable',
+            // 'expiry_date' => 'nullable',
+            // 'passport_image' => 'nullable',
+            // 'passport_number' => 'nullable',
+            // 'release_date' => 'nullable',
+            // 'expiry_date_passport' => 'nullable',
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -59,14 +87,13 @@ class UsersController extends Controller
         $data['mobile']         = $request->mobile;
         $data['bio']            = $request->bio;
         $data['receive_email']  = $request->receive_email;
-
         if ($image = $request->file('user_image')) {
             if (auth()->user()->user_image != '') {
                 if (File::exists('/assets/users/' . auth()->user()->user_image)) {
                     unlink('/assets/users/' . auth()->user()->user_image);
                 }
             }
-            $filename = Str::slug(auth()->user()->username) . '.' . $image->getClientOriginalExtension();
+            $filename = Str::slug(auth()->user()->username)  . '.' . $image->getClientOriginalExtension();
             $path = public_path('assets/users/' . $filename);
             Image::make($image->getRealPath())->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -74,6 +101,42 @@ class UsersController extends Controller
 
             $data['user_image'] = $filename;
         }
+
+        if ($image = $request->file('emirates_id')) {
+            if (auth()->user()->emirates_id != '') {
+                if (File::exists('/assets/users/emirates_ID/' . auth()->user()->emirates_id)) {
+                    unlink('/assets/users/' . auth()->user()->emirates_id);
+                }
+            }
+            $filename_emirates_id = Str::slug(auth()->user()->username) . '.' . $image->getClientOriginalExtension();
+            $path = public_path('assets/users/emirates_ID/' . $filename_emirates_id);
+            Image::make($image->getRealPath())->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path, 100);
+
+            $data['emirates_id']  = $filename_emirates_id;
+        }
+
+        $data['id_number']  = $request->id_number;
+        $data['expiry_date']  = $request->expiry_date;
+
+        if ($image = $request->file('passport_image')) {
+            if (auth()->user()->passport_image != '') {
+                if (File::exists('/assets/users/passport/' . auth()->user()->passport_image)) {
+                    unlink('/assets/users/' . auth()->user()->passport_image);
+                }
+            }
+            $filename_passport_image = Str::slug(auth()->user()->username) . '.' . $image->getClientOriginalExtension();
+            $path = public_path('assets/users/passport/' . $filename_passport_image);
+            Image::make($image->getRealPath())->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path, 100);
+
+            $data['passport_image']  = $filename_passport_image;
+        }
+        $data['passport_number']  = $request->passport_number;
+        $data['release_date']  = $request->release_date;
+        $data['expiry_date_passport']  = $request->expiry_date_passport;
 
         $update = auth()->user()->update($data);
 
@@ -90,6 +153,71 @@ class UsersController extends Controller
         }
     }
 
+
+    public function update_info(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+
+            'company_name' => 'required',
+            'license_number' => 'required|numeric',
+            'Commercial_Register' => 'required',
+            'date_contract' => 'required',
+            'contract_pdf' => 'required',
+            'about_company' => 'required',
+            'about_owner_company' => 'required',
+            'partners_company' => 'nullable',
+
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $data['company_name']  = $request->company_name;
+        $data['license_number']  = $request->license_number;
+        $data['Commercial_Register']  = $request->Commercial_Register;
+
+        $data['date_contract']            = $request->date_contract;
+        $data['about_company']  = $request->about_company;
+        $data['about_owner_company']  = $request->about_owner_company;
+        $data['partners_company']  = $request->partners_company;
+
+        if ($image = $request->file('contract_pdf')) {
+            if (auth()->user()->contract_pdf != '') {
+                if (File::exists('/assets/users/contract_pdf/' . auth()->user()->contract_pdf)) {
+                    unlink('/assets/users/' . auth()->user()->contract_pdf);
+                }
+            }
+            $filename_pdf = Str::slug(auth()->user()->username) . '.' . $image->getClientOriginalExtension();
+            $path = public_path('assets/users/contract_pdf/' . $filename_pdf);
+            Image::make($image->getRealPath())->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path, 100);
+
+            $data['contract_pdf']  = $filename_pdf;
+        }
+
+
+
+        $update = auth()->user()->update($data);
+
+        if ($update) {
+            return redirect()->back()->with([
+                'message' => __('Frontend/general.updated_successfully'),
+                'alert-type' => 'success',
+            ]);
+        } else {
+            return redirect()->back()->with([
+                'message' => __('Frontend/general.something_was_wrong'),
+                'alert-type' => 'danger',
+            ]);
+        }
+    }
+    public function edit_password()
+    {
+        return view('frontend.users.update_password');
+    }
+
+
     public function update_password(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -104,10 +232,11 @@ class UsersController extends Controller
         if (Hash::check($request->current_password, $user->password)) {
             $update = $user->update([
                 'password' => bcrypt($request->password),
+                'status_password' => '1',
             ]);
 
             if ($update) {
-                return redirect()->back()->with([
+                return redirect()->route('users.edit_info')->with([
                     'message' => __('Frontend/general.password_updated'),
                     'alert-type' => 'success',
                 ]);

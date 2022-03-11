@@ -52,7 +52,9 @@ class UsersController extends Controller
         if (!\auth()->user()->ability('admin', 'create_users')) {
             return redirect('admin/index');
         }
-        return view('backend.users.create');
+
+
+        return view('backend.users.create', compact('editors'));
     }
 
     public function store(Request $request)
@@ -122,10 +124,14 @@ class UsersController extends Controller
         if (!\auth()->user()->ability('admin', 'update_users')) {
             return redirect('admin/index');
         }
+        $editors = User::query()
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'editor');
+            })->get();
 
         $user = User::whereId($id)->first();
         if ($user) {
-            return view('backend.users.edit', compact('user'));
+            return view('backend.users.edit', compact('user', 'editors'));
         }
         return redirect()->route('admin.users.index')->with([
             'message' => 'Something was wrong',

@@ -38,6 +38,7 @@
                                 <img src="{{ asset('assets/users/default.png') }}" width="60">
                             @endif
                         </td>
+
                         <td>
                             <a href="{{ route('admin.supervisors.show', $user->id) }}">{{ $user->name }}</a>
                             <p class="text-gray-400"><b>{{ $user->username }}</b></p>

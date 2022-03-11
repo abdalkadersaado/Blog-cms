@@ -237,7 +237,7 @@ class IndexController extends Controller
         Contact::create($data);
 
         return redirect()->back()->with([
-            'message' => __('Frontend/general.Message sent successfully'),
+            'message' => __('Frontend/general.message_sent_successfully'),
             'alert-type' => 'success'
         ]);
     }

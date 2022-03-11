@@ -13,13 +13,15 @@
                 <nav class="mainmenu__nav">
                     <ul class="meninmenu d-flex justify-content-start">
                         <li class="drop with--one--item"><a href="{{ route('frontend.index') }}">Home</a></li>
-                        <li class="drop with--one--item"><a href="{{ route('frontend.posts.show', 'about-us') }}">About Us</a></li>
-                        <li class="drop with--one--item"><a href="{{ route('frontend.posts.show', 'our-vision') }}">Our Vision</a></li>
+                        <li class="drop with--one--item"><a href="{{ route('frontend.posts.show',config('app.locale') == 'ar' ? 'نبذة-عنا' : 'about-us') }}">About Us</a></li>
+                        <li class="drop with--one--item"><a href="{{ route('frontend.posts.show', config('app.locale') == 'ar' ? 'رؤيتنا' : 'our-vision') }}">Our Vision</a></li>
                         <li class="drop"><a href="javascript:void(0);">Blog</a>
+
+
                             <div class="megamenu dropdown">
                                 <ul class="item item01">
                                     @foreach($global_categories as $global_category)
-                                        <li><a href="{{ route('frontend.category.posts', $global_category->slug) }}">{{ $global_category->name }}</a></li>
+                                        <li><a href="{{ route('frontend.category.posts', $global_category->url_slug()) }}">{{ $global_category->name() }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -108,14 +110,15 @@
 <!-- //Header -->
 <!-- Start Search Popup -->
 <div class="box-search-content search_active block-bg close__top">
-    {!! Form::open(['route' => 'frontend.search', 'method' => 'get', 'id' => 'search_mini_form', 'class' => 'minisearch']) !!}
+    <form action="{{ route('frontend.search') }}" method="get" id="search_mini_form" class="minisearch">
+
     <div class="field__search">
-        {!! Form::text('keyword', old('keyword', request()->keyword), ['placeholder' => 'Search...']) !!}
+        <input type="text" name="keyword" value="{{ old('keyword', request()->keyword) }}" placeholder="Search..." >
         <div class="action">
             <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('search_mini_form').submit();"><i class="zmdi zmdi-search"></i></a>
         </div>
     </div>
-    {!! Form::close() !!}
+    </form>
 
     <div class="close__wrap">
         <span>close</span>

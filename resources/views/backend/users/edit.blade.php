@@ -15,7 +15,7 @@
         </div>
         <div class="card-body">
 
-            <form action="{{ route('admin.users.update',$user->id) }}" method="post">
+            <form action="{{ route('admin.users.update',$user->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
 
@@ -55,7 +55,7 @@
                 <div class="col-3">
                     <div class="form-group">
                         <label for="password">{{ __('BackEnd/user.password') }}</label>
-                        <input type="text" name="password" value="{{ old('password',$user->password) }}" class="form-control">
+                        <input type="text" name="password"  class="form-control">
 
                         @error('password')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -63,7 +63,7 @@
                 <div class="col-3">
                     <div class="form-group">
                         <label for="statsus">{{ __('BackEnd/user.status') }}</label>
-                        <select name="receive_email" class="form-control">
+                        <select name="status" class="form-control">
                             <option value=""> --- </option>
                             <option value="1" {{ old('status',$user->status) == '1' ? 'selected': '' }}>{{ __('BackEnd/user.active') }}</option>
                             <option value="0" {{ old('status ',$user->status) == '0' ? 'selected': '' }}>{{ __('BackEnd/user.inactive') }}</option>
@@ -96,13 +96,15 @@
 
             <div class="row pt-4">
                 @if ($user->user_image != '')
-                    <div class="col-12 text-center">
+                    <div class="col-12">
                         <div id="imgArea">
                             <img src="{{ asset('assets/users/' . $user->user_image) }}" width="200" height="200">
+                            <br>
                             <button class="btn btn-danger removeImage">{{ __('BackEnd/user.Remove_Image') }}</button>
                         </div>
                     </div>
                 @endif
+
                 <div class="col-12">
                     <label for="user_image">{{ __('BackEnd/user.User_Image') }}</label>
                     <br>
@@ -113,7 +115,23 @@
                     </div>
                 </div>
             </div>
+            <br>
+             <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="assign_editor">Assign Editor</label>
+                        <select name="assign_editor" class="form-control">
+                            <option value="">---</option>
+                            @foreach ($editors as $editor )
+                                <option value="{{ $editor->id }}" {{ old('assign_editor') == $editor->id ? 'selected' : '' }} >{{ $editor->name }}</option>
+                                {{-- <option value="{{ $editor->id }}" {{ old('category_id') == $editor->id ? 'selected': '' }}>{{ $editor->name }}</option> --}}
+                            @endforeach
 
+                        </select>
+                        @error('assign_editor')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+            </div>
             <div class="form-group pt-4">
                 <button type="submit" class="btn btn-primary">{{ __('BackEnd/user.Update') }}</button>
             </div>

@@ -26,8 +26,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style-'. $dir_lang .'.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link href="{{ asset('frontend/js/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
 
     <!-- Modernizer js -->

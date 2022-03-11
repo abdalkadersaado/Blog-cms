@@ -19,7 +19,7 @@
         <div class="card-body">
 
 
-            <form action="{{ route('admin.supervisors.update',$user->id ) }}" method="post">
+            <form action="{{ route('admin.supervisors.update',$user->id ) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="row">
@@ -127,7 +127,7 @@
                     <div class="file-loading">
                         <input type="file" name="user_image" id="user-image" class="file-input-overview">
                         <span class="form-text text-muted">{{ __('BackEnd/supervisor.Image_width') }}</span>
-                        @error('supervisors_image')<span class="text-danger">{{ $message }}</span>@enderror
+                        @error('user_image')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
             </div>

@@ -18,14 +18,13 @@
         </div>
         <div class="card-body">
 
-            <form action="{{ route('admin.supervisors.store') }}" method="post">
+            <form action="{{ route('admin.supervisors.store') }}" autocomplete="off" method="post" enctype="multipart/form-data">
             @csrf
-
             <div class="row">
                 <div class="col-3">
                     <div class="form-group">
                         <label for="name">{{__('BackEnd/supervisors.name')  }}</label>
-                        <input type="text" name="name" value="{{ old('name') }}" class="form-control">
+                        <input type="text" name="name" value="{{ old('name') }}" class="form-control" >
                         @error('name')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -111,15 +110,16 @@
 
             <div class="row pt-4">
                 <div class="col-12">
-                    <label for="User Image">{{ __('BackEnd/supervisors.user_image') }}</label>
+                    <label for="user_image">{{ __('BackEnd/user.User_Image') }}</label>
                     <br>
                     <div class="file-loading">
-                        <input type="file" name="user_image" id="user-image" class="file-input-overview">
-                        <span class="form-text text-muted">{{ __('BackEnd/supervisor.Image_width') }}</span>
-                        @error('supervisors_image')<span class="text-danger">{{ $message }}</span>@enderror
+                        <input type="file" name="user_image" id="user-image" class="file-input-overview" >
+                        <span class="form-text text-muted">{{ __('BackEnd/user.Image_width') }}</span>
+                        @error('user_image')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
             </div>
+
 
             <div class="form-group pt-4">
                 <button type="submit" class="btn btn-primary">{{ __('BackEnd/supervisors.submit') }}</button>
@@ -129,7 +129,6 @@
     </div>
 
 
-    {{ var_dump($errors) }}
 
 @endsection
 @section('script')
@@ -154,3 +153,4 @@
         });
     </script>
 @endsection
+
