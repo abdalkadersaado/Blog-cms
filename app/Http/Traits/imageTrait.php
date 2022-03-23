@@ -5,7 +5,8 @@ namespace App\Http\Traits;
 use Intervention\Image\Facades\Image as interImage;
 
 
-trait imageTrait {
+trait imageTrait
+{
 
     public function store_image_file($image)
     {
@@ -21,17 +22,28 @@ trait imageTrait {
     }
 
     # to save  image
-    public function store_image_file2($image,$pathImage)
+    public function store_image_file2($image, $pathImage)
     {
         $file = $image;
         // dd($file);
         $extension = $file->getClientOriginalExtension();
         $temp_name  = uniqid(3) . time();
         $image = interImage::make($file);
-        $path = $file->storeAs($pathImage, $temp_name.$file->getClientOriginalName(), 'upload_attachments');
+        $path = $file->storeAs($pathImage, $temp_name . $file->getClientOriginalName(), 'upload_attachments');
         $image->save($path);
 
         return $path;
     }
 
+    public function store_PDF_file2($image, $pathImage)
+    {
+        $file = $image;
+        // dd($file);
+        $extension = $file->getClientOriginalExtension();
+        $temp_name  = uniqid(3) . time();
+        $path = $file->storeAs($pathImage, $temp_name . $file->getClientOriginalName(), 'upload_attachments');
+        $image->save($path);
+
+        return $path;
+    }
 }

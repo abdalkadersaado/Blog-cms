@@ -2,23 +2,30 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Contact;
+use toastr;
+use App\Models\Tag;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Tag;
+use App\Models\Quote;
+use App\Models\Comment;
+use App\Models\Contact;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Models\ReportComment;
+use App\Http\Traits\imageTrait;
+use App\Http\Controllers\Controller;
+use Stevebauman\Purify\Facades\Purify;
+use Illuminate\Support\Facades\Validator;
 use App\Notifications\NewCommentForAdminNotify;
 use App\Notifications\NewCommentForPostOwnerNotify;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Stevebauman\Purify\Facades\Purify;
 
 class IndexController extends Controller
 {
+    use imageTrait;
 
     public function index()
     {
+
         $posts = Post::with(['media', 'user', 'tags'])
             ->whereHas('category', function ($query) {
                 $query->whereStatus(1);
@@ -59,7 +66,7 @@ class IndexController extends Controller
 
     public function category($slug)
     {
-        $category = Category::whereSlug($slug)->orWhere('id', $slug)->whereStatus(1)->first()->id;
+        $category = Category::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->whereStatus(1)->first()->id;
 
         if ($category) {
             $posts = Post::with(['media', 'user', 'tags'])
@@ -76,14 +83,57 @@ class IndexController extends Controller
         return redirect()->route('frontend.index');
     }
 
+    public function filterBy_category($slug)
+    {
+        $categories = Category::get();
+        $category = Category::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->whereStatus(1)->first()->id;
+
+        if ($category) {
+            $posts = Post::with(['media', 'user', 'tags'])
+                ->whereCategoryId($category)
+                ->post()
+                ->active()
+                ->orderBy('id', 'desc')
+                ->paginate(5)
+                ->withQueryString();
+
+            $users = User::whereHas('roles', function ($query) {
+                $query->where('name', 'user')->where('client_top', 1);
+            })->orderBy('sequential_order', 'asc')->get();
+
+            return view('dar_al_nuzum.filter_by_category_index', compact('posts', 'category', 'categories', 'users'));
+        }
+
+        if ($user = auth()->user()->id) {
+
+            if ($category) {
+                $posts = Post::with(['media', 'user', 'tags'])
+                    ->whereCategoryId($user->category_id)
+                    ->post()
+                    ->active()
+                    ->orderBy('id', 'desc')
+                    ->paginate(5)
+                    ->withQueryString();
+
+                $users = User::whereHas('roles', function ($query) {
+                    $query->where('name', 'user')->where('client_top', 1);
+                })->orderBy('sequential_order', 'asc')->get();
+
+                return view('dar_al_nuzum.filter_by_category_index', compact('posts', 'category', 'categories', 'users'));
+            }
+        }
+
+        return redirect()->route('frontend.index');
+    }
+
     public function tag($slug)
     {
-        $tag = Tag::whereSlug($slug)->orWhere('id', $slug)->first()->id;
+        $tag = Tag::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->first()->id;
 
         if ($tag) {
             $posts = Post::with(['media', 'user', 'tags'])
                 ->whereHas('tags', function ($query) use ($slug) {
-                    $query->where('slug', $slug);
+                    $query->where('slug', $slug)->orWhere('slug_en', $slug);
                 })
                 ->post()
                 ->active()
@@ -165,12 +215,13 @@ class IndexController extends Controller
     public function store_comment(Request $request, $slug)
     {
         $validation = Validator::make($request->all(), [
-            'name'      => 'required',
-            'email'     => 'required|email',
+            //'name'      => 'required',
+            //'email'     => 'required|email',
             'url'       => 'nullable|url',
             'comment'   => 'required|min:10',
         ]);
         if ($validation->fails()) {
+            toastr()->error(__('Frontend/general.empty_field'), __('Frontend/general.something_was_wrong'));
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
@@ -178,8 +229,8 @@ class IndexController extends Controller
         if ($post) {
 
             $userId = auth()->check() ? auth()->id() : null;
-            $data['name']           = $request->name;
-            $data['email']          = $request->email;
+            $data['name']           = auth()->user()->name; //$request->name;
+            $data['email']          =  auth()->user()->email; //$request->email;
             $data['url']            = $request->url;
             $data['ip_address']     = $request->ip();
             $data['comment']        = Purify::clean($request->comment);
@@ -197,11 +248,8 @@ class IndexController extends Controller
             })->each(function ($admin, $key) use ($comment) {
                 $admin->notify(new NewCommentForAdminNotify($comment));
             });
-
-            return redirect()->back()->with([
-                'message' => __('Frontend/general.comment_added_successfully'),
-                'alert-type' => 'success'
-            ]);
+            toastr()->success(__('Frontend/general.comment_added_successfully'));
+            return redirect()->back();
         }
 
         return redirect()->back()->with([
@@ -210,10 +258,22 @@ class IndexController extends Controller
         ]);
     }
 
+    public function complete_register()
+    {
+
+        $categories = Category::get();
+
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->get();
+
+        return view('dar_al_nuzum.complete_register', compact('categories', 'users'));
+    }
     public function contact()
     {
         return view('frontend.contact');
     }
+
 
     public function do_contact(Request $request)
     {
@@ -225,6 +285,7 @@ class IndexController extends Controller
             'message'   => 'required|min:10',
         ]);
         if ($validation->fails()) {
+            toastr()->error(__('Frontend/general.empty_field'), __('Frontend/general.something_was_wrong'));
             return redirect()->back()->withErrors($validation)->withInput();
         }
 
@@ -233,12 +294,95 @@ class IndexController extends Controller
         $data['mobile']     = $request->mobile;
         $data['title']      = $request->title;
         $data['message']    = $request->message;
-
         Contact::create($data);
+        toastr()->success(__('Frontend/general.message_sent_successfully'));;
 
-        return redirect()->back()->with([
-            'message' => __('Frontend/general.message_sent_successfully'),
-            'alert-type' => 'success'
+        return redirect()->back();
+    }
+
+    public function get_quote(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'name'      => 'required',
+            'email'     => 'required|email',
+            'mobile'    => 'nullable|numeric',
+            'company_name'     => 'required|min:5',
+            'category_id'   => 'required',
         ]);
+        if ($validation->fails()) {
+            toastr()->error(__('Frontend/general.empty_field'), __('Frontend/general.something_was_wrong'));
+            return redirect()->back()->withErrors($validation)->withInput();
+        }
+
+        $data['name']       = $request->name;
+        $data['email']      = $request->email;
+        $data['mobile']     = $request->mobile;
+        $data['company_name']      = $request->company_name;
+        $data['category_id']    = $request->category_id;
+
+        Quote::create($data);
+        toastr()->success(__('Frontend/general.message_sent_successfully'));
+        return redirect()->back();
+    }
+
+    //about us
+
+    public function about_us()
+    {
+
+        return view('dar_al_nuzum.about_us');
+    }
+
+    // services frontend
+
+    public function service1()
+    {
+
+        return view('dar_al_nuzum.services.service1');
+    }
+    public function service2()
+    {
+
+        return view('dar_al_nuzum.services.service2');
+    }
+    public function service3()
+    {
+
+        return view('dar_al_nuzum.services.service3');
+    }
+    public function service4()
+    {
+
+        return view('dar_al_nuzum.services.service4');
+    }
+    public function service5()
+    {
+
+        return view('dar_al_nuzum.services.service5');
+    }
+    public function service6()
+    {
+
+        return view('dar_al_nuzum.services.service6');
+    }
+    public function service7()
+    {
+
+        return view('dar_al_nuzum.services.service7');
+    }
+    public function service8()
+    {
+
+        return view('dar_al_nuzum.services.service8');
+    }
+    public function service9()
+    {
+
+        return view('dar_al_nuzum.services.service9');
+    }
+    public function service10()
+    {
+
+        return view('dar_al_nuzum.services.service10');
     }
 }

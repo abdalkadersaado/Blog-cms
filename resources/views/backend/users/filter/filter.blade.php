@@ -8,10 +8,10 @@
         </div>
         <div class="col-2">
             <div class="form-group">
-                <select name="status" class="form-control">
+                <select name="status_order" class="form-control">
                     <option value=""> --- </option>
-                    <option value="1" {{ old('status',request('status')) == '1' ? 'selected': '' }}>{{ __('BackEnd/user.active') }}</option>
-                    <option value="0" {{ old('status',request('status')) == '0' ? 'selected': '' }}>{{ __('BackEnd/user.inactive') }}</option>
+                    <option value="1" {{ old('status_order',request('status_order')) == '1' ? 'selected': '' }}>Under Processing</option>
+                    <option value="2" {{ old('status_order',request('status_order')) == '2' ? 'selected': '' }}>Accepted</option>
                 </select>
                  @error('status')<span class="text-danger">{{ $message }}</span>@enderror
             </div>
@@ -20,8 +20,9 @@
            <div class="form-group">
                 <select name="sort_by" class="form-control">
                     <option value=""> --- </option>
+                    <option value="status_order" {{ old('sort_by',request('sort_by')) == 'status_order' ? 'selected': '' }}>status order</option>
                     <option value="id" {{ old('sort_by',request('sort_by')) == 'id' ? 'selected': '' }}>{{ __('BackEnd/user.id') }}</option>
-                    <option value="name" {{ old('sort_by',request('sort_by')) == 'created_at' ? 'selected': '' }}>{{ __('BackEnd/user.name') }}</option>
+                    <option value="name" {{ old('sort_by',request('sort_by')) == 'name' ? 'selected': '' }}>{{ __('BackEnd/user.name') }}</option>
                     <option value="created_at" {{ old('sort_by',request('sort_by')) == 'created_at' ? 'selected': '' }}>{{ __('BackEnd/user.created_at') }}</option>
                 </select>
                  @error('sort_by')<span class="text-danger">{{ $message }}</span>@enderror

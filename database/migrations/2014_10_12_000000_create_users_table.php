@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             // passport
             $table->string('passport_image')->nullable();
             $table->integer('passport_number')->nullable();
-            $table->string('release_date')->nullable();
+            // $table->string('release_date')->nullable();
             $table->string('expiry_date_passport')->nullable();
 
             //معلومات الشركة company's Information
@@ -45,11 +45,18 @@ class CreateUsersTable extends Migration
             //contract Details
             $table->string('date_contract')->nullable();
             $table->string('contract_pdf')->nullable();
-            $table->text('about_company')->nullable();
-            $table->text('about_owner_company')->nullable();
-            $table->text('partners_company')->nullable();
+            // $table->text('about_company')->nullable();
+            // $table->text('about_owner_company')->nullable();
+            // $table->text('partners_company')->nullable();
+
+            //Status order
+            $table->string('status_order')->nullable();
             //assign_editor
             $table->string('assign_editor')->nullable();
+            $table->integer('client_top')->default(0);
+            $table->integer('sequential_order')->nullable();
+            $table->integer('category_id')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

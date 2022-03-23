@@ -22,15 +22,56 @@ class PermissionTableSeeder extends Seeder
 
 
         // MAIN
-        $manageMain = Permission::create(['name' => 'main', 'display_name_en' => 'Main', 'description_en' => 'Administrator Dashboard', 'display_name' => 'الرئيسية', 'description' => 'الرئيسية', 'route' => 'index', 'module' => 'index', 'as' => 'index', 'icon' => 'fa fa-home', 'parent' => '0', 'parent_original' => '0', 'sidebar_link' => '1', 'appear' => '1', 'ordering' => '1',]);
+        $manageMain = Permission::create([
+            'name' => 'main',
+            'display_name_en' => 'Main',
+            'description_en' => 'Administrator Dashboard',
+            'display_name' => 'الرئيسية',
+            'description' => 'الرئيسية',
+            'route' => 'index',
+            'module' => 'index',
+            'as' => 'index',
+            'icon' => 'fa fa-home',
+            'parent' => '0',
+            'parent_original' => '0',
+            'sidebar_link' => '1',
+            'appear' => '1',
+            'ordering' => '1',
+        ]);
         $manageMain->parent_show = $manageMain->id;
         $manageMain->save();
 
         // POSTS
-        $managePosts = Permission::create(['name' => 'manage_posts', 'display_name_en' => 'Posts', 'display_name' => 'ادارة المقالات', 'route' => 'posts', 'module' => 'posts', 'as' => 'posts.index', 'icon' => 'fas fa-newspaper', 'parent' => '0', 'parent_original' => '0', 'appear' => '1', 'ordering' => '5',]);
+        $managePosts = Permission::create([
+            'name' =>
+            'manage_posts',
+            'display_name_en' => 'Posts',
+            'display_name' => 'ادارة المقالات',
+            'route' => 'posts',
+            'module' => 'posts',
+            'as' => 'posts.index',
+            'icon' => 'fas fa-newspaper',
+            'parent' => '0',
+            'parent_original' => '0',
+            'appear' => '1',
+            'ordering' => '5',
+        ]);
         $managePosts->parent_show = $managePosts->id;
         $managePosts->save();
-        $showPosts = Permission::create(['name' => 'show_posts', 'display_name_en' => 'Posts', 'display_name' => 'ادارة المقالات', 'route' => 'posts', 'module' => 'posts', 'as' => 'posts.index', 'icon' => 'fas fa-newspaper', 'parent' => $managePosts->id, 'parent_show' => $managePosts->id, 'parent_original' => $managePosts->id, 'appear' => '1', 'ordering' => '0',]);
+        $showPosts = Permission::create([
+            'name' => 'show_posts',
+            'display_name_en' => 'Posts',
+            'display_name' => 'ادارة المقالات',
+            'route' => 'posts',
+            'module' => 'posts',
+            'as' => 'posts.index',
+            'icon' => 'fas fa-newspaper',
+            'parent' => $managePosts->id,
+            'parent_show' => $managePosts->id,
+            'parent_original' => $managePosts->id,
+            'appear' => '1',
+            'ordering' => '0',
+        ]);
         $createPosts = Permission::create(['name' => 'create_posts', 'display_name' => 'انشاء مقال', 'display_name_en' => 'Create Post', 'route' => 'posts/create', 'module' => 'posts', 'as' => 'posts.create', 'icon' => null, 'parent' => $managePosts->id, 'parent_show' => $managePosts->id, 'parent_original' => $managePosts->id, 'appear' => '0', 'ordering' => '0',]);
         $displayPost = Permission::create(['name' => 'display_posts', 'display_name' => 'عرض مقال', 'display_name_en' => 'Show Post', 'route' => 'posts/{posts}', 'module' => 'posts', 'as' => 'posts.show', 'icon' => null, 'parent' => $managePosts->id, 'parent_show' => $managePosts->id, 'parent_original' => $managePosts->id, 'appear' => '0', 'ordering' => '0',]);
         $updatePosts = Permission::create(['name' => 'update_posts', 'display_name' => 'تعديا مقال', 'display_name_en' => 'Update Post', 'route' => 'posts/{posts}/edit', 'module' => 'posts', 'as' => 'posts.edit', 'icon' => null, 'parent' => $managePosts->id, 'parent_show' => $managePosts->id, 'parent_original' => $managePosts->id, 'appear' => '0', 'ordering' => '0',]);
@@ -81,16 +122,84 @@ class PermissionTableSeeder extends Seeder
         $updateContactUs = Permission::create(['name' => 'update_contact_us', 'display_name' => 'تعديل الرسائل', 'display_name_en' => 'Update Message', 'route' => 'contact_us/{contact_us}/edit', 'module' => 'contact_us', 'as' => 'contact_us.edit', 'icon' => null, 'parent' => $manageContactUs->id, 'parent_show' => $manageContactUs->id, 'parent_original' => $manageContactUs->id, 'appear' => '0', 'ordering' => '0',]);
         $destroyContactUs = Permission::create(['name' => 'delete_contact_us', 'display_name' => 'حذف الرسائل', 'display_name_en' => 'Delete Message', 'route' => 'contact_us/{contact_us}', 'module' => 'contact_us', 'as' => 'contact_us.delete', 'icon' => null, 'parent' => $manageContactUs->id, 'parent_show' => $manageContactUs->id, 'parent_original' => $manageContactUs->id, 'appear' => '0', 'ordering' => '0',]);
 
+        $manageQuote = Permission::create(['name' => 'manage_Quote', 'display_name' => 'تواصل معنا', 'display_name_en' => 'Get Quote', 'route' => 'Quote', 'module' => 'Quote', 'as' => 'Quote.index', 'icon' => 'fas fa-envelope', 'parent' => '0', 'parent_original' => '0', 'appear' => '1', 'ordering' => '20',]);
+        $manageQuote->parent_show = $manageQuote->id;
+        $manageQuote->save();
+        $showQuote = Permission::create(['name' => 'show_Quote', 'display_name' => 'تواصل معنا', 'display_name_en' => 'Quote', 'route' => 'Quote', 'module' => 'Quote', 'as' => 'Quote.index', 'icon' => 'fas fa-envelope', 'parent' => $manageQuote->id, 'parent_show' => $manageQuote->id, 'parent_original' => $manageQuote->id, 'appear' => '1', 'ordering' => '0',]);
+        $displayQuote = Permission::create(['name' => 'display_Quote', 'display_name' => 'عرض الرسائل', 'display_name_en' => 'Display Message', 'route' => 'Quote/{Quote}', 'module' => 'Quote', 'as' => 'Quote.show', 'icon' => null, 'parent' => $manageQuote->id, 'parent_show' => $manageQuote->id, 'parent_original' => $manageQuote->id, 'appear' => '0', 'ordering' => '0',]);
+        $updateQuote = Permission::create(['name' => 'update_Quote', 'display_name' => 'تعديل الرسائل', 'display_name_en' => 'Update Message', 'route' => 'Quote/{Quote}/edit', 'module' => 'Quote', 'as' => 'Quote.edit', 'icon' => null, 'parent' => $manageQuote->id, 'parent_show' => $manageQuote->id, 'parent_original' => $manageQuote->id, 'appear' => '0', 'ordering' => '0',]);
+        $destroyQuote = Permission::create(['name' => 'delete_Quote', 'display_name' => 'حذف الرسائل', 'display_name_en' => 'Delete Message', 'route' => 'Quote/{Quote}', 'module' => 'Quote', 'as' => 'Quote.delete', 'icon' => null, 'parent' => $manageQuote->id, 'parent_show' => $manageQuote->id, 'parent_original' => $manageQuote->id, 'appear' => '0', 'ordering' => '0',]);
+
+
         // USERS
-        $manageUsers = Permission::create(['name' => 'manage_users', 'display_name' => 'المستخدمين', 'display_name_en' => 'Users', 'route' => 'users', 'module' => 'users', 'as' => 'users.index', 'icon' => 'fas fa-user', 'parent' => '0', 'parent_original' => '0', 'appear' => '1', 'ordering' => '20',]);
+        $manageUsers = Permission::create([
+            'name' => 'manage_users',
+            'display_name' => 'المستخدمين',
+            'display_name_en' => 'Users',
+            'route' => 'users',
+            'module' => 'users',
+            'as' => 'users.index',
+            'icon' => 'fas fa-user',
+            'parent' => '0',
+            'parent_original' => '0',
+            'appear' => '1',
+            'ordering' => '20',
+        ]);
         $manageUsers->parent_show = $manageUsers->id;
         $manageUsers->save();
         $showUsers = Permission::create(['name' => 'show_users', 'display_name' => 'المستخدمين', 'display_name_en' => 'Users', 'route' => 'users', 'module' => 'users', 'as' => 'users.index', 'icon' => 'fas fa-user', 'parent' => $manageUsers->id, 'parent_show' => $manageUsers->id, 'parent_original' => $manageUsers->id, 'appear' => '1', 'ordering' => '0',]);
         $createUsers = Permission::create(['name' => 'create_users', 'display_name' => 'انشاء مستخدم', 'display_name_en' => 'Create User', 'route' => 'users/create', 'module' => 'users', 'as' => 'users.create', 'icon' => null, 'parent' => $manageUsers->id, 'parent_show' => $manageUsers->id, 'parent_original' => $manageUsers->id, 'appear' => '0', 'ordering' => '0',]);
         $displayUsers = Permission::create(['name' => 'display_users', 'display_name' => 'عرض مستخدم', 'display_name_en' => 'Show User', 'route' => 'users/{users}', 'module' => 'users', 'as' => 'users.show', 'icon' => null, 'parent' => $manageUsers->id, 'parent_show' => $manageUsers->id, 'parent_original' => $manageUsers->id, 'appear' => '0', 'ordering' => '0',]);
         $updateUsers = Permission::create(['name' => 'update_users', 'display_name' => 'تعديل مستخدم', 'display_name_en' => 'Update User', 'route' => 'users/{users}/edit', 'module' => 'users', 'as' => 'users.edit', 'icon' => null, 'parent' => $manageUsers->id, 'parent_show' => $manageUsers->id, 'parent_original' => $manageUsers->id, 'appear' => '0', 'ordering' => '0',]);
-        $destroyUsers = Permission::create(['name' => 'delete_users', 'display_name' => 'حذف مستخدم', 'display_name_en' => 'Delete User', 'route' => 'users/{users}', 'module' => 'users', 'as' => 'users.delete', 'icon' => null, 'parent' => $manageUsers->id, 'parent_show' => $manageUsers->id, 'parent_original' => $manageUsers->id, 'appear' => '0', 'ordering' => '0',]);
+        $destroyUsers = Permission::create([
+            'name' => 'delete_users', 'display_name' => 'حذف مستخدم',
+            'display_name_en' => 'Delete User', 'route' => 'users/{users}',
+            'module' => 'users', 'as' => 'users.delete', 'icon' => null, 'parent' => $manageUsers->id,
+            'parent_show' => $manageUsers->id, 'parent_original' => $manageUsers->id, 'appear' => '0', 'ordering' => '0',
+        ]);
 
+        // USERS assign to editor
+        $manageUsers_editor = Permission::create([
+            'name' => 'manage_users_editor',
+            'display_name' => 'المستخدمين',
+            'display_name_en' => 'users_editor',
+            'route' => 'users_editor',
+            'module' => 'users',
+            'as' => 'users_editor.index',
+            'icon' => 'fas fa-user',
+            'parent' => '0',
+            'parent_original' => '0',
+            'appear' => '1',
+            'ordering' => '22',
+        ]);
+        $manageUsers_editor->parent_show = $manageUsers_editor->id;
+        $manageUsers_editor->save();
+        $showUsers_editor = Permission::create(['name' => 'show_users_editor', 'display_name' => 'المستخدمين', 'display_name_en' => 'users_editor', 'route' => 'users_editor', 'module' => 'users', 'as' => 'users_editor.index', 'icon' => 'fas fa-user', 'parent' => $manageUsers_editor->id, 'parent_show' => $manageUsers_editor->id, 'parent_original' => $manageUsers_editor->id, 'appear' => '1', 'ordering' => '0',]);
+        $createUsers_editor = Permission::create(['name' => 'create_users_editor', 'display_name' => 'انشاء مستخدم', 'display_name_en' => 'Create User', 'route' => 'users_editor/create', 'module' => 'users', 'as' => 'users_editor.create', 'icon' => null, 'parent' => $manageUsers_editor->id, 'parent_show' => $manageUsers_editor->id, 'parent_original' => $manageUsers_editor->id, 'appear' => '0', 'ordering' => '0',]);
+        $displayUsers_editor = Permission::create(['name' => 'display_users_editor', 'display_name' => 'عرض مستخدم', 'display_name_en' => 'Show User', 'route' => 'users_editor/{users_editor}', 'module' => 'users', 'as' => 'users_editor.show', 'icon' => null, 'parent' => $manageUsers_editor->id, 'parent_show' => $manageUsers_editor->id, 'parent_original' => $manageUsers_editor->id, 'appear' => '0', 'ordering' => '0',]);
+        $updateUsers_editor = Permission::create(['name' => 'update_users_editor', 'display_name' => 'تعديل مستخدم', 'display_name_en' => 'Update User', 'route' => 'users_editor/{users_editor}/edit', 'module' => 'users', 'as' => 'users_editor.edit', 'icon' => null, 'parent' => $manageUsers_editor->id, 'parent_show' => $manageUsers_editor->id, 'parent_original' => $manageUsers_editor->id, 'appear' => '0', 'ordering' => '0',]);
+        $destroyUsers_editor = Permission::create([
+            'name' => 'delete_users_editor', 'display_name' => 'حذف مستخدم',
+            'display_name_en' => 'Delete User', 'route' => 'users_editor/{users_editor}',
+            'module' => 'users', 'as' => 'users_editor.delete', 'icon' => null, 'parent' => $manageUsers_editor->id,
+            'parent_show' => $manageUsers_editor->id, 'parent_original' => $manageUsers_editor->id, 'appear' => '0', 'ordering' => '0',
+        ]);
+
+        $manageStatus_Order = Permission::create([
+            'name' => 'manage_status_order',
+            'display_name' => 'ادارة حالة الطلبات',
+            'display_name_en' => 'Status Orders',
+            'route' => 'change-status',
+            'module' => 'users',
+            'as' => 'change-status',
+            'icon' => 'fas fa-user',
+            'parent' => '0',
+            'parent_original' => '0',
+            'appear' => '1',
+            'ordering' => '21',
+        ]);
+        $manageStatus_Order->parent_show = $manageStatus_Order->id;
+        $manageStatus_Order->save();
         // ROLES
         $manageRoles = Permission::create(['name' => 'manage_roles', 'display_name' => 'ادارة الادوار', 'display_name_en' => 'Roles', 'route' => 'roles', 'module' => 'roles', 'as' => 'roles.index', 'icon' => 'fas fa-user', 'parent' => '0', 'parent_original' => '0', 'appear' => '1', 'ordering' => '25',]);
         $manageRoles->parent_show = $manageRoles->id;

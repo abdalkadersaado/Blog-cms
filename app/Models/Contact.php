@@ -25,5 +25,4 @@ class Contact extends Model
     {
         return $this->status == 1 ? 'Read' : 'New';
     }
-
 }

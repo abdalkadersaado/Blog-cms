@@ -43,9 +43,91 @@
                         <th>{{ __('BackEnd/user.post_count') }} </th>
                         <td>{{ $user->posts_count }}</td>
                     </tr>
+                    <tr>
+                        <th>upload financial Report</th>
+                        <td>
+                            <form action="{{ route('users.financial.store',$user->id) }}"  method="Post" autocomplete="off" enctype="multipart/form-data">
+                                @csrf
+
+                                <h3>Financial Report Information</h3>
+                                <br>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <label for="financial_report1">Financial Report PDF</label>
+                                        <input type="file" name="financial_report1" class="form-control">
+                                            @error('financial_report1')<span class="text-danger">{{ $message }}</span>@enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="form-group">
+                                            <button type="submit" name="update_information" class="btn btn-primary">Upload Financial Report</button>
+                                        </div>
+
+                                </div>
+
+                                </form>
+                        </td>
+
+                        <th>Display financial report</th>
+                        <td>
+
+
+                            @if ($financial_file === null)
+                                <div class="col-3">
+                                    <div class="form-group">
+                                    <img src="" width="60">
+                                    </div>
+                                </div>
+
+                            @else
+                                @foreach ($financial_file as $f_file)
+                                    <div class="col-6">
+                                        <div class="forn-control">
+                                            <p>{{ $f_file->financial  }}</p>
+                                        <a class="btn btn-outline-success btn-sm"
+                                            href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
+                                            target="_blank"
+                                            ><i class="fas fa-eye"></i>&nbsp;
+                                            Show File
+                                        </a>
+                                        <a class="btn btn-outline-info btn-sm"
+                                                href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
+                                                <i class="fas fa-download"></i>&nbsp;
+                                                Download File
+                                        </a>
+
+                                        <button href="javascript:void(0)"
+                                                onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $f_file->id }}').submit(); } else { return false; }"
+                                                class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i>
+                                                delete File
+                                        </button>
+                                        <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                        </form>
+
+                                        <a class="btn btn-outline-info btn-sm"
+                                                href="{{ route('admin.show_financial_report',$f_file->id) }}">
+                                                <i class="fas fa-download"></i>&nbsp;
+                                                Open Comments
+                                        </a>
+
+                                    </div>
+
+                                    </div>
+                                @endforeach
+
+                            @endif
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
-
 @endsection
+

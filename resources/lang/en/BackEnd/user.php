@@ -32,6 +32,9 @@ return [
     'Remove_Image' => 'Remove Image',
     'Update' => 'Update',
     'Image_width' => 'Image width should be 800px x 500px',
+    'under_processing' => 'Under Processing',
+    'accepted' => 'Accepted',
+    'status_order' => 'Status Orders'
 
 
 

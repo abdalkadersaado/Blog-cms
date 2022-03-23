@@ -12,6 +12,12 @@
                     <span class="text">{{ __('BackEnd/user.add_user') }}</span>
                 </a>
             </div>
+            &nbsp
+            <div class="ml-right" >
+                <a href="{{ route('admin.change-status') }}" style="background: green" class="btn btn-primary">
+                    <span class="text">{{ __('BackEnd/user.status_order') }}</span>
+                </a>
+            </div>
         </div>
 
         @include('backend.users.filter.filter')

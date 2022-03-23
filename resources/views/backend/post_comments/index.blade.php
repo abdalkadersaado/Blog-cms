@@ -23,7 +23,14 @@
                 <tbody>
                 @forelse($comments as $comment)
                     <tr>
-                        <td><img src="{{ get_gravatar($comment->email, 50) }}" class="img-circle"></td>
+                        {{-- <td><img src="{{ get_gravatar($comment->email, 50) }}" class="img-circle"></td> --}}
+                        <td>
+                        @if ($comment->user->user_image != '')
+                                <img src="{{ asset('assets/users/' . $comment->user->user_image ) }}" width="60">
+                            @else
+                                <img src="{{ asset('assets/users/default.png') }}" width="60">
+                            @endif
+                            </td>
                         <td><a href="{!! $comment->url != '' ? $comment->url : 'javascript:void(0);' !!}" target="_blank">{{ $comment->name }}</a> {{ $comment->user_id != '' ? '(Member)' : '' }}</td>
                         <td>
                             {!! $comment->comment !!}

@@ -18,7 +18,7 @@
         </div>
         <div class="card-body">
 
-            <form action="{{ route('admin.posts.update',$post->id) }}" method="patch" enctype="multipart/form-data" >
+            <form action="{{ route('admin.posts.update',$post->id) }}" method="post" enctype="multipart/form-data" >
             @csrf
             @method('PATCH')
               <div class="row">
@@ -43,7 +43,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea name="description" class="form-control summernote" >{!! old('description',$post->description)  !!}</textarea>
+                        <textarea name="description" class="form-control" >{!! old('description',$post->description)  !!}</textarea>
                         @error('description')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="description_en">Description</label>
-                        <textarea name="description_en" class="form-control summernote" >{!! old('description_en',$post->description_en)  !!}</textarea>
+                        <textarea name="description_en" class="form-control" >{!! old('description_en',$post->description_en)  !!}</textarea>
                         @error('description_en')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>

@@ -185,8 +185,8 @@
 	 */
 	Owl.Defaults = {
 		items: 3,
-		loop: false,
-		center: false,
+		loop: true,
+		center: true,
 		rewind: false,
 		checkVisibility: true,
 
@@ -200,7 +200,7 @@
 
 		merge: false,
 		mergeFit: true,
-		autoWidth: false,
+		autoWidth: true,
 
 		startPosition: 0,
 		rtl: false,

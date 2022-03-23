@@ -43,7 +43,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea name="description" class="form-control summernote" >{!! old('description')  !!}</textarea>
+                        <textarea name="description" class="form-control" >{!! old('description')  !!}</textarea>
                         @error('description')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -52,8 +52,8 @@
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="description_en">Description</label>
-                        <textarea name="description_en" class="form-control summernote" >{!! old('description_en')  !!}</textarea>
+                        <label for="description_en">Description English</label>
+                        <textarea name="description_en" class="form-control" >{!! old('description_en')  !!}</textarea>
                         @error('description_en')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>

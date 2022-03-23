@@ -43,6 +43,19 @@
                         <th>Posts Count</th>
                         <td>{{ $user->posts_count }}</td>
                     </tr>
+                     <tr>
+                        <th>Users that will deal with them</th>
+                        @foreach ( $user_assign_to_editor as $user_editor )
+                        <td>
+                            <a href="{{ route('admin.users.show', $user_editor->id) }}">{{ $user_editor->name }}</a>
+                            <p class="text-gray-400"><b>{{ $user_editor->username }}</b></p>
+
+                            </td>
+                        @endforeach
+
+
+                    </tr>
+
                 </tbody>
             </table>
         </div>

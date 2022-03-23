@@ -42,6 +42,22 @@
                      </select>
                     @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="description">description Arabic</label>
+                        <input type="text" name="description" value="{{ old('description') }}" class="form-control ">
+                        @error('description')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="description_en">description English</label>
+                        <input type="text" name="description_en" value="{{ old('description_en') }}" class="form-control">
+                        @error('description_en')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+
             </div>
 
             <div class="form-group pt-4">

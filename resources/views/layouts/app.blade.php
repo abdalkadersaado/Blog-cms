@@ -77,6 +77,7 @@
     <script src="{{ url('js/lang_'.config('app.locale').'.js') }}"></script>
 
     <script src="{{ asset('frontend/js/custom.js') }}"></script>
+
     @yield('script')
 </body>
 </html>

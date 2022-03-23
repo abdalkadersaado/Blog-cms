@@ -31,6 +31,7 @@ return [
     'Edit_user' => 'تعديل مستخدم',
     'Remove_Image' => 'حذف الصورة',
     'Update' => 'تعديل',
+    'status_order' => 'حالة الطلب'
 
 
 

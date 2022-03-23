@@ -58,7 +58,6 @@
                             <option value="1" {{ old('status',$comment->status) == '1' ? 'select' : '' }} >Active</option>
                             <option value="0" {{ old('status',$comment->status) == '0' ? 'select' : '' }} >InActive</option>
                         </select>
-                        <input type="text" name="status" value="{{ old('status',$comment->status) }}" class="form-control">
                         @error('status')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
 

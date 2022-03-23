@@ -14,6 +14,7 @@
             <li class="list-group-item"><a href="{{ route('users.update_password') }}">Update Password</a></li>
             <li class="list-group-item"><a href="{{ route('users.edit_info') }}">Personal Information</a></li>
             <li class="list-group-item"><a href="{{ route('users.edit_information_company') }}">Company's Information</a></li>
+            <li class="list-group-item"><a href="{{ route('users.financial_report') }}">Financial Report</a></li>
 
 
             <li class="list-group-item"><a href="{{ route('users.dashboard') }}">My Posts</a></li>

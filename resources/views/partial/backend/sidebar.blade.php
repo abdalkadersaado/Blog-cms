@@ -8,7 +8,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.index') }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <img src="{{ asset('backend/img/logo.png') }}" width="50" alt="{{ config('app.name') }}">
+            <img src="{{ asset('DAR-ALNUZUM1/assets/images/logo.png') }}" width="70%" alt="{{ config('app.name') }}">
         </div>
         <div class="sidebar-brand-text mx-3">{{ config('app.name') }}</div>
     </a>
@@ -17,6 +17,7 @@
     <hr class="sidebar-divider my-0">
 
     @role(['admin'])
+
         @foreach($admin_side_menu as $menu)
             @if (count($menu->appearedChildren) == 0)
                 <li class="nav-item {{ $menu->id == getParentShowOf($current_page) ? 'active' : '' }}">

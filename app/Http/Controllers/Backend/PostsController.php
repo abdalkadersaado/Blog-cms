@@ -91,8 +91,8 @@ class PostsController extends Controller
 
         $data['title']              = $request->title;
         $data['title_en']              = $request->title_en;
-        $data['description']        = Purify::clean($request->description);
-        $data['description_en']        = Purify::clean($request->description_en);
+        $data['description']        = $request->description;
+        $data['description_en']        = $request->description_en;
         $data['status']             = $request->status;
         $data['post_type']          = 'post';
         $data['comment_able']       = $request->comment_able;

@@ -70,7 +70,7 @@
             <div class="col-3">
                 <div class="form-group">
                     <label for="contract_pdf">Contract PDF</label>
-                   <input type="file" name="contract_pdf" class="custom-file">
+                   <input type="file" name="contract_pdf" class="form-control">
                     @error('contract_pdf')<span class="text-danger">{{ $message }}</span>@enderror
                 </div>
 
@@ -93,7 +93,24 @@
                 </div>
             </div>
         </div>
+        @if (auth()->user()->status_order == '1')
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <p class="text-center" style="background: green; color:white">State order : under processing ....</p>
+                    </div>
+                </div>
+            </div>
 
+        @elseif ( auth()->user()->status_order == '2')
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <p class="text-center" style="background: green; color:white">State order : Accepted</p>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         </form>
 </div>

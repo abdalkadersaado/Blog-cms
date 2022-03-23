@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ReportComment;
+use App\Models\FinancialReport;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
+use Stevebauman\Purify\Facades\Purify;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\NewCommentForAdminNotify;
 
 class UsersController extends Controller
 {
@@ -40,11 +44,82 @@ class UsersController extends Controller
             ->when(request('status') != '', function ($query) {
                 $query->whereStatus(request('status'));
             })
+            ->when(request('status_order') != '', function ($query) {
+                $query->whereStatusOrder(request('status_order'));
+            })
             ->orderBy(request('sort_by') ?? 'id', request('order_by') ?? 'desc')
             ->paginate(request('limit_by') ?? 10)
             ->withQueryString();
 
         return view('backend.users.index', compact('users'));
+    }
+
+    public function get_users_editor()
+    {
+        $users = User::query()
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'user');
+            })->whereAssignEditor(auth()->user()->id)->paginate();
+
+        return  view('backend.users.users_editor', compact('users'));
+    }
+
+
+    public function status_orders()
+    {
+        if (!\auth()->user()->ability('admin', 'manage_status_order')) {
+            return redirect('admin/index');
+        }
+        $users = User::query()
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'user');
+            })
+            ->when(request('status_order') != '', function ($query) {
+                $query->whereStatusOrder(request('status_order'));
+            })
+            // ->whereStatusOrder(1)
+            ->paginate();
+
+
+        return view('backend.users.status_order', compact('users'));
+    }
+
+    public function order_under_processing($id)
+    {
+        $user = User::whereId($id)->first();
+
+        $user->update(['status_order' => '1']);
+        $notification = array(
+            'message' => 'Status Order under processing',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    public function order_accepted($id)
+    {
+        $user = User::whereId($id)->first();
+
+        $user->update(['status_order' => '2']);
+
+        $notification = array(
+            'message' => 'Status Order under processing',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function show_order($id)
+    {
+        $user = User::whereId($id)->first();
+        if ($user) {
+            return view('backend.users.show_order', compact('user'));
+        }
+        return redirect()->route('admin.users.index')->with([
+            'message' => 'Something was wrong',
+            'alert-type' => 'danger',
+        ]);
     }
 
     public function create()
@@ -53,8 +128,7 @@ class UsersController extends Controller
             return redirect('admin/index');
         }
 
-
-        return view('backend.users.create', compact('editors'));
+        return view('backend.users.create');
     }
 
     public function store(Request $request)
@@ -103,21 +177,25 @@ class UsersController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         if (!\auth()->user()->ability('admin', 'display_users')) {
             return redirect('admin/index');
         }
 
         $user = User::whereId($id)->withCount('posts')->first();
+
+        $financial_file = FinancialReport::with('report_comments')->where('upload_to', $user->id)->get();
+
         if ($user) {
-            return view('backend.users.show', compact('user'));
+            return view('backend.users.show', compact('user', 'financial_file'));
         }
         return redirect()->route('admin.users.index')->with([
             'message' => 'Something was wrong',
             'alert-type' => 'danger',
         ]);
     }
+
 
     public function edit($id)
     {
@@ -184,6 +262,12 @@ class UsersController extends Controller
                 })->save($path, 100);
                 $data['user_image']  = $filename;
             }
+
+            $data['status_order'] = $request->status_order;
+
+            $data['assign_editor'] = $request->assign_editor;
+            $data['client_top'] = $request->client_top;
+            $data['sequential_order'] = $request->sequential_order;
 
             $user->update($data);
 

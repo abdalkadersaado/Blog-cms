@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Sami Mansour">
+    <meta name="author" content="dar alnuzum">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="adminId" content="{{ auth()->check() ? auth()->id() : '' }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - Dashboard</title>
+    <title>{{ config('app.name', 'Dar Alnuzum') }} - Dashboard</title>
 
 
 
@@ -23,16 +23,16 @@
     @else
         <link href="{{ asset('backend/css/sb-admin-2.min.css') }}" rel="stylesheet">
     @endif
-
+    @toastr_css
     <link href="{{ asset('backend/vendor/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/vendor/summernote/summernote-bs4.min.css') }}" rel="stylesheet">
     @yield('style')
     @livewireStyles
 </head>
-<body id="page-top">
-    <div id="app">
+<body id="page-top" >
+    <div id="app" >
         <!-- Page Wrapper -->
-        <div id="wrapper">
+        <div id="wrapper" >
 
             @include('partial.backend.sidebar')
 
@@ -54,10 +54,10 @@
                 <!-- End of Main Content -->
 
                 <!-- Footer -->
-                <footer class="sticky-footer bg-white">
+                <footer class="sticky-footer bg-white" >
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; {{ config('app.name') }} 2020</span>
+                            <span>Copyright &copy; {{ config('app.name') }} 2022</span>
                         </div>
                     </div>
                 </footer>
@@ -79,7 +79,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
+    @jquery
+    @toastr_js
+    @toastr_render
 
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('backend/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

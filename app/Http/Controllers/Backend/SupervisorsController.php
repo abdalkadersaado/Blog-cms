@@ -118,8 +118,10 @@ class SupervisorsController extends Controller
         }
 
         $user = User::whereId($id)->first();
+        $user_assign_to_editor = User::where('assign_editor', $id)->get();
+
         if ($user) {
-            return view('backend.supervisors.show', compact('user'));
+            return view('backend.supervisors.show', compact('user', 'user_assign_to_editor'));
         }
         return redirect()->route('admin.supervisors.index')->with([
             'message' => 'Something was wrong',

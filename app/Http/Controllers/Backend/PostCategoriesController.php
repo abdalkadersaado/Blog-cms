@@ -63,14 +63,19 @@ class PostCategoriesController extends Controller
             'name'          => 'required',
             'name_en'          => 'required',
             'status'        => 'required',
+            'description_en' => 'required',
+            'description' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $data['name']              = $request->name;
-        $data['name_en']              = $request->name_en;
+        $data['name']               = $request->name;
+        $data['name_en']            = $request->name_en;
         $data['status']             = $request->status;
+        $data['description']        = $request->description;
+        $data['description_en']     = $request->description_en;
+
 
         Category::create($data);
 
@@ -109,6 +114,8 @@ class PostCategoriesController extends Controller
             'name'          => 'required',
             'name_en'          => 'required',
             'status'        => 'required',
+            'description_en' => 'required',
+            'description' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -122,7 +129,8 @@ class PostCategoriesController extends Controller
             $data['name_en']               = $request->name_en;
             $data['slug_en']               = null;
             $data['status']             = $request->status;
-
+            $data['description']        = $request->description;
+            $data['description_en']     = $request->description_en;
 
             $category->update($data);
 

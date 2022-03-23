@@ -41,7 +41,7 @@
                 <div class="text-center">No Posts found</div>
             @endforelse
         </div>
-        {!! $posts->appends(request()->input())->links() !!}
+        {!! $posts->links() !!}
     </div>
 
     <div class="col-lg-3 col-12 md-mt-40 sm-mt-40">

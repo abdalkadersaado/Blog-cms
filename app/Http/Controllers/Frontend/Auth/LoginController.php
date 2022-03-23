@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Http\Controllers\Controller;
+use toastr;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Carbon\Carbon;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use App\Providers\RouteServiceProvider;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -35,7 +37,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/dar-alnuzum';
 
     /**
      * Create a new controller instance.
@@ -49,7 +51,8 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('frontend.auth.login');
+        $categories = Category::whereStatus(1)->get();
+        return view('frontend.auth.login', compact('categories'));
     }
 
     public function username()
@@ -62,20 +65,16 @@ class LoginController extends Controller
 
         if ($user->status == 1) {
             if ($user->status_password == 0) {
-                return redirect()->route('users.edit_password')->with([
-                    'message' => 'Logged in successfully.',
-                    'alert-type' => 'success'
-                ]);
+                toastr()->info(__("Frontend/general.logged_in_and_change_password"));
+                return redirect()->route('users.edit_password');
             } else {
-                return redirect()->route('users.dashboard')->with([
-                    'message' => 'Logged in successfully.',
-                    'alert-type' => 'success'
-                ]);
+                toastr()->success('Logged in successfully.');
+                return redirect()->route('dar.home');
             }
         }
 
-        return redirect()->route('frontend.index')->with([
-            'message' => 'Please contact Dar Al nuzum Admin.',
+        return redirect()->route('dar.home')->with([
+            'error' => 'Please contact with Dar-AlNuzum ',
             'alert-type' => 'warning'
         ]);
     }

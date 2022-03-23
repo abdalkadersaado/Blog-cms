@@ -115,6 +115,58 @@
                     </div>
                 </div>
             </div>
+
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="client_top">Change Client's Status</label>
+                        <select name="client_top" class="form-control">
+                            <option value=""> --- </option>
+                            <option value="0" {{ old('client_top',request('client_top',$user->client_top)) == '0' ? 'selected': '' }}>Normal Client</option>
+                            <option value="1" {{ old('client_top',request('client_top',$user->client_top)) == '1' ? 'selected': '' }}>As a Top client</option>
+                        </select>
+                        @error('client_top')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="sequential_order">Change Client's Status</label>
+                        <select name="sequential_order" class="form-control">
+                            <option value=""> --- </option>
+                            <option value="1" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '1' ? 'selected': '' }}>1</option>
+                            <option value="2" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '2' ? 'selected': '' }}>2</option>
+                            <option value="3" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '3' ? 'selected': '' }}>3</option>
+                            <option value="4" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '4' ? 'selected': '' }}>4</option>
+                            <option value="5" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '5' ? 'selected': '' }}>5</option>
+                            <option value="6" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '6' ? 'selected': '' }}>6</option>
+                            <option value="7" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '7' ? 'selected': '' }}>7</option>
+                            <option value="8" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '8' ? 'selected': '' }}>8</option>
+                            <option value="9" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '9' ? 'selected': '' }}>9</option>
+                            <option value="10" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '10' ? 'selected': '' }}>10</option>
+                            <option value="11" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '11' ? 'selected': '' }}>11</option>
+                            <option value="12" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '12' ? 'selected': '' }}>12</option>
+
+                        </select>
+                        @error('sequential_order')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+            </div>
+
+             <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="status_order">Change status Order</label>
+                        <select name="status_order" class="form-control">
+                            <option value="">---</option>
+                            <option value="1" {{ old('status_order',$user->status_order) == '1' ? 'selected': '' }}>{{ __('BackEnd/user.under_processing') }}</option>
+                            <option value="2" {{ old('status_order ',$user->status_order) == '2' ? 'selected': '' }}>{{ __('BackEnd/user.accepted') }}</option>
+                        </select>
+                        @error('status_order')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+            </div>
+
             <br>
              <div class="row">
                 <div class="col-12">
@@ -123,7 +175,7 @@
                         <select name="assign_editor" class="form-control">
                             <option value="">---</option>
                             @foreach ($editors as $editor )
-                                <option value="{{ $editor->id }}" {{ old('assign_editor') == $editor->id ? 'selected' : '' }} >{{ $editor->name }}</option>
+                                <option value="{{ $editor->id }}" {{ old('assign_editor',$user->assign_editor) == $editor->id ? 'selected' : '' }} >{{ $editor->name }}</option>
                                 {{-- <option value="{{ $editor->id }}" {{ old('category_id') == $editor->id ? 'selected': '' }}>{{ $editor->name }}</option> --}}
                             @endforeach
 

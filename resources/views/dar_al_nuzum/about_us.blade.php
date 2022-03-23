@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Template Mo">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>About Us</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/ser.css') }}">
+    <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/aboutus.css') }}">
+    <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/owl.css') }}" />
+    <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/lightbox.css') }}" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"crossorigin="anonymous"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+
+<body>
+
+
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a href="index.html" class="logo">
+                        <img src="{{ asset('DAR-ALNUZUM1/assets/images/logo.png')  }}" style="width: 40%;     min-width: 170px;" class="logo1">
+                        <img src="{{ asset('DAR-ALNUZUM1/assets/images/logo.png')  }}" style="width: 25%; min-width: 127px;" class="logo2">
+                    </a>
+                    <ul class="nav">
+                        <li ><a href="{{ route('dar.home') }}" >Home</a></li>
+                        <li class="nav-item dropdown has-megamenu">
+                          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" style="padding: 0;"> Services </a>
+                          <div class="dropdown-menu megamenu" role="menu">
+                            <div class="row g-3 ">
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Audit Services</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Two</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Three</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+                                </div>  <!-- col-megamenu.// -->
+                              </div>
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                              <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                  <h6 class="title redbold">Title Menu Four</h6>
+                                  <p class="gfgf">Elementum interdum malesuada velit amet dapibus Elementum interdum malesuada vel ...</p>
+
+                                </div>  <!-- col-megamenu.// -->
+                              </div><!-- end col-3 -->
+                            </div><!-- end row -->
+                          </div> <!-- dropdown-mega-menu.// -->
+                        </li>
+                        <li ><a href="{{ route('about.us') }}">About us</a></li>
+                        <li ><a href="blogs.html">Blogs</a></li>
+                        <li ><a href="{{ route('dar.contact') }}">Contact</a></li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ***** Header Area End ***** -->
+
+<a class="button" href="#popup1">Get Quote</a>
+<div id="popup1" class="overlay">
+  <div class="popup">
+    <p class="pop-tit">GET QUOTE</p>
+    <h2>WE APPRECIATE YOUR CONTACT WITH US AND WE WILL CONTACT YOU AS SOON AS POSSIBLE.
+    </h2>
+    <div class="form-qute">
+      <div class="lin">
+        <label class="lbol">Name:</label>
+      <input type="text" placeholder="Enter Your Name" class="in-p" required>
+      </div>
+      <div class="lin">
+        <label class="lbol">Mobile Number:</label>
+        <input type="number" placeholder="Enter Your Number" class="in-p" required>
+      </div>
+      <div class="lin">
+        <label class="lbol">Email:</label>
+        <input type="email" placeholder="Enter Your Email" class="in-p" required>
+      </div>
+      <div class="lin">
+        <label class="lbol">Company Name:</label>
+        <input type="text" placeholder="Enter Your Company Name" class="in-p" required>
+      </div>
+      <div class="lin">
+              <label class="lbol" for="service">Service Type:</label>
+
+        <select name="services" id="service" class="in-p selectoo">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+    </div>
+    <div class="main-button-red mar">
+      <div class="scroll-to-section"><a href="register.html">Quote Now</a></div>
+  </div>
+    <a class="close" href="#">&times;</a>
+
+  </div>
+</div>
+  <!-- ***** Header Area End ***** -->
+
+  <section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" >
+          <!-- <h6></h6> -->
+          <h2>About Us</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="meetings-page" id="meetings" style="display: block;">
+
+    <div class="aboutus">
+      <p class="ser-title ">Who We Are</p>
+      <hr class="redi">
+      <p class="dar">DAR ALNUZUM Group</p>
+      <p class="containn">Dar Alnuzum, Public Accountants was established in 1994 by Mahmoud Juma Assad, a certified public accountant. He formerly served as a director at Saba & Company (Deloitte Touch Ross).
+
+        We have built a reputation of trust and reliability in the local market by providing the best accounting, bookkeeping and financial planning services to small and medium enterprises. Despite having over 20 years of experience in accounting, auditing, assurance and advisory services, we are still eager to grow and add more value to our clients’ business. We have a professional staff with an unwavering commitment to ethics, a desire for accountability, and a bottomless appetite for achievement.
+
+
+        </p>
+        <div class="v-m-con">
+          <!-- <div class="v-m" data-aos="fade-right" data-aos-duration="2000">
+            <p class="v-mtitle">Mission</p>
+            <p class="v-mcon hu">Be recognized as a leading professional services firm in the UAE through developing value-centric, qualitative, timely, and cost-effective services.            </p>
+          </div> -->
+          <img src="{{ asset('DAR-ALNUZUM1/assets/images/m.png') }}" class="vim">
+          <!-- <div class="v-m" data-aos="fade-left" data-aos-duration="2000">
+            <p class="v-mtitle">Vision</p>
+            <p class="v-mcon">Create a highly regarded brand name and unbeatable workplace in local market and all over the region that will provide professionals from all over the country with opportunities to develop successful careers.
+
+            </p>
+          </div> -->
+          <img src="{{ asset('DAR-ALNUZUM1/assets/images/v.png') }}" class="vim">
+        </div>
+
+    </div>
+    <div class="founder">
+      <img src="{{ asset('DAR-ALNUZUM1/assets/images/founder1.png') }}" class="img-f" data-aos="zoom-in" data-aos-duration="2000">
+      <div class="txt-fon">
+        <p class="tit-f">The Founder</p>
+        <p class="name-f">Mahmoud Juma Assad</p>
+        <hr class="redi fi" style="width: 162px;">
+        <p class="con-f">Late Mr. Mahmoud Establish the firm in 1994 and has since then transformed it into one of the best audit and financial consultancy firms in the UAE.
+          Mr. Mahmoud served as an Audit Manager at Deloitte Touch Ross (Saba & Co) before the inauguration of Dar Al-Nuzum.
+          External Audit, Audit of government entities, Liquidation and insolvency, Company formation, Business valuation, Due diligence reviews, Fraud and forensic audits, Legal Framework in UAE
+          PROFESSIONAL AFFILIATIONS
+          Member of JACPA, Affiliated member of ASCA</p>
+      </div>
+    </div>
+    <div class="team">
+      <p class="tit-f"><span class="slim">  PROFESSIONAL </span>TEAM</p>
+      <hr class="redi" style="width: 162px;">
+      <p class="con-f" style="    width: 75%;">
+        Our Staff Holds High Academic Qualifications, And Have Long And Varied Experience. Our Customers Will Be Able To Benefit From The Expertise Of Our Partners Spread Across The World
+      </p>
+      <div class="founder">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/moha.png') }}" class="img-f" data-aos="zoom-in" data-aos-duration="2000">
+        <div class="txt-fon">
+          <!-- <p class="tit-f">The Founder</p> -->
+          <p class="name-f">Mohammad Mahmoud Juma </p>
+          <p class="sika">Managing Partner & CEO IACPA <br>
+            GCC Tax Diploma (PWC)- Tax Agent</p>
+          <hr class="redi " style="width: 162px;">
+          <p class="con-f">Mr. Mohammed is IASCA and IACPA qualified and an active member of AAA. With over 21 years of post-qualification experience in the UAE, he brings along innovative ideas backed up with hard-work.
+            Mohammed is specialized in the field of audit, accounting and management advisory services. Planning and administering the Audit Schedules, delegation and supervision of work, design and implementation of accounting systems and procedures are some of his areas of expertise.</p>
+        </div>
+      </div>
+      <div class="team-grid">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/1.png') }}" class="teami" data-aos="fade-right" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/2.png') }}" class="teami" data-aos="fade-left" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/3.png') }}" class="teami" data-aos="fade-right" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/4.png') }}" class="teami" data-aos="fade-left" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/5.png') }}" class="teami" data-aos="fade-right" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/6.png') }}" class="teami" data-aos="fade-left" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/7.png') }}" class="teami" data-aos="fade-right" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/8.png') }}" class="teami" data-aos="fade-left" data-aos-duration="2000">
+        <img src="{{ asset('DAR-ALNUZUM1/assets/images/9.png') }}" class="teami" data-aos="fade-right" data-aos-duration="2000">
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-us" id="contact">
+
+    <div class="footer">
+      <div class="footer-flex">
+        <div class="logo"><img src="{{ asset('DAR-ALNUZUM1/assets/images/logo.png')  }}"></div>
+        <div class="sections">
+          <p class="pold mpo">Explore More </p>
+          <a href="index.html">Home</a>
+          <a href="index.html">Services</a>
+          <a href="index.html">Blogs</a>
+          <a href="index.html">Contact Us</a>
+        </div>
+        <div class="contact">
+          <p class="pold">Contact Us </p>
+          <div class="vivi">
+
+            <div class="add">
+              <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <g filter="url(#filter0_d_53_7908)"> <path d="M14 9C14 15 8 21 8 21C8 21 2 15 2 9C2 7 3.5 3 8 3C12.5 3 14 7 14 9Z" stroke="white" stroke-linejoin="round"/> </g> <g filter="url(#filter1_d_53_7908)"> <circle cx="8" cy="9" r="2" stroke="white" stroke-linejoin="round"/> </g> <defs> <filter id="filter0_d_53_7908" x="0.5" y="2.5" width="15" height="21" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="1"/> <feGaussianBlur stdDeviation="0.5"/> <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_53_7908"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_53_7908" result="shape"/> </filter> <filter id="filter1_d_53_7908" x="4.5" y="6.5" width="7" height="7" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"/> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/> <feOffset dy="1"/> <feGaussianBlur stdDeviation="0.5"/> <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_53_7908"/> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_53_7908" result="shape"/> </filter> </defs>
+              </svg>
+               <p class="coni">
+                  Office No. 203 Al Mulla Building, AlMuteena P. O. Box: 25256 Dubai, United Arab Emirates
+                </p>
+            </div>
+
+            <div class="add">
+
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_d_53_7922)">
+                <path d="M3 18V6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6V18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z" stroke="white" stroke-linejoin="round"/>
+                </g>
+                <g filter="url(#filter1_d_53_7922)">
+                <path d="M3.5 5.5L12 12L20.5 5.5" stroke="white" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <filter id="filter0_d_53_7922" x="1.5" y="4.5" width="21" height="17" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="1"/>
+                <feGaussianBlur stdDeviation="0.5"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_53_7922"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_53_7922" result="shape"/>
+                </filter>
+                <filter id="filter1_d_53_7922" x="2.19629" y="5.10254" width="19.6074" height="9.39746" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="1"/>
+                <feGaussianBlur stdDeviation="0.5"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_53_7922"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_53_7922" result="shape"/>
+                </filter>
+                </defs>
+                </svg>
+
+                             <p class="coni">
+                              Tel: +971-4-3964900 <br>
+                              Fax: +971-4-3965025
+                              </p>
+               </div>
+
+
+            <div class="add">
+
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.3332 13.1004V15.6004C17.3341 15.8325 17.2866 16.0622 17.1936 16.2749C17.1006 16.4875 16.9643 16.6784 16.7933 16.8353C16.6222 16.9922 16.4203 17.1116 16.2005 17.186C15.9806 17.2603 15.7477 17.288 15.5165 17.2671C12.9522 16.9884 10.489 16.1122 8.32486 14.7087C6.31139 13.4293 4.60431 11.7222 3.32486 9.70874C1.91651 7.53474 1.04007 5.05957 0.76653 2.48374C0.745705 2.2533 0.773092 2.02104 0.846947 1.80176C0.920801 1.58248 1.03951 1.38098 1.1955 1.21009C1.3515 1.0392 1.54137 0.902664 1.75302 0.809175C1.96468 0.715685 2.19348 0.667291 2.42486 0.667073H4.92486C5.32928 0.663093 5.72136 0.806305 6.028 1.07002C6.33464 1.33373 6.53493 1.69995 6.59153 2.10041C6.69705 2.90046 6.89274 3.68601 7.17486 4.44207C7.28698 4.74034 7.31125 5.0645 7.24478 5.37614C7.17832 5.68778 7.02392 5.97383 6.79986 6.20041L5.74153 7.25874C6.92783 9.34503 8.65524 11.0724 10.7415 12.2587L11.7999 11.2004C12.0264 10.9764 12.3125 10.8219 12.6241 10.7555C12.9358 10.689 13.2599 10.7133 13.5582 10.8254C14.3143 11.1075 15.0998 11.3032 15.8999 11.4087C16.3047 11.4658 16.6744 11.6697 16.9386 11.9817C17.2029 12.2936 17.3433 12.6917 17.3332 13.1004Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+
+               <p class="coni">
+                info@daralnuzum.com
+                </p>
+            </div>
+
+
+            <div class="add">
+
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.0003 15.8337C13.222 15.8337 15.8337 13.222 15.8337 10.0003C15.8337 6.77866 13.222 4.16699 10.0003 4.16699C6.77866 4.16699 4.16699 6.77866 4.16699 10.0003C4.16699 13.222 6.77866 15.8337 10.0003 15.8337Z" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 7.5V10L11.25 11.25" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.7584 14.458L13.4667 17.6497C13.4292 18.0652 13.2371 18.4516 12.9286 18.7324C12.62 19.0132 12.2173 19.168 11.8001 19.1664H8.19173C7.77451 19.168 7.37182 19.0132 7.06323 18.7324C6.75465 18.4516 6.56261 18.0652 6.52507 17.6497L6.2334 14.458M6.24173 5.54136L6.5334 2.34969C6.57082 1.93559 6.76167 1.55043 7.06849 1.26982C7.37531 0.989205 7.77594 0.833413 8.19173 0.833022H11.8167C12.234 0.831329 12.6366 0.986187 12.9452 1.267C13.2538 1.54781 13.4459 1.93415 13.4834 2.34969L13.7751 5.54136" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+               <p class="coni">
+                Mon - Sat | 9am - 6pm
+                </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <hr class="zizi">
+      <p>© 2022 Dar AlNuzum All Rights Reserved. </p>
+
+    </div>
+  </section>
+
+<section id="message">
+      <button id="myBtn"><img src="{{ asset('DAR-ALNUZUM1/assets/images/message.png') }}" /></button>
+        {{-- form contact us Modal --}}
+      <div id="myModal" class="modal">
+                <form action="{{ route('frontend.do_contact') }}" method="POST">
+                    @csrf
+                    <div class="modal-contentr">
+                            <div class="modale-header">
+                                <span class="close">&times;</span>
+                                <p class="mes-tit">Leave A Message</p>
+                            </div>
+                         <div class="modale-body">
+                                <p class="sorry">Sorry, we aren't online at the moment. Leave a message and we'll get back to you.
+                                </p>
+
+                                <div class="forn">
+
+                                    <label for="name" class="vui">Name</label>
+                                    <input type="text" name="name" class="mes-in">
+
+                                    <label for="email" class="vui">Email</label>
+                                    <input type="email" name="email" class="mes-in">
+
+                                    <label for="mobile" class="vui">Phone Number</label>
+                                    <input type="number" name="mobile" class="mes-in">
+
+                                    <label for="title" class="vui">subject</label>
+                                    <input type="text" name="title" class="mes-in">
+
+                                    <label for="message" class="vui">Message</label>
+                                    <textarea name="message" class="mes-in ui"></textarea>
+
+                                </div>
+
+                                <div class="main-button-redi marb">
+                                    <div class="scroll-to-section"><button type="submit" >Send Message</button></div>
+                                </div>
+                            </div>
+
+                    </div>
+                </form>
+
+            </div>
+    </section>
+<!-- Bootstrap core JavaScript -->
+    <script src="{{ asset('DAR-ALNUZUM1/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    @jquery
+    @toastr_js
+    @toastr_render
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/isotope.min.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/owl-carousel.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/lightbox.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/tabs.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/video.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/slick-slider.js') }}"></script>
+    <script src="{{ asset('DAR-ALNUZUM1/assets/js/custom.js') }}"></script>
+
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+    <script>
+      const nxtBtn = document.querySelector('#submitBtn');
+const form1 = document.querySelector('#form1');
+const form2 = document.querySelector('#form2');
+const form3 = document.querySelector('#form3');
+const form4 = document.querySelector('#form4');
+const form5 = document.querySelector('#form5');
+
+
+const icon1 = document.querySelector('#icon1');
+const icon2 = document.querySelector('#icon2');
+const icon3 = document.querySelector('#icon3');
+const icon4 = document.querySelector('#icon4');
+const icon5 = document.querySelector('#icon5');
+
+
+var viewId = 1;
+function nextForm(){
+console.log("hellonext");
+viewId=viewId+1;
+progressBar();
+displayForms();
+
+console.log(viewId);
+
+}
+
+function prevForm(){
+console.log("helloprev");
+viewId=viewId-1;
+console.log(viewId);
+progressBar1();
+displayForms();
+}
+function progressBar1(){
+if(viewId===1){
+icon2.classList.add('active');
+icon2.classList.remove('active');
+icon3.classList.remove('active');
+icon4.classList.remove('active');
+icon5.classList.remove('active');
+}
+if(viewId===2){
+icon2.classList.add('active');
+icon3.classList.remove('active');
+icon4.classList.remove('active');
+icon5.classList.remove('active');
+}
+if(viewId===3){
+icon3.classList.add('active');
+icon4.classList.remove('active');
+icon5.classList.remove('active');
+}
+if(viewId===4){
+icon4.classList.add('active');
+icon5.classList.remove('active');
+}
+if(viewId===5){
+icon5.classList.add('active');
+nxtBtn.innerHTML = "Submit"
+}
+if(viewId>5){
+icon2.classList.remove('active');
+icon3.classList.remove('active');
+icon4.classList.remove('active');
+icon5.classList.remove('active');
+
+}
+}
+
+function progressBar(){
+if(viewId===2){
+icon2.classList.add('active');
+}
+if(viewId===3){
+icon3.classList.add('active');
+}
+if(viewId===4){
+icon4.classList.add('active');
+}
+if(viewId===5){
+icon5.classList.add('active');
+nxtBtn.innerHTML = "Submit"
+}
+if(viewId>5){
+icon2.classList.remove('active');
+icon3.classList.remove('active');
+icon4.classList.remove('active');
+icon5.classList.remove('active');
+
+}
+}
+
+function displayForms(){
+
+if(viewId>5){
+viewId=1;
+}
+
+if(viewId ===1){
+form1.style.display = 'block';
+form2.style.display = 'none';
+form3.style.display = 'none';
+form4.style.display = 'none';
+form5.style.display = 'none';
+
+
+}else if(viewId === 2){
+form1.style.display = 'none';
+form2.style.display = 'block';
+form3.style.display = 'none';
+form4.style.display = 'none';
+form5.style.display = 'none';
+
+}else if(viewId === 3){
+form1.style.display = 'none';
+form2.style.display = 'none';
+form3.style.display = 'block';
+form4.style.display = 'none';
+form5.style.display = 'none';
+}else if(viewId === 4){
+form1.style.display = 'none';
+form2.style.display = 'none';
+form3.style.display = 'none';
+form4.style.display = 'block';
+form5.style.display = 'none';
+
+}else if(viewId === 5){
+form1.style.display = 'none';
+form2.style.display = 'none';
+form3.style.display = 'none';
+form4.style.display = 'none';
+form5.style.display = 'block';
+
+}
+}
+
+// for slider
+
+var slider = document.querySelector(".slider");
+var output = document.querySelector(".output__value");
+output.innerHTML = slider.value ;
+
+slider.oninput = function() {
+output.innerHTML = this.value ;
+
+
+}
+    </script>
+        <script>
+          //according to loftblog tut
+          $('.nav li:first').addClass('active');
+
+          var showSection = function showSection(section, isAnimate) {
+            var
+            direction = section.replace(/#/, ''),
+            reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+            reqSectionPos = reqSection.offset().top - 0;
+
+            if (isAnimate) {
+              $('body, html').animate({
+                scrollTop: reqSectionPos },
+              800);
+            } else {
+              $('body, html').scrollTop(reqSectionPos);
+            }
+
+          };
+
+          var checkSection = function checkSection() {
+            $('.section').each(function () {
+              var
+              $this = $(this),
+              topEdge = $this.offset().top - 80,
+              bottomEdge = topEdge + $this.height(),
+              wScroll = $(window).scrollTop();
+              if (topEdge < wScroll && bottomEdge > wScroll) {
+                var
+                currentId = $this.data('section'),
+                reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+                reqLink.closest('li').addClass('active').
+                siblings().removeClass('active');
+              }
+            });
+          };
+
+          $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+            e.preventDefault();
+            showSection($(this).attr('href'), true);
+          });
+
+          $(window).scroll(function () {
+            checkSection();
+          });
+      </script>
+      <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+        </script>
+        <script>
+          AOS.init();
+        </script>
+</body>
+
+
+  </body>
+
+</html>

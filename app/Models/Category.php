@@ -27,7 +27,7 @@ class Category extends Model
     protected $searchable = [
         'columns'   => [
             'categories.name'       => 10,
-            'categories.slug'       => 10,
+            'categories.name_en'       => 10,
         ],
     ];
 
@@ -35,6 +35,12 @@ class Category extends Model
     {
         return config('app.locale') == 'ar' ? $this->name : $this->name_en;
     }
+
+    public function description()
+    {
+        return config('app.locale') == 'ar' ? $this->description : $this->description_en;
+    }
+
     public function url_slug()
     {
         return config('app.locale') == 'ar' ? $this->slug : $this->slug_en;
@@ -48,5 +54,11 @@ class Category extends Model
     public function status()
     {
         return $this->status == 1 ? 'Active' : 'Inactive';
+    }
+
+    public function users()
+    {
+
+        return $this->hasMany(User::class);
     }
 }
