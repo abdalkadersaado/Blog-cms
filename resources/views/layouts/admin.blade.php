@@ -28,6 +28,22 @@
     <link href="{{ asset('backend/vendor/summernote/summernote-bs4.min.css') }}" rel="stylesheet">
     @yield('style')
     @livewireStyles
+
+    <style>
+        .btn_submit
+        {
+            font-size: 13px;
+            color: #fff;
+            background-color: #ba0f0f;
+            padding: 8px 30px;
+            display: inline-block;
+            border-radius: 22px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: all .3s;
+            padding-top: 17px;
+        }
+    </style>
 </head>
 <body id="page-top" >
     <div id="app" >

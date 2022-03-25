@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Service;
 use App\Models\Category;
 use App\Models\PostMedia;
 use Illuminate\Support\Str;
@@ -147,6 +148,95 @@ class UsersController extends Controller
 
         // $imageName = $request->financial_report->getClientOriginalName();
         // $request->financial_report->move(public_path('upload_attachments/' . $user->id . '/' . 'financial_report'), $imageName);
+
+        if ($update) {
+            toastr()->success(__('Frontend/general.updated_successfully'));
+            return redirect()->back();
+        } else {
+            toastr()->error(__('Frontend/general.something_was_wrong'));
+            return redirect()->back();
+        }
+    }
+
+    public function edit_profile_user(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+
+            // 'company_name' => 'required',
+            // 'license_number' => 'required|numeric',
+            // 'Commercial_Register' => 'required',
+            // 'date_contract' => 'required',
+            // 'contract_pdf' => 'required',
+            // 'passport_number' => 'required',
+            // 'emirates_id' => 'required',
+            // 'expiry_date_passport' => 'required',
+            // 'id_number' => 'required',
+            // 'expiry_date' => 'required',
+            // // 'user_category_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            toastr()->error(__('Frontend/general.empty_field'), __('Frontend/general.something_was_wrong'));
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        if ($request->file('emirates_id')) {
+
+            if (auth()->user()->emirates_id != '') {
+                if (File::exists('upload_attachments/' . auth()->user()->id . '/' . 'visa_attachment/' . auth()->user()->emirates_id)) {
+                    unlink('upload_attachments/' . auth()->user()->id . '/' . 'visa_attachment/' . auth()->user()->emirates_id);
+                }
+            }
+            $image = $request->file('emirates_id');
+            $file_name = $image->getClientOriginalName();
+
+            $imageName = $request->emirates_id->getClientOriginalName();
+            $request->emirates_id->move(public_path('upload_attachments/' . auth()->user()->id . '/' . 'visa_attachment'), $imageName);
+
+            $data['emirates_id']  = $file_name;
+        }
+
+        $data['id_number']  = $request->id_number;
+        $data['expiry_date']  = $request->expiry_date;
+        $data['passport_number']  = $request->passport_number;
+        $data['expiry_date_passport']  = $request->expiry_date_passport;
+        $data['date_contract'] = $request->date_contract;
+
+        if ($request->file('contract_pdf')) {
+
+            if (auth()->user()->contract_pdf != '') {
+                if (File::exists('upload_attachments/' . auth()->user()->id . '/' . 'contract/' . auth()->user()->contract_pdf)) {
+                    unlink('upload_attachments/' . auth()->user()->id . '/' . 'contract/' . auth()->user()->contract_pdf);
+                }
+            }
+
+            $image = $request->file('contract_pdf');
+            $file_name = $image->getClientOriginalName();
+            $imageName = $request->contract_pdf->getClientOriginalName();
+            $request->contract_pdf->move(public_path('upload_attachments/' . auth()->user()->id . '/' . 'contract'), $imageName);
+
+            $data['contract_pdf']  = $file_name;
+        }
+
+        $data['company_name']  = $request->company_name;
+        $data['license_number']  = $request->license_number;
+
+        if ($request->file('Commercial_Register')) {
+            if (auth()->user()->Commercial_Register != '') {
+                if (File::exists('upload_attachments/' . auth()->user()->id . '/' . 'Commercial_Register/' . auth()->user()->Commercial_Register)) {
+                    unlink('upload_attachments/' . auth()->user()->id . '/' . 'Commercial_Register/' . auth()->user()->Commercial_Register);
+                }
+            }
+            $image = $request->file('Commercial_Register');
+            $file_name = $image->getClientOriginalName();
+            $imageName = $request->Commercial_Register->getClientOriginalName();
+            $request->Commercial_Register->move(public_path('upload_attachments/' . auth()->user()->id . '/' . 'Commercial_Register'), $imageName);
+
+            $data['Commercial_Register']  = $file_name;
+        }
+
+        $data['status_order'] = '1';
+        $data['category_id'] = $request->user_category_id;
+
+        $update = auth()->user()->update($data);
 
         if ($update) {
             toastr()->success(__('Frontend/general.updated_successfully'));
@@ -318,7 +408,8 @@ class UsersController extends Controller
 
     public function edit_password()
     {
-        return view('frontend.users.update_password');
+        $services = Service::get();
+        return view('frontend.users.update_password', compact('services'));
     }
 
     public function update_password(Request $request)

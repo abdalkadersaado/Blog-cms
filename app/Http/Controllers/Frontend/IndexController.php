@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Quote;
 use App\Models\Comment;
 use App\Models\Contact;
+use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\ReportComment;
@@ -97,11 +98,11 @@ class IndexController extends Controller
                 ->paginate(5)
                 ->withQueryString();
 
-            $users = User::whereHas('roles', function ($query) {
-                $query->where('name', 'user')->where('client_top', 1);
+            $users = User::with('category')->whereHas('roles', function ($query) use ($category) {
+                $query->where('name', 'user')->where('client_top', 1)->where('category_id', $category);
             })->orderBy('sequential_order', 'asc')->get();
-
-            return view('dar_al_nuzum.filter_by_category_index', compact('posts', 'category', 'categories', 'users'));
+            $services = Service::get();
+            return view('dar_al_nuzum.filter_by_category_index', compact('posts', 'category', 'categories', 'users', 'services'));
         }
 
         if ($user = auth()->user()->id) {
@@ -118,8 +119,8 @@ class IndexController extends Controller
                 $users = User::whereHas('roles', function ($query) {
                     $query->where('name', 'user')->where('client_top', 1);
                 })->orderBy('sequential_order', 'asc')->get();
-
-                return view('dar_al_nuzum.filter_by_category_index', compact('posts', 'category', 'categories', 'users'));
+                $services = Service::get();
+                return view('dar_al_nuzum.filter_by_category_index', compact('posts', 'category', 'categories', 'users', 'services'));
             }
         }
 
@@ -318,7 +319,8 @@ class IndexController extends Controller
         $data['email']      = $request->email;
         $data['mobile']     = $request->mobile;
         $data['company_name']      = $request->company_name;
-        $data['category_id']    = $request->category_id;
+        $data['service_id']    = $request->category_id;
+
 
         Quote::create($data);
         toastr()->success(__('Frontend/general.message_sent_successfully'));
@@ -329,8 +331,8 @@ class IndexController extends Controller
 
     public function about_us()
     {
-
-        return view('dar_al_nuzum.about_us');
+        $services = Service::get();
+        return view('dar_al_nuzum.about_us', compact('services'));
     }
 
     // services frontend

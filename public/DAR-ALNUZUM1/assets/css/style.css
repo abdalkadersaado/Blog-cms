@@ -1155,7 +1155,6 @@ services
     line-height: 30px;
     max-height: 24px;
     white-space: nowrap;
-    overflow-y: hidden;
     width: 97%;
 }
 

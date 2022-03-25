@@ -32,6 +32,10 @@
                         <th>company Name</th>
                         <td>{!! $message->company_name !!}</td>
                     </tr>
+                     <tr>
+                        <th>Service's Name</th>
+                        <td> {{ $message->service->name()  }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

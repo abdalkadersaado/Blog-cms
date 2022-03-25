@@ -3,7 +3,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/contact_us.contact_us') }}</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Quotes</h6>
         </div>
 
         @include('backend.contact_us.filter.filter')
@@ -29,7 +29,7 @@
                         <td>{{ $message->email }}</td>
                         <td>{{ $message->mobile }}</td>
                         <td>{{ $message->company_name }}</td>
-                        <td>{{ $message->category_id }}</td>
+                        <td>{{ $message->service->name() }}</td>
                         <td>{{ $message->created_at->format('d-m-Y h:i a') }}</td>
                         <td>
                             <div class="btn-group">

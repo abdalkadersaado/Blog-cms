@@ -7,8 +7,11 @@ use App\Models\Partner;
 use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\ReportComment;
+use App\Models\FinancialReport;
 use Yoeunes\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Backend\AdminController;
@@ -35,10 +38,8 @@ use App\Http\Controllers\Frontend\UsersController as FrontendUsersController;
 use App\Http\Controllers\Backend\Auth\LoginController as BackendLoginController;
 use App\Http\Controllers\Frontend\Auth\LoginController as FrontendLoginController;
 use App\Http\Controllers\Backend\NotificationsController as BackendNotificationsController;
+use App\Http\Controllers\Backend\ServicesController;
 use App\Http\Controllers\Frontend\NotificationsController as FrontendNotificationsController;
-
-
-
 
 Route::get('dar-alnuzum', function () {
     $posts = Post::with(['media', 'user', 'tags'])
@@ -82,9 +83,9 @@ Route::get('/', function () {
         $users = User::whereHas('roles', function ($query) use ($user) {
             $query->where('name', 'user')->where('client_top', 1)->where('category_id', $user->category_id);
         })->orderBy('sequential_order', 'asc')->get();
-
+        $services = Service::latest()->paginate(10);
         $categories = Category::get();
-        return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id'));
+        return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id', 'services'));
     } else {
         $posts = Post::with(['media', 'user', 'tags'])
             ->whereHas('category', function ($query) {
@@ -111,13 +112,14 @@ Route::get('/', function () {
             ->orderBy('id', 'desc')
             ->paginate(5)
             ->withQueryString();
+        $services = Service::get();
         $categories = Category::get();
 
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'user')->where('client_top', 1);
         })->orderBy('sequential_order', 'asc')->get();
 
-        return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id'));
+        return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id', 'services'));
     }
 })->name('dar.home');
 ####################
@@ -143,7 +145,8 @@ Route::get('dar-alnuzum/contact', function () {
     $users = User::whereHas('roles', function ($query) {
         $query->where('name', 'user');
     })->get();
-    return view('dar_al_nuzum.contact_us_show', compact('posts', 'categories', 'users'));
+    $services = Service::get();
+    return view('dar_al_nuzum.contact_us_show', compact('posts', 'categories', 'users', 'services'));
 })->name('dar.contact');
 
 Route::get('dar2/login', function () {
@@ -162,19 +165,139 @@ Route::get('dar2/login', function () {
 Route::get('about-us', [IndexController::class, 'about_us'])->name('about.us');
 #####################
 ################ services
-Route::get('/service1', [IndexController::class, 'service1'])->name('service1');
-Route::get('/service2', [IndexController::class, 'service2'])->name('service2');
-Route::get('/service3', [IndexController::class, 'service3'])->name('service3');
-Route::get('/service4', [IndexController::class, 'service4'])->name('service4');
-Route::get('/service5', [IndexController::class, 'service5'])->name('service5');
-Route::get('/service6', [IndexController::class, 'service6'])->name('service6');
-Route::get('/service7', [IndexController::class, 'service7'])->name('service7');
-Route::get('/service8', [IndexController::class, 'service8'])->name('service8');
-Route::get('/service9', [IndexController::class, 'service9'])->name('service9');
-Route::get('/service10', [IndexController::class, 'service10'])->name('service10');
+Route::get('services-all', [ServicesController::class, 'index']);
+
+Route::get('service-show/{id}', function ($id) {
+
+    $service = Service::whereId($id)->first();
+
+    return view('dar_al_nuzum.service_show', compact('service'));
+})->name('service_show');
+
+Route::get('/service-AUDIT-ASSURANCE-SERVICES', [IndexController::class, 'service1'])->name('service1');
+Route::get('/service-VAT-Consultation', [IndexController::class, 'service2'])->name('service2');
+Route::get('/service-FINANCIAL-ANALYSIS', [IndexController::class, 'service3'])->name('service3');
+Route::get('/service-BUDGETING-FORECASTING', [IndexController::class, 'service4'])->name('service4');
+Route::get('/service-PROJECT-REPORTS', [IndexController::class, 'service5'])->name('service5');
+Route::get('/service-BUSINESS-VALUATION', [IndexController::class, 'service6'])->name('service6');
+Route::get('/service-DUE-DILIGENCE', [IndexController::class, 'service7'])->name('service7');
+Route::get('/service-HUMAN-RESOURCE', [IndexController::class, 'service8'])->name('service8');
+Route::get('/service-ACCOUNTING-SERVICES', [IndexController::class, 'service9'])->name('service9');
+Route::get('/service-LIQUIDATION-SERVICES', [IndexController::class, 'service10'])->name('service10');
 ##################
 #####################################################################################
+########################################
+Route::get('profile', function () {
 
+    $financial_file = FinancialReport::where('upload_to', auth()->user()->id)->first();
+    $services = Service::get();
+
+    if ($financial_file) {
+        $comments = ReportComment::with(['report', 'user'])->where('financial_report_id', $financial_file->id)->get();
+        return view('dar_al_nuzum.profile', compact('financial_file', 'services', 'comments'));
+    }
+    return view('dar_al_nuzum.profile', compact('financial_file', 'services'));
+})->name('profile');
+##########################
+########################################
+Route::get('edit-profile', function () {
+
+    $categories = Category::get();
+    $financial_file = FinancialReport::where('upload_to', auth()->user()->id)->first();
+
+    if ($financial_file) {
+        $comments = ReportComment::with(['report', 'user'])->where('financial_report_id', $financial_file->id)->get();
+        return view('dar_al_nuzum.edit_profile', compact('financial_file',  'categories', 'comments'));
+    }
+
+    return view('dar_al_nuzum.edit_profile', compact('financial_file',  'categories'));
+})->name('edit_profile');
+##########################
+###################
+Route::get('view-contract/{user_id}/{file_name}', [ProfileController::class, 'view_contract']);
+Route::get('view-trade-license/{user_id}/{file_name}', [ProfileController::class, 'view_trade_license']);
+Route::get('view-visa/{user_id}/{file_name}', [ProfileController::class, 'view_Visa']);
+################################
+
+Route::get('blogs', function () {
+    $posts = Post::with(['media', 'user', 'tags'])
+        ->whereHas('category', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->whereHas('user', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->post()
+        ->active()
+        ->orderBy('id', 'desc')
+        ->paginate(6)
+        ->withQueryString();
+    $categories = Category::get();
+    $services = Service::get();
+    return view('dar_al_nuzum.blogs', compact('posts', 'categories', 'services'));
+})->name('blogs');
+###################################
+################################
+
+Route::get('blog-filter/{slug}', function ($slug) {
+    $categories = Category::get();
+    $category = Category::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->whereStatus(1)->first()->id;
+
+    if ($category) {
+        $posts = Post::with(['media', 'user', 'tags'])
+            ->whereCategoryId($category)
+            ->post()
+            ->active()
+            ->orderBy('id', 'desc')
+            ->paginate(6)
+            ->withQueryString();
+
+        $services = Service::get();
+    }
+    return view('dar_al_nuzum.blogs_filter', compact('categories', 'category', 'services', 'posts'));
+})->name('blogs.filter');
+###################################
+# //show single blog
+Route::get('blog/{slug}', function ($slug) {
+
+    // $post = Post::with(['media', 'category', 'user', 'comments'])->whereId($id)->wherePostType('post')->first();
+
+
+    $post = Post::query()
+        ->with([
+            'category', 'media', 'user', 'tags',
+            'approved_comments' => function ($query) {
+                $query->orderBy('id', 'desc');
+            }
+        ])
+        ->whereHas('category', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->whereHas('category', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->whereHas('user', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->whereSlugEn($slug)
+        ->orWhere('slug', $slug)
+        ->active()
+        ->first();
+
+    $posts = Post::with(['media', 'user', 'tags'])
+        ->whereHas('category', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->whereHas('user', function ($query) {
+            $query->whereStatus(1);
+        })
+        ->post()
+        ->active()
+        ->orderBy('id', 'desc')
+        ->paginate(4);
+    $services = Service::get();
+    return view('dar_al_nuzum.single_blog', compact('post', 'posts', 'services'));
+})->name('single.blog');
 //Route test multi partner
 
 Route::get('test', function () {
@@ -254,6 +377,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/update-info', [FrontendUsersController::class, 'update_info'])->name('update_info');
         //complete user info
         Route::post('/complete-user-info/{id}', [FrontendUsersController::class, 'complete_user_info'])->name('complete_user_info');
+        // edit profile user
+        Route::post('/edit_profile', [FrontendUsersController::class, 'edit_profile_user'])->name('edit_profile_user');
 
         Route::post('/edit-info', [FrontendUsersController::class, 'update_personal_info'])->name('update_personal_info');
 

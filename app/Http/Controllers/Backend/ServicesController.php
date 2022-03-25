@@ -17,8 +17,9 @@ class ServicesController extends Controller
         // $this->authorize('viewAny', Service::class);
 
         $services = Service::Selection()->latest()->paginate(10);
+
         if (count($services) > 0) {
-            return view('dar_al_nuzum.index', compact('services'));
+            return view('dar_al_nuzum.index1', compact('services'));
         } else {
             return $this->responseError('no found any saved service yet .', 404);
         }

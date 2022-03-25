@@ -1,5 +1,7 @@
 @extends('layouts.admin')
+
 @section('content')
+
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
@@ -30,6 +32,13 @@
                         <td>{{ $user->name }} ({{ $user->username }})</td>
                         <th>{{ __('BackEnd/user.email') }}</th>
                         <td>{{ $user->email }}</td>
+                        <th></th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
+
                     </tr>
                     <tr>
                         <th>{{ __('BackEnd/user.mobile') }} </th>
@@ -40,10 +49,117 @@
                     <tr>
                         <th>{{ __('BackEnd/user.created_at') }} </th>
                         <td>{{ $user->created_at->format('d-m-Y h:i a') }}</td>
-                        <th>{{ __('BackEnd/user.post_count') }} </th>
-                        <td>{{ $user->posts_count }}</td>
+
                     </tr>
+                     <tr>
+                        <th>Company Name </th>
+                        <td>{{ $user->company_name }}</td>
+                        <th>Trade License Number: </th>
+                        <td>{{ $user->license_number }}</td>
+                        <th>  </th>
+                        <td> </td>
+                        <th> </th>
+                        <td> </td>
+                        <th>  </th>
+                        <td>    </td>
+                        <th>Trade License Number: </th>
+
+                        <td>
+                             <a class="btn btn-outline-success btn-sm btn_submit"
+                                href="{{ url('view-trade-license') }}/{{ $user->id }}/{{ $user->Commercial_Register }}"
+                                target="_blank"
+                                ><i class="fas fa-eye"></i>&nbsp;
+                                Show Trade License
+                            </a>
+                        </td>
+                    </tr>
+
                     <tr>
+                        <th>Contract Approval Date</th>
+                        <td>{{ $user->date_contract }}</td>
+                        <th>  </th>
+                        <td> </td>
+                        <th> </th>
+                        <td> </td>
+                        <th>  </th>
+                        <td>    </td>
+                        <th>  </th>
+                        <td>    </td>
+                        <th>Contract Attachment: </th>
+                        <td>
+                             <a class="btn btn-outline-success btn-sm btn_submit"
+                                href="{{ url('view-contract') }}/{{ $user->id}}/{{ $user->contract_pdf }}"
+                                target="_blank"
+                                ><i class="fas fa-eye"></i>&nbsp;
+                                Show file  Contract
+                            </a>
+                        </td>
+                    </tr>
+
+                     <tr>
+                        <th>About the Owner</th>
+                        <td></td>
+                         <th>Passport Number:</th>
+                        <td>{{ $user->passport_number }}</td>
+                        <th>Expiry Date:</th>
+                        <td>{{ $user->expiry_date_passport }}</td>
+                        <th>ID Number:</th>
+                        <td>{{ $user->id_number }}</td>
+                        <th>Expiry Date:</th>
+                        <td>{{ $user->expiry_date }}</td>
+
+                        <th> Visa attachement</th>
+                        <td>
+                             <a class="btn btn-outline-success btn-sm btn_submit"
+                            href="{{ url('view-visa') }}/{{ $user->id }}/{{ $user->emirates_id }}"
+                            target="_blank"
+                            ><i class="fas fa-eye"></i>&nbsp;
+                            Show File Visa
+                        </a>
+                        </td>
+                    </tr>
+
+                     <tr>
+
+                        <th>Status Order </th>
+                        <td>
+                            @if($user->status_order == 1)
+                            <td>Under Processing</td>
+                            @elseif ($user->status_order == 2 )
+                                <td>Accepted</td>
+                            @else
+                            <td>null</td>
+                            @endif
+                        </td>
+
+                        <th> </th>
+                        <td> </td>
+                        <th> </th>
+                        <th> Change Status Order</th>
+                        <td>
+
+                                @if($user->status_order == 1)
+                                <form action="{{ route('admin.order.accepted',$user->id) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-success btn-sm btn_submit"> Tanslate to Accepted</button>
+                                </form>
+                            @else
+                                <form action="{{ route('admin.order.under_processing',$user->id) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-success ">Translate to under processing</button>
+                                </form>
+                            @endif
+                        </td>
+                        <td> </td>
+                        <th> </th>
+                        <td> </td>
+                        <td> </td>
+
+
+                    </tr>
+
+                    <tr>
+
                         <th>upload financial Report</th>
                         <td>
                             <form action="{{ route('users.financial.store',$user->id) }}"  method="Post" autocomplete="off" enctype="multipart/form-data">
@@ -53,13 +169,13 @@
                                 <br>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-8">
+
                                         <div class="form-group">
                                             <label for="financial_report1">Financial Report PDF</label>
                                         <input type="file" name="financial_report1" class="form-control">
                                             @error('financial_report1')<span class="text-danger">{{ $message }}</span>@enderror
                                         </div>
-                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -71,7 +187,14 @@
 
                                 </form>
                         </td>
-
+                        <th></th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
+                        <th></th>
+                        <td></td>
                         <th>Display financial report</th>
                         <td>
 
@@ -85,38 +208,38 @@
 
                             @else
                                 @foreach ($financial_file as $f_file)
-                                    <div class="col-6">
+
                                         <div class="forn-control">
-                                            <p>{{ $f_file->financial  }}</p>
-                                        <a class="btn btn-outline-success btn-sm"
+                                            {{-- <p>{{ $f_file->financial  }}</p> --}}
+                                        <a class="btn btn-outline-success btn-sm btn_submit"
                                             href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
                                             target="_blank"
                                             ><i class="fas fa-eye"></i>&nbsp;
-                                            Show File
+                                            Show Financial Report
                                         </a>
-                                        <a class="btn btn-outline-info btn-sm"
+                                        <a class="btn btn-outline-info btn-sm btn_submit"
                                                 href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
                                                 <i class="fas fa-download"></i>&nbsp;
-                                                Download File
+                                                Download Financial Report
                                         </a>
 
                                         <button href="javascript:void(0)"
                                                 onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $f_file->id }}').submit(); } else { return false; }"
-                                                class="btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i>
-                                                delete File
+                                                class="btn btn-outline-success btn-sm btn_submit"><i class="fa fa-trash"></i>
+                                                delete Financial Report
                                         </button>
                                         <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                         </form>
 
-                                        <a class="btn btn-outline-info btn-sm"
+                                        <a class="btn btn-outline-info btn-sm btn_submit"
                                                 href="{{ route('admin.show_financial_report',$f_file->id) }}">
                                                 <i class="fas fa-download"></i>&nbsp;
-                                                Open Comments
+                                                Open Comments Financial Report
                                         </a>
 
-                                    </div>
+
 
                                     </div>
                                 @endforeach

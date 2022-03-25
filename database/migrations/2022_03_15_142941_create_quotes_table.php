@@ -19,7 +19,8 @@ class CreateQuotesTable extends Migration
             $table->string('email');
             $table->string('mobile');
             $table->string('company_name');
-            $table->integer('category_id');
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+
 
             $table->timestamps();
         });

@@ -120,7 +120,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="client_top">Change Client's Status</label>
+                        <label for="client_top">Change Client's Status to Top Client</label>
                         <select name="client_top" class="form-control">
                             <option value=""> --- </option>
                             <option value="0" {{ old('client_top',request('client_top',$user->client_top)) == '0' ? 'selected': '' }}>Normal Client</option>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="sequential_order">Change Client's Status</label>
+                        <label for="sequential_order">Ordering Top Clients on Home Page</label>
                         <select name="sequential_order" class="form-control">
                             <option value=""> --- </option>
                             <option value="1" {{ old('sequential_order',request('sequential_order',$user->sequential_order)) == '1' ? 'selected': '' }}>1</option>

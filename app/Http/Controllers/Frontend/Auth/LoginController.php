@@ -6,10 +6,10 @@ use toastr;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
@@ -51,8 +51,8 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $categories = Category::whereStatus(1)->get();
-        return view('frontend.auth.login', compact('categories'));
+        $services = Service::get();
+        return view('frontend.auth.login', compact('services'));
     }
 
     public function username()

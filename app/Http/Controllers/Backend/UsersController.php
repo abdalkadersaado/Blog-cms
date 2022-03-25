@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Backend;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
+use App\Mail\Subscribe;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ReportComment;
 use App\Models\FinancialReport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
@@ -170,6 +172,8 @@ class UsersController extends Controller
 
         $user = User::create($data);
         $user->attachRole(Role::whereName('user')->first()->id);
+
+        Mail::to($request->email)->send(new Subscribe());
 
         return redirect()->route('admin.users.index')->with([
             'message' => 'Users created successfully',

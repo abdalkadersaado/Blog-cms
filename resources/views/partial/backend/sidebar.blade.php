@@ -3,12 +3,12 @@
 @endphp
 
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" style="color:brown" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.index') }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <img src="{{ asset('DAR-ALNUZUM1/assets/images/logo.png') }}" width="70%" alt="{{ config('app.name') }}">
+            {{-- <img src="{{ asset('DAR-ALNUZUM1/assets/images/logo.png') }}" width="70%" alt="{{ config('app.name') }}"> --}}
         </div>
         <div class="sidebar-brand-text mx-3">{{ config('app.name') }}</div>
     </a>

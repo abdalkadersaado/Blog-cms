@@ -30,11 +30,16 @@ class Service extends Model
     }
     #############
 
-    ############ Scope
-    public function scopeSelection($query)
+    public function name()
     {
-        return $query->select('id', 'name_' . app()->getLocale() . ' as name', 'description_' . app()->getLocale() . ' as description', 'created_at', 'image');
+        return config('app.locale') == 'ar' ? $this->name : $this->name_en;
     }
-
-    ###############
+    public function brief()
+    {
+        return config('app.locale') == 'ar' ? $this->brief : $this->brief_en;
+    }
+    public function description()
+    {
+        return config('app.locale') == 'ar' ? $this->description : $this->description_en;
+    }
 }

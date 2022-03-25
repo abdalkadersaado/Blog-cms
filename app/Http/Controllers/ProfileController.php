@@ -4,17 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Traits\imageTrait;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
     use imageTrait;
 
+    public function view_contract($user_id, $file_name)
+    {
+        $files = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/contract//' . $file_name);
+
+        return response()->file($files);
+    }
+
+    public function view_trade_license($user_id, $file_name)
+    {
+        $files = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/Commercial_Register//' . $file_name);
+
+        return response()->file($files);
+    }
+
+    public function view_Visa($user_id, $file_name)
+    {
+        $files = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/visa_attachment//' . $file_name);
+
+        return response()->file($files);
+    }
+
     public function financial_report()
     {
 
         return view('frontend.users.financialReport');
     }
+
 
     public function store_financial_report(Request $request)
     {

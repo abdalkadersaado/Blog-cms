@@ -55,7 +55,9 @@ class CreateUsersTable extends Migration
             $table->string('assign_editor')->nullable();
             $table->integer('client_top')->default(0);
             $table->integer('sequential_order')->nullable();
-            $table->integer('category_id')->nullable();
+
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
 
             $table->rememberToken();
             $table->timestamps();

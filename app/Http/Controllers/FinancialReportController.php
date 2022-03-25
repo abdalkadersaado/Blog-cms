@@ -67,7 +67,7 @@ class FinancialReportController extends Controller
     public function get_file($user_id, $file_name)
 
     {
-        $contents = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/financial_report//' . $file_name);
+        $contents = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/visa_attachment//' . $file_name);
         return response()->download($contents);
     }
 
