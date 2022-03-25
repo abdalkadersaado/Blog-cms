@@ -144,7 +144,7 @@
         </div>
         <div class="col-lg-4 imp noi">
           <div class=" templatemo-item-col ">
-            <div class="meeting-item blogs">
+            <div class="">
               <div class="blogs">
                 @forelse ($posts as $p )
                     <div class="lod">

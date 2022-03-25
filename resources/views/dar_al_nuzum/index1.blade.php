@@ -153,7 +153,7 @@
                                 <li data-filter="*"  class="active"><a href="{{ route('frontend.filter_category',$category->url_slug()) }}" style="color: white">{{ $category->name() }}</a></li>
                             @endforeach --}}
                             @foreach($global_categories as $global_category)
-                                <li  class=""><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white">{{ $global_category->name() }}</a></li>
+                                <li  class="" style="color: white;line-height: 10px;" ><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
                             @endforeach
 
                         </ul>
@@ -187,7 +187,7 @@
 
                         <div class="col-lg-5 imp">
                         <div class=" templatemo-item-col ">
-                            <div class="meeting-item blogs">
+                            <div class="meeting-item">
                             <div class="blogs">
 
                                 @forelse ($posts_by_category_id as $post )

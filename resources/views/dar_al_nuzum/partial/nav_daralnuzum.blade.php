@@ -41,7 +41,7 @@
                                                         style="
                                                             padding: 2px 18px;
                                                             font-size: 12px;
-                                                            line-height: 41px;
+                                                            line-height: 34px;
                                                             height: 36px;
                                                             color: #ffffff!important;">
                                                             Sign in</a>
