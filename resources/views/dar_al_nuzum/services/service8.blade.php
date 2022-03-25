@@ -24,7 +24,24 @@
     <link rel="stylesheet" href="{{ asset('DAR-ALNUZUM1/assets/css/register.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"crossorigin="anonymous"></script>
-
+<style>
+        .btn_submit
+        {
+            font-size: 13px;
+            color: #fff;
+            background-color: #ba0f0f;
+            padding: 8px 30px;
+            display: inline-block;
+            border-radius: 22px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: all .3s;
+            padding-top: 17px;
+        }
+        h6{
+            font-size: 12px;
+        }
+    </style>
   </head>
 
 <body>

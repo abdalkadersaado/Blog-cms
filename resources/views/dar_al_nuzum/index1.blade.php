@@ -153,7 +153,9 @@
                                 <li data-filter="*"  class="active"><a href="{{ route('frontend.filter_category',$category->url_slug()) }}" style="color: white">{{ $category->name() }}</a></li>
                             @endforeach --}}
                             @foreach($global_categories as $global_category)
-                                <li  class="" style="color: white;line-height: 10px;" ><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
+
+                                <li  class="active" style="color: white;line-height: 10px;background-color: #926a6a2b;" ><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
+
                             @endforeach
 
                         </ul>

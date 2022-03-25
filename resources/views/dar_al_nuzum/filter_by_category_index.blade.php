@@ -148,8 +148,9 @@
                         <div class="filters">
                         <ul class="fil-cla">
                            @foreach($global_categories as $global_category)
-                                <li  class="@if(request($global_category->url_slug())) active  @else  @endif" style="color: white;line-height: 10px;"><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white">{{ $global_category->name() }}</a></li>
-                            @endforeach
+                                <li  class="{{ (request()->is('filter-categories/'.$global_category->url_slug())) ? 'active' : '' }}"  style="color: white;line-height: 10px;background-color: #726d6d" ><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
+
+                           @endforeach
 
 
                         </ul>
@@ -196,7 +197,7 @@
                                         </div>
                                         <div class="containt">
                                             <p class="titles"> {{ $post->title() }}</p>
-                                            <p class="supi">{{ $post->description() }}</p>
+                                            <p class="supi">{{ \Illuminate\Support\Str::limit($post->description(), 90, '...') }}</p>
                                         </div>
                                      </div>
                                 @empty
