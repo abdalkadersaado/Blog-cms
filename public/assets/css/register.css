@@ -16,6 +16,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url(/assets/images/23.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: -118px;
+  background-position-y: 201px;
+  position: relative;
+  transition: background 0.5s ease;
+}
+
+.bodyk:hover {
+  background-position-x: -147px;
+  background-position-y: 311px;
+  position: relative;
+  transition: background 0.5s ease;
+  /* transform: scale(1.1); */
+  background-size: scale(1.1);
 }
 
 .form__container {
@@ -30,7 +46,7 @@
   width: 100%;
   height: 4.5rem;
   padding: 0.6rem 1.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
   border-bottom: 1px solid #42434e;
 }
 
@@ -69,16 +85,18 @@
 }
 
 .title__name {
-  padding: 0.6rem 0.1rem;
+  padding: 1.6rem 0.1rem;
   margin-bottom: 0.25rem;
+  height: 74px;
 }
 
 .title__name h3 {
   margin-bottom: 0.2rem;
-  text-align: right;
+  text-align: center;
   color: #000000;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 21px;
 }
 
 .title__name p {
@@ -91,8 +109,32 @@
   padding-top: 0.6rem;
 }
 
+.ion {
+  width: 28px;
+  height: 31px;
+  color: white;
+}
+
+.loi {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .progress__bar__container ul .active {
   background-color: var(--secondery-color);
+  background-color: transparent;
+  background-image: linear-gradient(180deg, #861913 0%, #BA0F0F 100%);
+}
+
+.ro {
+  display: flex;
+  flex-direction: column;
+  min-width: 296px;
+}
+
+span.if {
+  font-size: 12px;
 }
 
 .progress__bar__container ul li {
@@ -100,7 +142,7 @@
   align-items: center;
   justify-content: center;
   list-style: none;
-  background: var(--shadow-color);
+  background: #2b2c3196;
   padding: 0.5rem 0.6rem;
   margin-bottom: 1.9rem;
   border-radius: 50%;
@@ -838,6 +880,12 @@ input[type=radio] + label {
 
 .redd {
   color: #BA0F0F !important;
+  cursor: pointer !important;
+  z-index: 120;
+}
+
+.redd:hover {
+  font-weight: 600;
 }
 
 .titj {

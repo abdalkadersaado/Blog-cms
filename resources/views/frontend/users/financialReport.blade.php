@@ -5,6 +5,28 @@
 </div>
 <div class="col-lg-9 col-12">
 
+
+                            <form action="{{ route('users.financial.store',auth()->user()->id) }}"  method="Post" autocomplete="off" enctype="multipart/form-data">
+                                @csrf
+                                <h3>Financial Report Information</h3>
+                                <br>
+                                <hr>
+                                <div class="row">
+                                        <div class="form-group">
+                                            <label for="financial_report1">Financial Report PDF</label>
+                                        <input type="file" name="financial_report1" class="form-control">
+                                            @error('financial_report1')<span class="text-danger">{{ $message }}</span>@enderror
+                                        </div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="form-group">
+                                            <button type="submit" name="update_information" class="btn btn-primary">Upload Financial Report</button>
+                                        </div>
+
+                                </div>
+                            </form>
+
         <h3>Financial Report Information</h3>
             @if ($financial_file === null)
                         <div class="col-3">

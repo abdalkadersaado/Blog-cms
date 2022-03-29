@@ -39,7 +39,8 @@
             font-weight: 500;
             text-transform: uppercase;
             transition: all .3s;
-            padding-top: 17px;
+            padding-top: 10px;
+            line-height: 0px;
         }
         h6{
             font-size: 12px;
@@ -115,13 +116,27 @@
                     <p class="supo">Trade License Attachment: <span>{{ auth()->user()->Commercial_Register }}</span></p>
                 </div>
                 <div class="col-3">
-                     <a class="btn btn-outline-success btn-sm btn_submit"
+                    <p class="supo">MOA Attachment: <span>{{ auth()->user()->MOA }}</span></p>
+                </div>
+                <div class="col-6">
+                    <div>
+                          <a class="btn btn-outline-success btn-sm btn_submit"
                         href="{{ url('view-trade-license') }}/{{ auth()->user()->id }}/{{ auth()->user()->Commercial_Register }}"
                         target="_blank"
                         ><i class="fas fa-eye"></i>&nbsp;
                         Show Trade License
                     </a>
+                     <a class="btn btn-outline-success btn-sm btn_submit"
+                        href="{{ url('view-MOA') }}/{{ auth()->user()->id }}/{{ auth()->user()->MOA }}"
+                        target="_blank"
+                        ><i class="fas fa-eye"></i>&nbsp;
+                        Show MOA
+                    </a>
+                    </div>
+
                 </div>
+
+
                 </div>
             </div>
             <div class="row">
@@ -180,106 +195,179 @@
                     </div>
                 </div>
             </div>
+            @if ($financial_file_all->count() === 0)
+                 <span></span>
+            @else
+                <div class="row">
+                        <div class="col-6">
+                            <p class="main">Requirments Financial Report:</p>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="form-control">
 
-            <div class="row">
-                <div class="col-6">
-                    <p class="main">Partners:</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-control">
-                    <div class="col-3">
-                        <p class="supo">Passport Number: <span>8045-745</span></p>
-                    </div>
-                    <div class="col-3">
-                        <p class="supo">Expiry Date: <span>6/4/2024</span></p>
-                    </div>
-                    <div class="col-3">
-                        <p class="supo">ID Number: <span>8045-745</span></p>
-                    </div>
-                    <div class="col-3">
-                        <p class="supo">Expiry Date: <span>6/4/2024</span></p>
-                    </div>
-                    <div class="col-3">
-                        <p class="supo">Visa attachement: <span>visa.pdf</span></p>
-                    </div>
-                </div>
-            </div>
-            <br>
-    <p class="name-tit">Financial Report</p>
-    <hr class="redi">
-    <div class="finn">
-        @if ($financial_file === null)
-            <div class="col-6">
-                <div class="form-group">
-                <h5 class="text-center">No Financial Report found</h5>
-                </div>
-            </div>
-        @else
+                            @if ($financial_file_all === null)
+                                <div class="col-3">
 
-            <div class="col-8">
-                <div class="form-control">
-                    <p class="supo"> Name Financial Report: <span>{{ $financial_file->financial  }}</span> </p>
-                <a class="btn btn-outline-success btn-sm"
-                    href="{{ url('View_file') }}/{{ $financial_file->upload_to }}/{{ $financial_file->financial }}"
-                    target="_blank"
-                    ><i class="fas fa-eye"></i>&nbsp;
-                    Show File Financial Report
-                </a>
-                <br>
-                <br>
-                <a class="btn btn-outline-info btn-sm"
-                        href="{{ url('download') }}/{{ $financial_file->upload_to  }}/{{ $financial_file->financial }}">
-                        <i class="fas fa-download"></i>&nbsp;
-                        Download File Financial Report
-                </a>
-                <br>
-                <br>
-                <a class="btn btn-outline-warning btn-sm"
-                     href="{{ route('users.show_financial_report',$financial_file->id) }}">
-                     <i class="fas fa-comment"></i>&nbsp;
-                     Comments on Financial Report
-                </a>
-                </div>
-            </div>
-            <br>
-        @endif
-    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                        <img src="" width="60">
+                                    </div>
+                                    </div>
+                                </div>
+                            @else
+                                @forelse ($financial_file_all as $f_file)
 
+                                    <div class="be-comment">
+                                        <div class="be-comment-content">
+
+                                                <span class="be-comment-name">
+                                                    <p>{{ $f_file->user->name  }}</p>
+                                                </span>
+                                                <span class="be-comment-time">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    {{ $f_file->created_at->format('M d Y h:i a') }}
+                                                </span>
+
+                                            <p class="be-comment-text">
+                                                {{ $f_file->financial  }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="forn-control">
+
+                                            <a class="btn btn-outline-success btn-sm"
+                                                href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
+                                                target="_blank"
+                                                ><i class="fas fa-eye"></i>&nbsp;
+                                                Show File
+                                            </a>
+                                            <a class="btn btn-outline-warning btn-sm"
+                                                    href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
+                                                    <i class="fas fa-download"></i>&nbsp;
+                                                    Download File
+                                            </a>
+                                            <a class="btn btn-outline-info btn-sm"
+                                                href="{{ route('users.show_financial_report',$f_file->id) }}">
+                                                <i class="fas fa-comment"></i>&nbsp;
+                                                Open Comments
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                @empty
+                                    <br>
+                                    <h5 class="text-center">No Financial Report found</h5>
+                                @endforelse
+                            @endif
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <h3>Requirments Information Financial Report</h3>
+                        <div class="form-control">
+                            <div class="col-6">
+                            <form action="{{ route('users.financial.store',auth()->user()->id) }}"  method="Post" autocomplete="off" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                        <div class="form-group">
+                                            <label for="financial_report1" class="supo">Upload Requirments PDF</label>
+                                            <br><br>
+                                        <input type="file" name="financial_report1" class="form-control">
+                                            @error('financial_report1')<span class="text-danger">{{ $message }}</span>@enderror
+                                        </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                        <div class="form-group">
+                                            <button type="submit" name="update_information" class="btn btn-primary">Upload File</button>
+                                        </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <p class="name-tit">Financial Report</p>
+                <hr class="redi">
+                <div class="finn">
+
+                                <div class="col-6">
+                                    @if ($financial_file === null)
+                                <div class="col-6">
+                                    <div class="form-group">
+                                    <h5 class="text-center">No Financial Report found</h5>
+                                    </div>
+                                </div>
+                            @else
+
+                                <div class="col-10">
+                                    <div class="form-control">
+                                        <p class="supo"> Name Financial Report: <span>{{ $financial_file->financial  }}</span> </p>
+                                    <a class="btn btn-outline-success btn-sm"
+                                        href="{{ url('View_file') }}/{{ $financial_file->upload_to }}/{{ $financial_file->financial }}"
+                                        target="_blank"
+                                        ><i class="fas fa-eye"></i>&nbsp;
+                                        Show File Financial Report
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <a class="btn btn-outline-info btn-sm"
+                                            href="{{ url('download') }}/{{ $financial_file->upload_to  }}/{{ $financial_file->financial }}">
+                                            <i class="fas fa-download"></i>&nbsp;
+                                            Download File Financial Report
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <a class="btn btn-outline-warning btn-sm"
+                                        href="{{ route('users.show_financial_report',$financial_file->id) }}">
+                                        <i class="fas fa-comment"></i>&nbsp;
+                                        Comments on Financial Report
+                                    </a>
+                                    </div>
+                                </div>
+                                <br>
+                            @endif
+                                </div>
+                </div>
+            @endif
      <div class="container">
-<div class="be-comment-block">
-     @if ($financial_file === null)
-    <div class="col-6">
-                <div class="form-group">
-                <h5 class="text-center"></h5>
+    <div class="be-comment-block">
+        @if ($financial_file === null)
+        <div class="col-6">
+                    <div class="form-group">
+                    <h5 class="text-center"></h5>
+                    </div>
                 </div>
-            </div>
-     @else
-        <h1 class="comments-title">{{ $comments->count() }} comment(s)</h1>
-            @forelse ($comments as $comment)
-            <div class="be-comment">
-                <div class="be-comment-content">
+        @else
+            <h1 class="comments-title">{{ $comments->count() }} comment(s)</h1>
+                @forelse ($comments as $comment)
+                <div class="be-comment">
+                    <div class="be-comment-content">
 
-                        <span class="be-comment-name">
-                            <a href="{{ $comment->url != '' ? $comment->url : '#' }}">{{ $comment->name }}</a>
-                        </span>
-                        <span class="be-comment-time">
-                            <i class="fa fa-clock-o"></i>
-                            {{ $comment->created_at->format('M d Y h:i a') }}
-                        </span>
+                            <span class="be-comment-name">
+                                <a href="{{ $comment->url != '' ? $comment->url : '#' }}">{{ $comment->name }}</a>
+                            </span>
+                            <span class="be-comment-time">
+                                <i class="fa fa-clock-o"></i>
+                                {{ $comment->created_at->format('M d Y h:i a') }}
+                            </span>
 
-                    <p class="be-comment-text">
-                        {{ $comment->comment }}
-                    </p>
+                        <p class="be-comment-text">
+                            {{ $comment->comment }}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            @empty
-                <p>No comments found.</p>
-            @endforelse
-     @endif
+                @empty
+                    <p>No comments found.</p>
+                @endforelse
+        @endif
 
 
-</div>
+    </div>
 </div>
 </div>
     </div>

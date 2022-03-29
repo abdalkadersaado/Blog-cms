@@ -39,8 +39,9 @@ class CreateUsersTable extends Migration
 
             //معلومات الشركة company's Information
             $table->string('company_name')->nullable();
-            $table->integer('license_number')->nullable();
+            $table->string('license_number')->nullable();
             $table->string('Commercial_Register')->nullable();
+            $table->string('MOA')->nullable();
 
             //contract Details
             $table->string('date_contract')->nullable();

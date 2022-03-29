@@ -9,7 +9,7 @@
                                         <div class="col-lg-3 col-6">
                                             <div class="col-megamenu">
                                                <a href="{{ route('service2') }}"> <h6 class="title redbold">VAT CONSULTATION</h6></a>
-                                               <p class="gfgf">OUR TAX SEVICES  ...</p>
+                                               <p class="gfgf">DarAluzum offers clients a broad range of fully integrated tax services...</p>
                                             </div>  <!-- col-megamenu.// -->
                                         </div>
                                         <div class="col-lg-3 col-6">
@@ -55,11 +55,6 @@
                                                <p class="gfgf">We provide cost-effective, quality accounting and bookkeeping services for all types of companies...</p>
                                             </div>  <!-- col-megamenu.// -->
                                         </div>
-                                        <div class="col-lg-3 col-6">
-                                            <div class="col-megamenu">
-                                                <a href="{{ route('service10') }}"><h6 class="title redbold">LIQUIDATION</h6></a>
-                                                <p class="gfgf">We are a recognized liquidator by all government authorities ...</p>
-                                            </div>  <!-- col-megamenu.// -->
-                                        </div>
+
 
                                     </div>

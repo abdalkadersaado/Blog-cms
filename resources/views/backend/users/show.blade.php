@@ -187,14 +187,7 @@
 
                                 </form>
                         </td>
-                        <th></th>
-                        <td></td>
-                        <th></th>
-                        <td></td>
-                        <th></th>
-                        <td></td>
-                        <th></th>
-                        <td></td>
+
                         <th>Display financial report</th>
                         <td>
 
@@ -208,40 +201,41 @@
 
                             @else
                                 @foreach ($financial_file as $f_file)
+                                            <td>
+                                                <p>{{ $f_file->user->name  }}</p>
 
-                                        <div class="forn-control">
-                                            {{-- <p>{{ $f_file->financial  }}</p> --}}
-                                        <a class="btn btn-outline-success btn-sm btn_submit"
-                                            href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
-                                            target="_blank"
-                                            ><i class="fas fa-eye"></i>&nbsp;
-                                            Show Financial Report
-                                        </a>
-                                        <a class="btn btn-outline-info btn-sm btn_submit"
-                                                href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
-                                                <i class="fas fa-download"></i>&nbsp;
-                                                Download Financial Report
-                                        </a>
-
-                                        <button href="javascript:void(0)"
+                                             <button href="javascript:void(0)"
                                                 onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $f_file->id }}').submit(); } else { return false; }"
                                                 class="btn btn-outline-success btn-sm btn_submit"><i class="fa fa-trash"></i>
-                                                delete Financial Report
-                                        </button>
-                                        <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                        </form>
+                                                Delete
+                                            </button>
+                                            <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                            </form>
 
-                                        <a class="btn btn-outline-info btn-sm btn_submit"
-                                                href="{{ route('admin.show_financial_report',$f_file->id) }}">
-                                                <i class="fas fa-download"></i>&nbsp;
-                                                Open Comments Financial Report
-                                        </a>
+                                            <a class="btn btn-outline-success btn-sm btn_submit"
+                                                href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
+                                                target="_blank"
+                                                ><i class="fas fa-eye"></i>&nbsp;
+                                                View
+                                            </a>
+                                            <a class="btn btn-outline-info btn-sm btn_submit"
+                                                    href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
+                                                    <i class="fas fa-download"></i>&nbsp;
+                                                    Download
+                                            </a>
 
 
+                                            <a class="btn btn-outline-info btn-sm btn_submit"
+                                                    href="{{ route('admin.show_financial_report',$f_file->id) }}">
+                                                    <i class="fas fa-comment"></i>&nbsp;
+                                                    Comments
+                                            </a>
+                                            </td>
 
-                                    </div>
+
+                                    <hr>
                                 @endforeach
 
                             @endif
@@ -251,6 +245,8 @@
                 </tbody>
             </table>
         </div>
+
     </div>
+
 @endsection
 

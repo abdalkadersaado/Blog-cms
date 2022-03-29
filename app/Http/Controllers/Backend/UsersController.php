@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use App\Mail\Subscribe;
+use App\Mail\NewUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ReportComment;
@@ -173,7 +173,7 @@ class UsersController extends Controller
         $user = User::create($data);
         $user->attachRole(Role::whereName('user')->first()->id);
 
-        Mail::to($request->email)->send(new Subscribe());
+        Mail::to($request->email)->send(new NewUser());
 
         return redirect()->route('admin.users.index')->with([
             'message' => 'Users created successfully',

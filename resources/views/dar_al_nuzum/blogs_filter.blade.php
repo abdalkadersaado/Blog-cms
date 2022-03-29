@@ -86,8 +86,9 @@
                                 <ul class="flexitab">
 
                                     @foreach($global_categories as $global_category)
-                                    <li data-filter="*" class="active"><a href="{{ route('blogs.filter', $global_category->url_slug()) }}" style="color: white">{{ $global_category->name() }}</a></li>
-                                    @endforeach
+                                         <li  class="{{ (request()->is('blog-filter/'.$global_category->url_slug())) ? 'active' : '' }}"  style="color: white;line-height: 10px;background-color: #726d6d" ><a href="{{ route('blogs.filter', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
+
+                                     @endforeach
                                 </ul>
                             </div>
                         </div>

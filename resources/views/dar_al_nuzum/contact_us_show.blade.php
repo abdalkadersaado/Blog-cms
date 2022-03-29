@@ -41,7 +41,8 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-
+ <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     @toastr_css
 <style>
         .btn_submit
@@ -276,7 +277,10 @@
     <script src="{{ asset('DAR-ALNUZUM1/assets/js/popper.js') }}"></script>
     <script src="{{ asset('DAR-ALNUZUM1/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('DAR-ALNUZUM1/assets/js/jquery.validate.min.js') }}"></script>
-
+<script src="assets/js/google-map.js"></script>
+    <script>
+      AOS.init();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @if (Session::has('message'))
         <script>

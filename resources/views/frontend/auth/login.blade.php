@@ -94,7 +94,6 @@
                       <img src="/assets/images/Dar Logo.png" style="    width: 20%;" class="logo1">
                       <div class="titj">
                         <h1>Login in</h1>
-                        <p>Don't have an account? <a href="register.html" class="redd">Sign In</a></p>
                       </div>
                     </div>
                     <div class="body__container kio">

@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Quote;
+use App\Mail\Subscribe;
 use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Service;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\ReportComment;
 use App\Http\Traits\imageTrait;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\NewCommentForAdminNotify;
@@ -323,6 +325,8 @@ class IndexController extends Controller
 
 
         Quote::create($data);
+        Mail::to($request->email)->send(new Subscribe($data));
+
         toastr()->success(__('Frontend/general.message_sent_successfully'));
         return redirect()->back();
     }

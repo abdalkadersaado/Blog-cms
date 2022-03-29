@@ -6,8 +6,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ReportComment;
 use App\Http\Traits\imageTrait;
+use App\Mail\Comment_from_Auditor;
+use App\Mail\Comment_from_user;
+use App\Mail\UploadFileRequirments;
+use App\Mail\UploadFileRequirments_from_admin;
+use App\Mail\UploadFileRequirments_from_user;
 use App\Models\FinancialReport;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +29,11 @@ class FinancialReportController extends Controller
         ]);
         $user = User::whereId($id)->first();
         $f = FinancialReport::whereUserId($id)->first();
+
+        // to select id auditor
+        $user_auditor = User::whereId($user->assign_editor)->first();
+
+
         // if ($f->financial) {
         //     unlink($f->financial);
         // }
@@ -39,6 +50,19 @@ class FinancialReportController extends Controller
 
         $imageName = $request->financial_report1->getClientOriginalName();
         $request->financial_report1->move(public_path('upload_attachments/' . $user->id . '/' . 'financial_report'), $imageName);
+
+        $data['name'] = auth()->user()->name;
+
+        //it will sent email only client in both status from upload admin or client
+        if (auth()->user()->id == 1 || $user->assign_editor == auth()->user()->id) {
+            Mail::to($user->email)->send(new UploadFileRequirments_from_admin());
+        } else {
+            Mail::to($user_auditor->email)->send(new UploadFileRequirments_from_user($data));
+        }
+
+
+
+
 
         return redirect()->back()->with([
             'message' => 'Financial report created successfully',
@@ -67,7 +91,7 @@ class FinancialReportController extends Controller
     public function get_file($user_id, $file_name)
 
     {
-        $contents = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/visa_attachment//' . $file_name);
+        $contents = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/financial_report//' . $file_name);
         return response()->download($contents);
     }
 
@@ -176,11 +200,25 @@ class FinancialReportController extends Controller
             //     $post->user->notify(new NewCommentForPostOwnerNotify($comment));
             // }
 
+            $user = User::whereId($post->upload_to)->first();
+
+            $auditor = User::whereId($user->assign_editor)->first();
+
+
+            $data['name'] = auth()->user()->name;
+
+            if (auth()->user()->id == 1 || $auditor->id == auth()->user()->id) {
+                Mail::to($user->email)->send(new Comment_from_Auditor($data));
+            } else {
+                Mail::to($auditor->email)->send(new Comment_from_user($data));
+            }
+
             User::whereHas('roles', function ($query) {
                 $query->whereIn('name', ['admin', 'editor']);
             })->each(function ($admin, $key) use ($comment) {
                 $admin->notify(new NewCommentForAdminNotify($comment));
             });
+
             toastr()->success(__('Frontend/general.comment_added_successfully'));
             return redirect()->back();
         }

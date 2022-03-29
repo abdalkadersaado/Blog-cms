@@ -7,11 +7,7 @@ use App\Models\Partner;
 use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\ReportComment;
-use App\Models\FinancialReport;
-use Yoeunes\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Backend\AdminController;
@@ -23,10 +19,12 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Api\Users\UsersController;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\Backend\PostTagsController;
+use App\Http\Controllers\Backend\ServicesController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\PermissionsController;
 use App\Http\Controllers\Backend\SupervisorsController;
+use App\Http\Controllers\Frontend\DarAlnuzumController;
 use App\Http\Controllers\Backend\PostCommentsController;
 use App\Http\Controllers\Backend\PostCategoriesController;
 use App\Http\Controllers\Frontend\Auth\RegisterController;
@@ -38,142 +36,30 @@ use App\Http\Controllers\Frontend\UsersController as FrontendUsersController;
 use App\Http\Controllers\Backend\Auth\LoginController as BackendLoginController;
 use App\Http\Controllers\Frontend\Auth\LoginController as FrontendLoginController;
 use App\Http\Controllers\Backend\NotificationsController as BackendNotificationsController;
-use App\Http\Controllers\Backend\ServicesController;
 use App\Http\Controllers\Frontend\NotificationsController as FrontendNotificationsController;
 
-Route::get('dar-alnuzum', function () {
-    $posts = Post::with(['media', 'user', 'tags'])
-        ->whereHas('category', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereHas('user', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->post()
-        ->active()
-        ->orderBy('id', 'desc')
-        ->paginate(5)
-        ->withQueryString();
 
-    $services = Service::Selection()->latest()->paginate(10);
-    return view('dar_al_nuzum.index', compact('posts', 'services'));
-});
 
-Route::get('/', function () {
 
-    $user = auth()->user();
-    if ($user && $user->category_id != null) {
-
-        $posts = Post::with(['media', 'user', 'tags'])
-            ->whereCategoryId($user->category_id)
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->get();
-        // ->withQueryString();
-
-        $posts_by_category_id = Post::with(['media', 'user', 'tags'])
-            ->whereCategoryId($user->category_id)
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->paginate(5)
-            ->withQueryString();
-
-        $users = User::whereHas('roles', function ($query) use ($user) {
-            $query->where('name', 'user')->where('client_top', 1)->where('category_id', $user->category_id);
-        })->orderBy('sequential_order', 'asc')->get();
-        $services = Service::latest()->paginate(10);
-        $categories = Category::get();
-        return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id', 'services'));
-    } else {
-        $posts = Post::with(['media', 'user', 'tags'])
-            ->whereHas('category', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->whereHas('user', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->get();
-        // ->withQueryString();
-
-        $posts_by_category_id = Post::with(['media', 'user', 'tags'])
-            ->whereHas('category', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->whereHas('user', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->paginate(5)
-            ->withQueryString();
-        $services = Service::get();
-        $categories = Category::get();
-
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'user')->where('client_top', 1);
-        })->orderBy('sequential_order', 'asc')->get();
-
-        return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id', 'services'));
-    }
-})->name('dar.home');
-####################
+//home page
+Route::get('/', [DarAlnuzumController::class, 'home'])->name('dar.home');
 // filter by category and top client
 Route::get('/filter-categories/{category_slug}', [IndexController::class, 'filterBy_category'])->name('frontend.filter_category');
-#####################
-Route::get('dar-alnuzum/contact', function () {
-    $posts = Post::with(['media', 'user', 'tags'])
-        ->whereHas('category', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereHas('user', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->post()
-        ->active()
-        ->orderBy('id', 'desc')
-        ->paginate(5)
-        ->withQueryString();
-
-    $categories = Category::get();
-
-    $users = User::whereHas('roles', function ($query) {
-        $query->where('name', 'user');
-    })->get();
-    $services = Service::get();
-    return view('dar_al_nuzum.contact_us_show', compact('posts', 'categories', 'users', 'services'));
-})->name('dar.contact');
-
-Route::get('dar2/login', function () {
-
-
-    $categories = Category::get();
-
-    $users = User::whereHas('roles', function ($query) {
-        $query->where('name', 'user');
-    })->get();
-
-    return view('dar_al_nuzum.login', compact('categories', 'users'));
-});
-########################
-
+//contact us page
+Route::get('dar-alnuzum/contact', [DarAlnuzumController::class, 'contact'])->name('dar.contact');
+//about-us
 Route::get('about-us', [IndexController::class, 'about_us'])->name('about.us');
-#####################
-################ services
+//contact
+Route::post('/contact-us', [IndexController::class, 'do_contact'])->name('frontend.do_contact');
+// sent quote from guest user
+Route::post('/get-quote', [IndexController::class, 'get_quote'])->name('get_quote');
+
+
+// services
 Route::get('services-all', [ServicesController::class, 'index']);
-
-Route::get('service-show/{id}', function ($id) {
-
-    $service = Service::whereId($id)->first();
-
-    return view('dar_al_nuzum.service_show', compact('service'));
-})->name('service_show');
-
+//show single service
+Route::get('service-show/{id}', [DarAlnuzumController::class, 'show_service'])->name('service_show');
+// show service by name as page service static
 Route::get('/service-AUDIT-ASSURANCE-SERVICES', [IndexController::class, 'service1'])->name('service1');
 Route::get('/service-VAT-Consultation', [IndexController::class, 'service2'])->name('service2');
 Route::get('/service-FINANCIAL-ANALYSIS', [IndexController::class, 'service3'])->name('service3');
@@ -184,127 +70,27 @@ Route::get('/service-DUE-DILIGENCE', [IndexController::class, 'service7'])->name
 Route::get('/service-HUMAN-RESOURCE', [IndexController::class, 'service8'])->name('service8');
 Route::get('/service-ACCOUNTING-SERVICES', [IndexController::class, 'service9'])->name('service9');
 Route::get('/service-LIQUIDATION-SERVICES', [IndexController::class, 'service10'])->name('service10');
-##################
-#####################################################################################
-########################################
-Route::get('profile', function () {
-
-    $financial_file = FinancialReport::where('upload_to', auth()->user()->id)->first();
-    $services = Service::get();
-
-    if ($financial_file) {
-        $comments = ReportComment::with(['report', 'user'])->where('financial_report_id', $financial_file->id)->get();
-        return view('dar_al_nuzum.profile', compact('financial_file', 'services', 'comments'));
-    }
-    return view('dar_al_nuzum.profile', compact('financial_file', 'services'));
-})->name('profile');
-##########################
-########################################
-Route::get('edit-profile', function () {
-
-    $categories = Category::get();
-    $financial_file = FinancialReport::where('upload_to', auth()->user()->id)->first();
-
-    if ($financial_file) {
-        $comments = ReportComment::with(['report', 'user'])->where('financial_report_id', $financial_file->id)->get();
-        return view('dar_al_nuzum.edit_profile', compact('financial_file',  'categories', 'comments'));
-    }
-
-    return view('dar_al_nuzum.edit_profile', compact('financial_file',  'categories'));
-})->name('edit_profile');
-##########################
-###################
-Route::get('view-contract/{user_id}/{file_name}', [ProfileController::class, 'view_contract']);
-Route::get('view-trade-license/{user_id}/{file_name}', [ProfileController::class, 'view_trade_license']);
-Route::get('view-visa/{user_id}/{file_name}', [ProfileController::class, 'view_Visa']);
-################################
-
-Route::get('blogs', function () {
-    $posts = Post::with(['media', 'user', 'tags'])
-        ->whereHas('category', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereHas('user', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->post()
-        ->active()
-        ->orderBy('id', 'desc')
-        ->paginate(6)
-        ->withQueryString();
-    $categories = Category::get();
-    $services = Service::get();
-    return view('dar_al_nuzum.blogs', compact('posts', 'categories', 'services'));
-})->name('blogs');
-###################################
-################################
-
-Route::get('blog-filter/{slug}', function ($slug) {
-    $categories = Category::get();
-    $category = Category::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->whereStatus(1)->first()->id;
-
-    if ($category) {
-        $posts = Post::with(['media', 'user', 'tags'])
-            ->whereCategoryId($category)
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->paginate(6)
-            ->withQueryString();
-
-        $services = Service::get();
-    }
-    return view('dar_al_nuzum.blogs_filter', compact('categories', 'category', 'services', 'posts'));
-})->name('blogs.filter');
-###################################
-# //show single blog
-Route::get('blog/{slug}', function ($slug) {
-
-    // $post = Post::with(['media', 'category', 'user', 'comments'])->whereId($id)->wherePostType('post')->first();
-
-
-    $post = Post::query()
-        ->with([
-            'category', 'media', 'user', 'tags',
-            'approved_comments' => function ($query) {
-                $query->orderBy('id', 'desc');
-            }
-        ])
-        ->whereHas('category', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereHas('category', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereHas('user', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereSlugEn($slug)
-        ->orWhere('slug', $slug)
-        ->active()
-        ->first();
-
-    $posts = Post::with(['media', 'user', 'tags'])
-        ->whereHas('category', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->whereHas('user', function ($query) {
-            $query->whereStatus(1);
-        })
-        ->post()
-        ->active()
-        ->orderBy('id', 'desc')
-        ->paginate(4);
-    $services = Service::get();
-    return view('dar_al_nuzum.single_blog', compact('post', 'posts', 'services'));
-})->name('single.blog');
+//profile
+Route::get('profile', [DarAlnuzumController::class, 'profile'])->name('profile')->middleware('auth');
+//edit profile
+Route::get('edit-profile', [DarAlnuzumController::class, 'edit_profile'])->name('edit_profile')->middleware('auth');
+// to Show files that uploaded client
+Route::get('view-contract/{user_id}/{file_name}', [ProfileController::class, 'view_contract'])->middleware('auth');
+Route::get('view-trade-license/{user_id}/{file_name}', [ProfileController::class, 'view_trade_license'])->middleware('auth');
+Route::get('view-visa/{user_id}/{file_name}', [ProfileController::class, 'view_Visa'])->middleware('auth');
+Route::get('view-MOA/{user_id}/{file_name}', [ProfileController::class, 'view_MOA'])->middleware('auth');
+// show all blogs
+Route::get('blogs', [DarAlnuzumController::class, 'blogs'])->name('blogs');
+// show blog by filter category name
+Route::get('blog-filter/{slug}', [DarAlnuzumController::class, 'filter_blogs'])->name('blogs.filter');
+//show single blog
+Route::get('blog/{slug}', [DarAlnuzumController::class, 'show_single_blog'])->name('single.blog');
+#################################################################################
 //Route test multi partner
-
 Route::get('test', function () {
     $categories = Category::get();
     return view('dar_al_nuzum.test', compact('categories'));
 })->name('dar.test');
-
 Route::post('test-post', function (Request $request) {
 
 
@@ -330,12 +116,7 @@ Route::post('test-post', function (Request $request) {
         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
 })->name('dar.test.post');
-
 #####################################################################################
-//contact
-Route::post('/contact-us', [IndexController::class, 'do_contact'])->name('frontend.do_contact');
-// sent quote from guest user
-Route::post('/get-quote', [IndexController::class, 'get_quote'])->name('get_quote');
 
 Route::group(['middleware' => 'web'], function () {
     // Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
@@ -403,7 +184,7 @@ Route::group(['middleware' => 'web'], function () {
 
         //comment on financial report
         Route::get('financial-report-show', [FinancialReportController::class, 'financial_report'])->name('financial_report');
-        // financial report upload from admin or editor
+        // financial report upload from admin or editor and client
         Route::post('/financial/{id}', [FinancialReportController::class, 'store'])->name('financial.store');
         //show pdf in financial report
         Route::get('View_file/{user_id}/{file_name}', [FinancialReportController::class, 'open_file']);

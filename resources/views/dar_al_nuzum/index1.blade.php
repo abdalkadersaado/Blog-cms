@@ -46,7 +46,7 @@
             padding-top: 17px;
         }
         h6{
-            font-size: 12px;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -196,9 +196,9 @@
                                     <div class="lod">
                                         <div class="immmg">
                                             @if($post->media->count() > 0)
-                                                 <img src="{{ asset('assets/posts/' . $post->media->first()->file_name) }}" alt="{{ $post->title() }}">
+                                                 <img class="img-block-small" src="{{ asset('assets/posts/' . $post->media->first()->file_name) }}" alt="{{ $post->title() }}">
                                              @else
-                                                 <img src="{{ asset('assets/posts/default.jpg') }}" alt="blog images">
+                                                 <img class="img-block-small" src="{{ asset('assets/posts/default.jpg') }}" alt="blog images">
                                             @endif
                                         </div>
                                         <div class="containt">

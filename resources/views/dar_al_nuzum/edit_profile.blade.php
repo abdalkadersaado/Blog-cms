@@ -63,46 +63,7 @@
 <!-- ***** Header Area End ***** -->
 
         <a class="button" href="#popup1">Get Quote</a>
-        <div id="popup1" class="overlay">
-        <div class="popup">
-            <p class="pop-tit">GET QUOTE</p>
-            <h2>WE APPRECIATE YOUR CONTACT WITH US AND WE WILL CONTACT YOU AS SOON AS POSSIBLE.
-            </h2>
-            <div class="form-qute">
-            <div class="lin">
-                <label class="lbol">Name:</label>
-            <input type="text" placeholder="Enter Your Name" class="in-p" required>
-            </div>
-            <div class="lin">
-                <label class="lbol">Mobile Number:</label>
-                <input type="number" placeholder="Enter Your Number" class="in-p" required>
-            </div>
-            <div class="lin">
-                <label class="lbol">Email:</label>
-                <input type="email" placeholder="Enter Your Email" class="in-p" required>
-            </div>
-            <div class="lin">
-                <label class="lbol">Company Name:</label>
-                <input type="text" placeholder="Enter Your Company Name" class="in-p" required>
-            </div>
-            <div class="lin">
-                    <label class="lbol" for="service">Service Type:</label>
-
-                <select name="services" id="service" class="in-p selectoo">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                </select>
-            </div>
-            </div>
-            <div class="main-button-red mar">
-            <div class="scroll-to-section"><a href="register.html">Quote Now</a></div>
-        </div>
-            <a class="close" href="#">&times;</a>
-
-        </div>
-        </div>
+        @include('dar_al_nuzum.partial.get_quote')
   <!-- ***** Header Area End ***** -->
 
         <section class="heading-page header-text" id="top">
@@ -162,7 +123,7 @@
                                          <div class="col-3">
                                                 <p class="supo coli">Trade License Number:
                                                     <span>
-                                                        <input type="number" name="license_number" value="{{ old('license_number',auth()->user()->license_number) }}">
+                                                        <input type="text" name="license_number" value="{{ old('license_number',auth()->user()->license_number) }}">
                                                     </span>
                                                 </p>
                                                 @error('license_number')<span class="text-danger">{{ $message }}</span>@enderror
@@ -181,7 +142,21 @@
                                                     </span>
                                                 </p>
                                             </div>
-                                            <br>
+                                            <div class="col-3">
+                                                <p class="supo coli">MOA Attachment:
+                                                    <span>
+                                                        <input type="file" name="MOA" value="{{ old('license_number',auth()->user()->MOA) }}" style="color: black;"  >
+                                                        <a class="btn btn-outline-success btn-sm"
+                                                            href="{{ url('view-MOA') }}/{{ auth()->user()->id }}/{{ auth()->user()->MOA }}"
+                                                            target="_blank"
+                                                            ><i class="fas fa-eye"></i>&nbsp;
+                                                            View
+                                                        </a>
+                                                        @error('MOA')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </span>
+                                                </p>
+                                            </div>
+
 
                                     </div>
                                     <div >
@@ -204,24 +179,7 @@
                                     {{-- <p class="main">About the Owners:</p> --}}
                                    <h4 >About the Owner</h4>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <div class="col-2">
-                                                <p class="supo coli">Passport Number:
-                                                    <span>
-                                                        <input type="number" name="passport_number" value="{{ old('passport_number',auth()->user()->passport_number) }}" >
-                                                        @error('passport_number')<span class="text-danger">{{ $message }}</span>@enderror
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-2">
-                                                <p class="supo coli">Expiry Date:
-                                                    <span>
-                                                        <input type="date" name="expiry_date_passport" value="{{ old('expiry_date_passport',auth()->user()->expiry_date_passport) }}">
-                                                        @error('expiry_date_passport')<span class="text-danger">{{ $message }}</span>@enderror
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
+
                                         <div class="col-6">
                                                 <div class="col-2">
                                                     <p class="supo coli">ID Number:
@@ -260,8 +218,26 @@
                                                 </div>
 
                                         </div>
+                                        <div class="col-6">
+                                            <div class="col-2">
+                                                <p class="supo coli">Passport Number:
+                                                    <span>
+                                                        <input type="number" name="passport_number" value="{{ old('passport_number',auth()->user()->passport_number) }}" >
+                                                        @error('passport_number')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="col-2">
+                                                <p class="supo coli">Expiry Date:
+                                                    <span>
+                                                        <input type="date" name="expiry_date_passport" value="{{ old('expiry_date_passport',auth()->user()->expiry_date_passport) }}">
+                                                        @error('expiry_date_passport')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <br>
+                                    <br><br><br><br>
                                     <button type="submit" class="form-control btn btn-outline-success ">Update information </button>
                                 </div>
                             </div>

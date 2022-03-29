@@ -49,15 +49,15 @@
                                                     </div>
                                             </li>
                                     @else
-                                    <a href="#">
-
+                                    <a href="#" >
                                         <button class="dropbtn">
-                                            <span class="" style="color: #fff;font-size: 20px;" >
+                                            <li class="dropbtn">
+                                                <span class="drno"  >
                                                   @if (auth()->user())
                                                     {{ auth()->user()->name}}
                                                  @endif
                                             </span>
-
+                                            </li>
                                         </button>
                                     </a>
                                         <div class="dropdown-content">

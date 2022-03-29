@@ -42,7 +42,7 @@
             font-weight: 500;
             text-transform: uppercase;
             transition: all .3s;
-            padding-top: 17px;
+            padding-top: 10px;
         }
         h6{
             font-size: 12px;
@@ -86,8 +86,10 @@
               <div class="filters">
                 <ul class="flexitab">
                   @foreach($global_categories as $global_category)
-                        <li  data-filter="*"  class="active" ><a href="{{ route('blogs.filter', $global_category->url_slug()) }}" style="color: white">{{ $global_category->name() }}</a></li>
+                        <li  data-filter="*"  class="active" style="padding-top: 11px;" ><a href="{{ route('blogs.filter', $global_category->url_slug()) }}" style="color: white;">{{ $global_category->name() }}</a></li>
                     @endforeach
+
+
                 </ul>
               </div>
             </div>

@@ -31,6 +31,12 @@ class ProfileController extends Controller
 
         return response()->file($files);
     }
+    public function view_MOA($user_id, $file_name)
+    {
+        $files = Storage::disk('upload_attachments')->getDriver()->getAdapter()->applyPathPrefix('upload_attachments/' . $user_id . '/MOA//' . $file_name);
+
+        return response()->file($files);
+    }
 
     public function financial_report()
     {

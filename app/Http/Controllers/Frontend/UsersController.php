@@ -12,11 +12,14 @@ use App\Models\Category;
 use App\Models\PostMedia;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\CompleteRegister;
 use App\Http\Traits\imageTrait;
 use App\Models\FinancialReport;
+use App\Mail\AdminCompleteRegister;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use Stevebauman\Purify\Facades\Purify;
@@ -58,8 +61,9 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
 
             'company_name' => 'required',
-            'license_number' => 'required|numeric',
+            'license_number' => 'required',
             'Commercial_Register' => 'required',
+            // 'MOA' => 'required',
             'date_contract' => 'required',
             'contract_pdf' => 'required',
             'passport_number' => 'required',
@@ -67,7 +71,7 @@ class UsersController extends Controller
             'expiry_date_passport' => 'required',
             'id_number' => 'required',
             'expiry_date' => 'required',
-            'user_category_id' => 'required',
+            // 'user_category_id' => 'required',
         ]);
         if ($validator->fails()) {
             toastr()->error(__('Frontend/general.empty_field'), __('Frontend/general.something_was_wrong'));
@@ -128,10 +132,32 @@ class UsersController extends Controller
             $data['Commercial_Register']  = $file_name;
         }
 
+        if ($request->file('MOA')) {
+            if (auth()->user()->MOA != '') {
+                if (File::exists('upload_attachments/' . auth()->user()->id . '/' . 'MOA/' . auth()->user()->MOA)) {
+                    unlink('upload_attachments/' . auth()->user()->id . '/' . 'MOA/' . auth()->user()->MOA);
+                }
+            }
+            $image = $request->file('MOA');
+            $file_name = $image->getClientOriginalName();
+            $imageName = $request->MOA->getClientOriginalName();
+            $request->MOA->move(public_path('upload_attachments/' . auth()->user()->id . '/' . 'MOA'), $imageName);
+
+            $data['MOA']  = $file_name;
+        }
+
         $data['status_order'] = '1';
         $data['category_id'] = $request->user_category_id;
 
+        $data['name'] = auth()->user()->name;
+
         $update = auth()->user()->update($data);
+
+        // Mail::to($request->email)->send(new CompleteRegister());
+
+        Mail::to(auth()->user()->email)->send(new CompleteRegister());
+
+        Mail::to('abdalkader1994953@gmail.com')->send(new AdminCompleteRegister($data));
 
         // save financial Report
         // $user = User::whereId($id)->first();
@@ -151,7 +177,7 @@ class UsersController extends Controller
 
         if ($update) {
             toastr()->success(__('Frontend/general.updated_successfully'));
-            return redirect()->back();
+            return redirect()->route('profile');
         } else {
             toastr()->error(__('Frontend/general.something_was_wrong'));
             return redirect()->back();
@@ -231,6 +257,20 @@ class UsersController extends Controller
             $request->Commercial_Register->move(public_path('upload_attachments/' . auth()->user()->id . '/' . 'Commercial_Register'), $imageName);
 
             $data['Commercial_Register']  = $file_name;
+        }
+
+        if ($request->file('MOA')) {
+            if (auth()->user()->MOA != '') {
+                if (File::exists('upload_attachments/' . auth()->user()->id . '/' . 'MOA/' . auth()->user()->MOA)) {
+                    unlink('upload_attachments/' . auth()->user()->id . '/' . 'MOA/' . auth()->user()->MOA);
+                }
+            }
+            $image = $request->file('MOA');
+            $file_name = $image->getClientOriginalName();
+            $imageName = $request->MOA->getClientOriginalName();
+            $request->MOA->move(public_path('upload_attachments/' . auth()->user()->id . '/' . 'MOA'), $imageName);
+
+            $data['MOA']  = $file_name;
         }
 
         $data['status_order'] = '1';
