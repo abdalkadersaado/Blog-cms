@@ -52,13 +52,14 @@
       <div class="row">
         <div class="col-lg-12">
           <!-- <h6></h6> -->
-          <h2>Profile</h2>
+          <h2>Comments Financial Report </h2>
         </div>
       </div>
     </div>
   </section>
 
   <section class="meetings-page" id="meetings" style="display: block;">
+
     <div class="profile">
 
 
@@ -76,7 +77,18 @@
 
 <div class="container">
 <div class="be-comment-block">
+    <div class="col-12 ">
+              <div class="main-button-red ">
+                  @if(auth()->user()->id == 1)
+                <a href="{{ route('admin.users.show',$financialReport_id->upload_to) }}">Back To Profile</a>
+                  @else
+                  <a href="{{ route('profile') }}">Back To Profile</a>
+                  @endif
+
+              </div>
+            </div>
 	<h1 class="comments-title">{{ $comments->count() }} comment(s)</h1>
+
 	@forelse ($comments as $comment)
     <div class="be-comment">
 		<div class="be-comment-content">
@@ -98,10 +110,22 @@
 			<p class="be-comment-text">
                 {{ $comment->comment }}
             </p>
+            @if(auth()->user()->id == $comment->user_id)
+             <button href="javascript:void(0)"
+                    onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $comment->id }}').submit(); } else { return false; }"
+                    class="btn btn-danger btn-sm pull-right"><i class="fa fa-trash"></i>
+                    Delete
+                </button>
+                <form action="{{ route('users.delete_comment', $comment->id) }}" method="post" id="user-delete-{{ $comment->id }}" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                </form>
+            @endif
 		</div>
 	</div>
+
     @empty
-        <p>o comments found.</p>
+        <p>No comments found.</p>
     @endforelse
 
 
@@ -122,7 +146,12 @@
 </div>
 </div>
 </div>
+<div class="col-lg-12">
+    <div class="main-button-red">
+        <a href="{{ route('profile') }}">Back To Profile</a>
+      </div>
     </div>
+</div>
   </section>
 
   <section class="contact-us" id="contact">

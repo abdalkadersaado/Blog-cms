@@ -31,7 +31,7 @@
                 class="dropdown-item d-flex align-items-center"
                 v-for="item in unread"
                 :key="item.id"
-                :href="`/admin/post_comments/${item.data.id}/edit`"
+                :href="`/comment-on/${item.data.financial_report_id}`"
                 @click="readNotifications(item)"
             >
                 <div class="mr-3">
@@ -46,7 +46,7 @@
                     <span class="font-weight-bold">
                         {{
                             trans("notification.new_comment", {
-                                post_title: item.data.post_title,
+                                post_title: item.data.name,
                             })
                         }}
                     </span>

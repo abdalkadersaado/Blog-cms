@@ -43,7 +43,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea name="description" class="form-control" >{!! old('description')  !!}</textarea>
+                        <textarea name="description" class="form-control summernote" >{!! old('description')  !!}</textarea>
                         @error('description')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -52,8 +52,8 @@
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="description_en">Description English</label>
-                        <textarea name="description_en" class="form-control" >{!! old('description_en')  !!}</textarea>
+                        <label for="description_en">Description</label>
+                        <textarea name="description_en" class="form-control summernote" >{!! old('description_en')  !!}</textarea>
                         @error('description_en')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -69,7 +69,7 @@
 
                         <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tags[]',[])) ? 'selected': '' }}  >{{ $tag->name() }}</option>
                         @endforeach
-                    </select>
+            </select>
                         @error('tags')<span class="text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -143,7 +143,6 @@
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
             });
-
             $('.selects').select2({
                 tags: true,
                 minimumResultsForSearch: Infinity
@@ -152,12 +151,10 @@
                 $('#select_all_tags > option').prop("selected", "selected");
                 $('#select_all_tags').trigger('change');
             });
-
             $('#deselect_btn_tag').click(function (){
                 $('#select_all_tags > option').prop("selected", "");
                 $('#select_all_tags').trigger('change');
             });
-
             $('#post-images').fileinput({
                 theme: "fas",
                 maxFileCount: 5,

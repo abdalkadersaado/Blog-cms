@@ -34,9 +34,9 @@ return [
     'sign_in' => 'Sign in',
     'message_sent_wrong' => 'Something was Wrong',
     'logged_in_and_change_password' => 'Logged in successfully,Please do change Your Password',
-    'empty_field' => 'Please fill in all required fields'
+    'empty_field' => 'Please fill in all required fields',
 
-
+    'comment_deleted_successfully' => 'Comment Deleted successfully',
 
 
 

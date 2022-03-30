@@ -108,7 +108,7 @@
                     @forelse ($posts as $post )
                         <div class="item">
                         <div class="icon">
-                            <a href="{{ route('frontend.posts.show', $post->url_slug()) }}">
+                            <a href="{{ route('single.blog', $post->url_slug()) }}">
                                 @if($post->media->count() > 0)
                                     <img src="{{ asset('assets/posts/' . $post->media->first()->file_name) }}" style="width: 100%;height: 100%;" alt="{{ $post->title() }}">
                                 @else
@@ -117,7 +117,7 @@
                             </a>
                         </div>
                         <div class="down-content">
-                            <h4><a {{ route('frontend.posts.show', $post->url_slug()) }}>{{\Illuminate\Support\Str::limit($post->title(),20,'...')  }}</a></h4>
+                            <h4><a href="{{ route('single.blog', $post->url_slug()) }}" style="color: #fff">{{\Illuminate\Support\Str::limit($post->title(),20,'...')  }}</a></h4>
                             <p>{{ \Illuminate\Support\Str::limit($post->description(), 90, '...') }}</p>
                         </div>
                     </div>
@@ -196,7 +196,10 @@
                                             @endif
                                         </div>
                                         <div class="containt">
+                                            <a href="{{ route('single.blog', $post->url_slug()) }}">
                                             <p class="titles"> {{ $post->title() }}</p>
+                                            </a>
+
                                             <p class="supi">{{ \Illuminate\Support\Str::limit($post->description(), 90, '...') }}</p>
                                         </div>
                                      </div>

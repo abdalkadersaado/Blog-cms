@@ -191,8 +191,9 @@ class UsersController extends Controller
 
         $financial_file = FinancialReport::with('report_comments')->where('upload_to', $user->id)->get();
 
+        $financial_file_final = FinancialReport::where('upload_to', $user->id)->latest()->first();
         if ($user) {
-            return view('backend.users.show', compact('user', 'financial_file'));
+            return view('backend.users.show', compact('user', 'financial_file', 'financial_file_final'));
         }
         return redirect()->route('admin.users.index')->with([
             'message' => 'Something was wrong',

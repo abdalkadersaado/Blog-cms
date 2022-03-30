@@ -13,16 +13,12 @@
                 <nav class="mainmenu__nav">
                     <ul class="meninmenu d-flex justify-content-start">
                         <li class="drop with--one--item"><a href="{{ route('frontend.index') }}">Home</a></li>
-                        <li class="drop with--one--item"><a href="{{ route('frontend.posts.show',config('app.locale') == 'ar' ? 'نبذة-عنا' : 'about-us') }}">About Us</a></li>
-                        <li class="drop with--one--item"><a href="{{ route('frontend.posts.show', config('app.locale') == 'ar' ? 'رؤيتنا' : 'our-vision') }}">Our Vision</a></li>
                         <li class="drop"><a href="javascript:void(0);">Blog</a>
 
 
                             <div class="megamenu dropdown">
                                 <ul class="item item01">
-                                    @foreach($global_categories as $global_category)
-                                        <li><a href="{{ route('frontend.category.posts', $global_category->url_slug()) }}">{{ $global_category->name() }}</a></li>
-                                    @endforeach
+
                                 </ul>
                             </div>
                         </li>
@@ -87,8 +83,6 @@
                 <nav class="mobilemenu__nav">
                     <ul class="meninmenu">
                         <li><a href="{{ route('frontend.index') }}">Home</a></li>
-                        <li><a href="{{ route('frontend.posts.show', 'about-us') }}">About Us</a></li>
-                        <li><a href="{{ route('frontend.posts.show', 'our-vision') }}">Our Vision</a></li>
                         <li><a href="javascript:void(0);">Blog</a>
                             <ul>
                                 <li><a href="#">Un-Categorized</a></li>
@@ -110,7 +104,7 @@
 <!-- //Header -->
 <!-- Start Search Popup -->
 <div class="box-search-content search_active block-bg close__top">
-    <form action="{{ route('frontend.search') }}" method="get" id="search_mini_form" class="minisearch">
+    <form action="" method="get" id="search_mini_form" class="minisearch">
 
     <div class="field__search">
         <input type="text" name="keyword" value="{{ old('keyword', request()->keyword) }}" placeholder="Search..." >

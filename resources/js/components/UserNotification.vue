@@ -17,21 +17,21 @@
                         >
                             <div class="thumb">
                                 <a
-                                    :href="`edit-comment/${item.data.id}`"
+                                    :href="`/comment-on/${item.data.financial_report_id}`"
                                     @click="readNotifications(item)"
                                     ><img
                                         src="/frontend/images/icons/comment.png"
-                                        alt="`${item.data.post_title}`"
+                                        alt="`${item.data.name}`"
                                 /></a>
                             </div>
                             <div class="content">
                                 <a
-                                    :href="`edit-comment/${item.data.id}`"
+                                    :href="`/comment-on/${item.data.financial_report_id}`"
                                     @click="readNotifications(item)"
                                 >
                                     {{
                                         trans("notification.user_new_comment", {
-                                            post_title: item.data.post_title,
+                                            post_title: item.data.name,
                                         })
                                     }}
                                 </a>

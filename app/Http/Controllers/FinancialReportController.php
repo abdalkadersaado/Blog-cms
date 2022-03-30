@@ -6,18 +6,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ReportComment;
 use App\Http\Traits\imageTrait;
-use App\Mail\Comment_from_Auditor;
 use App\Mail\Comment_from_user;
-use App\Mail\UploadFileRequirments;
-use App\Mail\UploadFileRequirments_from_admin;
-use App\Mail\UploadFileRequirments_from_user;
 use App\Models\FinancialReport;
+use App\Mail\Comment_from_Auditor;
+use App\Mail\UploadFileRequirments;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\UploadFileRequirments_from_user;
+use App\Mail\UploadFileRequirments_from_admin;
 use App\Notifications\NewCommentForAdminNotify;
+use App\Notifications\CommentFinancialReportForClient;
+use App\Notifications\CommentFinancialReportForAdminNotify;
 
 class FinancialReportController extends Controller
 {
@@ -61,24 +63,10 @@ class FinancialReportController extends Controller
         }
 
 
-
-
-
         return redirect()->back()->with([
             'message' => 'Financial report created successfully',
             'alert-type' => 'success'
         ]);
-    }
-
-    public function financial_report()
-    {
-
-        $financial_file = FinancialReport::where('upload_to', auth()->user()->id)->get();
-
-        $comments = auth()->user()->report_comments()
-            ->with(['report', 'user'])->get();
-        // $comments = ReportComment::whereUserId(auth()->user()->id)->first();
-        return view('frontend.users.financialReport', compact('comments', 'financial_file'));
     }
 
     public function open_file($user_id, $file_name)
@@ -110,51 +98,6 @@ class FinancialReportController extends Controller
         return back();
     }
 
-    public function store_report_comment(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'comment'   => 'required|min:10',
-        ]);
-        if ($validation->fails()) {
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-
-        // $f = FinancialReport::whereUserId(auth()->user()->id)->first();
-        $f = FinancialReport::whereUploadTo(auth()->user()->id)->first();
-
-        // $f_report = FinancialReport::whereId($id)->first();
-
-
-
-        $userId = auth()->check() ? auth()->id() : null;
-        $data['name']           = auth()->user()->name; //$request->name;
-        $data['email']          =  auth()->user()->email; //$request->email;
-        $data['comment']        = Purify::clean($request->comment);
-        $data['user_id']        = $userId;
-        $data['financial_report_id'] = $f->id;
-
-        $comment = ReportComment::create($data);
-
-        // if (auth()->guest() || auth()->id() != $user->user_id) {
-        //     $user->user->notify(new NewCommentForPostOwnerNotify($comment));
-        // }
-
-        User::whereHas('roles', function ($query) {
-            $query->whereIn('name', ['admin', 'editor']);
-        })->each(function ($admin, $key) use ($comment) {
-            $admin->notify(new NewCommentForAdminNotify($comment));
-        });
-        return redirect()->back()->with([
-            'message' => __('Frontend/general.comment_added_successfully'),
-            'alert-type' => 'success'
-        ]);
-
-
-        return redirect()->back()->with([
-            'message' => __('Frontend/general.something_was_wrong'),
-            'alert-type' => 'danger'
-        ]);
-    }
 
     //save comment by admin and auditor
     public function show_financial_report($id)
@@ -200,6 +143,10 @@ class FinancialReportController extends Controller
             //     $post->user->notify(new NewCommentForPostOwnerNotify($comment));
             // }
 
+            if (auth()->guest() || auth()->id() != $post->user_id) {
+                $post->user->notify(new CommentFinancialReportForClient($comment));
+            }
+
             $user = User::whereId($post->upload_to)->first();
 
             $auditor = User::whereId($user->assign_editor)->first();
@@ -214,10 +161,15 @@ class FinancialReportController extends Controller
             }
 
             User::whereHas('roles', function ($query) {
-                $query->whereIn('name', ['admin', 'editor']);
+                $query->whereIn('name', ['admin']);
             })->each(function ($admin, $key) use ($comment) {
-                $admin->notify(new NewCommentForAdminNotify($comment));
+                $admin->notify(new CommentFinancialReportForAdminNotify($comment));
             });
+
+            User::whereId($user->assign_editor)->each(function ($admin, $key) use ($comment) {
+                $admin->notify(new CommentFinancialReportForAdminNotify($comment));
+            });
+
 
             toastr()->success(__('Frontend/general.comment_added_successfully'));
             return redirect()->back();
@@ -227,5 +179,13 @@ class FinancialReportController extends Controller
             'message' => __('Frontend/general.something_was_wrong'),
             'alert-type' => 'danger'
         ]);
+    }
+
+    public function delete_comment($id)
+    {
+        $comment = ReportComment::whereId($id)->first();
+        $comment->delete();
+        toastr()->success(__('Frontend/general.comment_deleted_successfully'));
+        return redirect()->back();
     }
 }

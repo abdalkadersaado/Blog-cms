@@ -3,7 +3,9 @@
 @section('content')
 
 
+
     <div class="card shadow mb-4">
+
         <div class="card-header py-3 d-flex">
             <h6 class="m-0 font-weight-bold text-primary">{{ __('BackEnd/user.User') }} ({{ $user->name }})</h6>
             <div class="ml-auto">
@@ -15,130 +17,170 @@
                 </a>
             </div>
         </div>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <tbody>
-                    <tr>
-                        <td colspan="4">
-                            @if ($user->user_image != '')
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- <h6></h6> -->
+                        <h2>Profile</h2>
+                    </div>
+                </div>
+            </div>
+        <div class="container">
+
+                <div class="row">
+                     @if ($user->user_image != '')
                                 <img src="{{ asset('assets/users/' . $user->user_image) }}" class="img-fluid">
                             @else
                                 <img src="{{ asset('assets/users/default.png') }}" class="img-fluid">
                             @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('BackEnd/user.name') }} </th>
-                        <td>{{ $user->name }} ({{ $user->username }})</td>
-                        <th>{{ __('BackEnd/user.email') }}</th>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3">
+
+                        <span>{{ __('BackEnd/user.name') }} :</span>
+                        <span>{{ $user->name }} ({{ $user->username }})</span>
+                    </div>
+                    <div class="col-3">
+                        <th>{{ __('BackEnd/user.email') }}:</th>
                         <td>{{ $user->email }}</td>
-                        <th></th>
-                        <td></td>
-                        <th></th>
-                        <td></td>
-                        <th></th>
-                        <td></td>
 
-                    </tr>
-                    <tr>
-                        <th>{{ __('BackEnd/user.mobile') }} </th>
-                        <td>{{ $user->mobile }}</td>
-                        <th>{{ __('BackEnd/user.status') }} </th>
-                        <td>{{ $user->status() }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ __('BackEnd/user.created_at') }} </th>
-                        <td>{{ $user->created_at->format('d-m-Y h:i a') }}</td>
+                    </div>
+                    <div class="col-3">
+                        <span>{{ __('BackEnd/user.mobile') }} :  </span>
+                        <span>{{ $user->mobile }}</span>
+                    </div>
+                    <div class="col-3">
+                        <span>{{ __('BackEnd/user.status') }} :  </span>
+                        <span>{{ $user->status() }}</span>
+                    </div>
+                    <br><br>
+                    <div class="col-3">
+                          <span>{{ __('BackEnd/user.created_at') }} : </span>
+                        <span>{{ $user->created_at->format('d-m-Y h:i a') }}</span>
+                    </div>
 
-                    </tr>
-                     <tr>
-                        <th>Company Name </th>
-                        <td>{{ $user->company_name }}</td>
-                        <th>Trade License Number: </th>
-                        <td>{{ $user->license_number }}</td>
-                        <th>  </th>
-                        <td> </td>
-                        <th> </th>
-                        <td> </td>
-                        <th>  </th>
-                        <td>    </td>
-                        <th>Trade License Number: </th>
+                </div>
+                <hr>
+                <br>
+                <div class="row">
+                <div class="col-6">
+                     <h4 class="main">Company Information:</h4>
+                </div>
 
-                        <td>
-                             <a class="btn btn-outline-success btn-sm btn_submit"
-                                href="{{ url('view-trade-license') }}/{{ $user->id }}/{{ $user->Commercial_Register }}"
+            </div>
+            <br>
+                <div class="row">
+
+
+                    <div class="col-3">
+                        <p class="supo">Company Name <span>{{ $user->company_name }}</span></p>
+                    </div>
+                    <div class="col-3">
+                        <p class="supo">Trade License Number: <span>{{ $user->license_number }}</span></p>
+                    </div>
+                    <div class="col-3">
+                        <p class="supo">Trade License Attachment: <span>{{ $user->Commercial_Register }}</span></p>
+                    </div>
+                    <div class="col-3">
+                        <p class="supo">MOA Attachment: <span>{{ $user->MOA }}</span></p>
+                    </div>
+                    <div class="col-6">
+                    <div>
+                          <a class="btn btn-outline-success btn-sm btn_submit"
+                        href="{{ url('view-trade-license') }}/{{ $user->id }}/{{ $user->Commercial_Register }}"
+                        target="_blank"
+                        ><i class="fas fa-eye"></i>&nbsp;
+                        Show Trade License
+                    </a>
+                     <a class="btn btn-outline-success btn-sm btn_submit"
+                        href="{{ url('view-MOA') }}/{{ $user->id }}/{{ $user->MOA }}"
+                        target="_blank"
+                        ><i class="fas fa-eye"></i>&nbsp;
+                        Show MOA
+                    </a>
+                    </div>
+
+                    </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                     <h4 class="main">Contract Details:</h4>
+                </div>
+
+            </div>
+            <div class="row">
+
+                 <div class="col-6">
+                    <p class="supo">Contract Approval Date: <span>{{ $user->date_contract }}</span></p>
+                </div>
+                 <div class="col-6">
+                    <p class="supo">Contract Attachment: <span>{{ $user->contract_pdf }}</span></p>
+                </div>
+                <div class="col-8">
+                    <a class="btn btn-outline-success btn-sm btn_submit"
+                                href="{{ url('view-contract') }}/{{ $user->id }}/{{ $user->contract_pdf }}"
                                 target="_blank"
                                 ><i class="fas fa-eye"></i>&nbsp;
-                                Show Trade License
-                            </a>
-                        </td>
-                    </tr>
+                                Show  Contract
+                    </a>
+                </div>
 
-                    <tr>
-                        <th>Contract Approval Date</th>
-                        <td>{{ $user->date_contract }}</td>
-                        <th>  </th>
-                        <td> </td>
-                        <th> </th>
-                        <td> </td>
-                        <th>  </th>
-                        <td>    </td>
-                        <th>  </th>
-                        <td>    </td>
-                        <th>Contract Attachment: </th>
-                        <td>
-                             <a class="btn btn-outline-success btn-sm btn_submit"
-                                href="{{ url('view-contract') }}/{{ $user->id}}/{{ $user->contract_pdf }}"
-                                target="_blank"
-                                ><i class="fas fa-eye"></i>&nbsp;
-                                Show file  Contract
-                            </a>
-                        </td>
-                    </tr>
+            </div>
+            <hr>
+            <br>
+             <div class="row">
+                <div class="col-6">
+                     <h4 class="main">About the Owners:</h4>
+                </div>
+            </div>
 
-                     <tr>
-                        <th>About the Owner</th>
-                        <td></td>
-                         <th>Passport Number:</th>
-                        <td>{{ $user->passport_number }}</td>
-                        <th>Expiry Date:</th>
-                        <td>{{ $user->expiry_date_passport }}</td>
-                        <th>ID Number:</th>
-                        <td>{{ $user->id_number }}</td>
-                        <th>Expiry Date:</th>
-                        <td>{{ $user->expiry_date }}</td>
-
-                        <th> Visa attachement</th>
-                        <td>
-                             <a class="btn btn-outline-success btn-sm btn_submit"
+            <div class="row">
+                    <div class="col-4">
+                        <p class="supo">Passport Number: <span>{{ $user->passport_number }}</span></p>
+                    </div>
+                    <div class="col-4">
+                        <p class="supo">Expiry Date: <span>{{ $user->expiry_date_passport }}</span></p>
+                    </div>
+                    <div class="col-4">
+                        <p class="supo">ID Number: <span>{{ $user->id_number }}</span></p>
+                    </div>
+                    <div class="col-4">
+                        <p class="supo">Expiry Date: <span>{{ $user->expiry_date }}</span></p>
+                    </div>
+                    <div class="col-4">
+                        <p class="supo">Visa attachement: <span>{{ $user->emirates_id }}</span></p>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-outline-success btn-sm btn_submit"
                             href="{{ url('view-visa') }}/{{ $user->id }}/{{ $user->emirates_id }}"
                             target="_blank"
                             ><i class="fas fa-eye"></i>&nbsp;
                             Show File Visa
                         </a>
-                        </td>
-                    </tr>
-
-                     <tr>
-
-                        <th>Status Order </th>
-                        <td>
+                    </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <span>Status Order :  </span>
+                        <span>
                             @if($user->status_order == 1)
-                            <td>Under Processing</td>
+                            <span>Under Processing</span>
                             @elseif ($user->status_order == 2 )
-                                <td>Accepted</td>
+                                <span>Accepted</span>
                             @else
-                            <td>null</td>
+                            <td>No Found any File Uploaded from User Yet</td>
                             @endif
-                        </td>
-
-                        <th> </th>
-                        <td> </td>
-                        <th> </th>
-                        <th> Change Status Order</th>
-                        <td>
-
-                                @if($user->status_order == 1)
+                        </span>
+                </div>
+                <div class="col-6">
+                        <span> Change Status Order</span>
+                        <span>
+                             @if($user->status_order == 1)
                                 <form action="{{ route('admin.order.accepted',$user->id) }}" method="post">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-success btn-sm btn_submit"> Tanslate to Accepted</button>
@@ -149,104 +191,152 @@
                                     <button type="submit" class="btn btn-outline-success ">Translate to under processing</button>
                                 </form>
                             @endif
-                        </td>
-                        <td> </td>
-                        <th> </th>
-                        <td> </td>
-                        <td> </td>
+                        </span>
+                </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <h4 class="main">Requirments Financial Report:</h4>
+                </div>
+            </div>
+            <br>
+             @if ($financial_file === null)
+             <div class="row">
 
+                    <div class="col-3">
+                        <img src="" width="60">
+                    </div>
+             </div>
 
-                    </tr>
+                @else
+                    @forelse ($financial_file as $f_file)
 
-                    <tr>
+                            <div class="row">
 
-                        <th>upload financial Report</th>
-                        <td>
-                            <form action="{{ route('users.financial.store',$user->id) }}"  method="Post" autocomplete="off" enctype="multipart/form-data">
-                                @csrf
-
-                                <h3>Financial Report Information</h3>
-                                <br>
-                                <hr>
-                                <div class="row">
-
-                                        <div class="form-group">
-                                            <label for="financial_report1">Financial Report PDF</label>
-                                        <input type="file" name="financial_report1" class="form-control">
-                                            @error('financial_report1')<span class="text-danger">{{ $message }}</span>@enderror
-                                        </div>
-
-                                </div>
-
-                                <div class="row">
-                                        <div class="form-group">
-                                            <button type="submit" name="update_information" class="btn btn-primary">Upload Financial Report</button>
-                                        </div>
-
-                                </div>
-
-                                </form>
-                        </td>
-
-                        <th>Display financial report</th>
-                        <td>
-
-
-                            @if ($financial_file === null)
-                                <div class="col-3">
-                                    <div class="form-group">
-                                    <img src="" width="60">
+                                    <div class="col-12">
+                                        <p>Uploaded from : {{ $f_file->user->name  }}</p>
                                     </div>
+                                    <div class="col-12">
+                                       <p>  Created At : {{ $f_file->created_at->format('M d Y h:i a') }} </p>
+                                    </div>
+
+                                <div class="col-12">
+                                    <p>Name File :{{ $f_file->financial  }}</p>
+
                                 </div>
 
+                                <div class="col-6">
+                                    <a class="btn btn-outline-success btn-sm"
+                                        href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
+                                        target="_blank"
+                                        ><i class="fas fa-eye"></i>&nbsp;
+                                        Show File
+                                    </a>
+                                    <a class="btn btn-outline-warning btn-sm"
+                                            href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
+                                            <i class="fas fa-download"></i>&nbsp;
+                                            Download File
+                                    </a>
+                                    <a class="btn btn-outline-info btn-sm"
+                                        href="{{ route('users.show_financial_report',$f_file->id) }}">
+                                        <i class="fas fa-comment"></i>&nbsp;
+                                        Open Comments
+                                    </a>
+
+                                    <button href="javascript:void(0)"
+                                        onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $f_file->id }}').submit(); } else { return false; }"
+                                        class="btn btn-outline-danger btn-sm "><i class="fa fa-trash"></i>
+                                        Delete
+                                    </button>
+                                    <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                    </form>
+                                </div>
+                            </div>
+                        <hr>
+                    @empty
+                        <br>
+                        <h5 class="text-center">No Financial Report found</h5>
+                    @endforelse
+                @endif
+
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Requirments Information Financial Report</h3>
+                    </div>
+                    <div class="col-6">
+                        <form action="{{ route('users.financial.store',$user->id) }}"  method="Post" autocomplete="off" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="financial_report1" class="supo">Upload Requirments PDF</label>
+                                    <br><br>
+                                    <input type="file" name="financial_report1" class="form-control">
+                                    @error('financial_report1')<span class="text-danger">{{ $message }}</span>@enderror
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" name="update_information" class="btn btn-primary">Upload File</button>
+                                    <br>
+                                </div>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                     <h4 class="name-tit">Financial Report</h4>
+                </div>
+
+                <div class="row">
+
+                                <div class="col-6">
+                                    @if ($financial_file_final === null)
+                                <div class="col-6">
+
+                                    <h5 class="text-center">No Financial Report found</h5>
+                                </div>
                             @else
-                                @foreach ($financial_file as $f_file)
-                                            <td>
-                                                <p>{{ $f_file->user->name  }}</p>
 
-                                             <button href="javascript:void(0)"
-                                                onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $f_file->id }}').submit(); } else { return false; }"
-                                                class="btn btn-outline-success btn-sm btn_submit"><i class="fa fa-trash"></i>
-                                                Delete
-                                            </button>
-                                            <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                            </form>
+                                <div class="col-10">
+                                        <p class="supo"> Name Financial Report: <span>{{ $financial_file_final->financial  }}</span> </p>
+                                    <a class="btn btn-outline-success btn-sm"
+                                        href="{{ url('View_file') }}/{{ $financial_file_final->upload_to }}/{{ $financial_file_final->financial }}"
+                                        target="_blank"
+                                        ><i class="fas fa-eye"></i>&nbsp;
+                                        Show File Financial Report
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <a class="btn btn-outline-info btn-sm"
+                                            href="{{ url('download') }}/{{ $financial_file_final->upload_to  }}/{{ $financial_file_final->financial }}">
+                                            <i class="fas fa-download"></i>&nbsp;
+                                            Download File Financial Report
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <a class="btn btn-outline-warning btn-sm"
+                                        href="{{ route('users.show_financial_report',$financial_file_final->id) }}">
+                                        <i class="fas fa-comment"></i>&nbsp;
+                                        Comments on Financial Report
+                                    </a>
 
-                                            <a class="btn btn-outline-success btn-sm btn_submit"
-                                                href="{{ url('View_file') }}/{{ $f_file->upload_to }}/{{ $f_file->financial }}"
-                                                target="_blank"
-                                                ><i class="fas fa-eye"></i>&nbsp;
-                                                View
-                                            </a>
-                                            <a class="btn btn-outline-info btn-sm btn_submit"
-                                                    href="{{ url('download') }}/{{ $f_file->upload_to  }}/{{ $f_file->financial }}">
-                                                    <i class="fas fa-download"></i>&nbsp;
-                                                    Download
-                                            </a>
-
-
-                                            <a class="btn btn-outline-info btn-sm btn_submit"
-                                                    href="{{ route('admin.show_financial_report',$f_file->id) }}">
-                                                    <i class="fas fa-comment"></i>&nbsp;
-                                                    Comments
-                                            </a>
-                                            </td>
-
-
-                                    <hr>
-                                @endforeach
-
+                                </div>
+                                <br>
                             @endif
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
+                                </div>
+                </div>
         </div>
-
     </div>
+
 
 @endsection
 

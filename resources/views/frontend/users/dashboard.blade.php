@@ -16,16 +16,8 @@
                 @forelse($posts as $post)
                     <tr>
                         <td>{{ $post->title() }}</td>
-                        <td><a href="{{ route('users.comments', ['post' => $post->id]) }}">{{ $post->comments_count }}</a></td>
                         <td>{{ $post->status() }}</td>
-                        <td>
-                            <a href="{{ route('users.post.edit', $post->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                            <a href="javascript:void(0);" onclick="if (confirm('Are you sure to delete this post?') ) { document.getElementById('post-delete-{{ $post->id }}').submit(); } else { return false; }" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                            <form action="{{ route('users.post.destroy', $post->id) }}" method="post" id="post-delete-{{ $post->id }}" style="display: none;">
-                                @csrf
-                                @method('DELETE')
-                            </form>
-                        </td>
+
                     </tr>
                 @empty
                     <tr>

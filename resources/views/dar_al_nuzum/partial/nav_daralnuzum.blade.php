@@ -19,7 +19,7 @@
                                 </li>
 
                                <li class="drop with--one--item"><a href="{{ route('blogs') }}">{{ __('Frontend/general.Blogs') }}</a></li>
-                               <li class="drop with--one--item"><a href="{{ route('dar.contact') }}">contact</a></li>
+                               <li class="drop with--one--item"><a href="{{ route('dar.contact') }}">Contact</a></li>
                                <li class=""><a href="{{ route('about.us') }}">About </a></li>
                                 @if (config('app.locale') == 'ar')
                                     <li class="lang_link">
@@ -28,11 +28,12 @@
 
                                 @else
                                     <li class="lang_link">
-                                        <a href="{{ route('change_locale','ar') }}">العربية</a>
+                                        <a href="{{ route('change_locale','ar') }}">Arabic</a>
                                     </li>
 
                                 @endif
 
+                                    {{-- <user-notification></user-notification> --}}
                                 <li class="dropdown" >
                                     @guest
                                             <li >
@@ -49,7 +50,43 @@
                                                     </div>
                                             </li>
                                     @else
-                                    <a href="#" >
+
+
+                                                    <div class="main-button-red">
+                                                        <div class="" >
+                                                            <a href="#"
+                                                                class="whi"
+                                                                style="
+                                                                    padding: 2px 18px;
+                                                                    font-size: 12px;
+                                                                    line-height: 34px;
+                                                                    height: 36px;
+                                                                    color: #ffffff!important;">
+                                                                    <button class="dropbtn">
+                                                                            <li class="dropbtn">
+                                                                                <span class="drno" style="color: #ffffff!important"  >
+                                                                                @if (auth()->user())
+                                                                                    {{ auth()->user()->name}}
+                                                                                @endif
+                                                                            </span>
+                                                                            </li>
+                                                                        </button>
+                                                            </a>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="dropdown-content">
+                                                                <a href="{{ route('profile') }}" class="drno">Profile</a>
+                                                                <a href="{{ route('edit_profile') }}" class="drno">Edit profile</a>
+                                                                <a href="{{ route('frontend.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="drno">Sign out</a>
+                                                                    <form id="logout-form" action="{{ route('frontend.logout') }}" method="POST" style="display: none;">
+                                                                        @csrf
+                                                                    </form>
+                                                            </div>
+
+                                    {{-- <a href="#" >
                                         <button class="dropbtn">
                                             <li class="dropbtn">
                                                 <span class="drno"  >
@@ -67,7 +104,7 @@
                                                 <form id="logout-form" action="{{ route('frontend.logout') }}" method="POST" style="display: none;">
                                                     @csrf
                                                 </form>
-                                        </div>
+                                        </div> --}}
                                     @endguest
                                 </li>
                             </ul>

@@ -34,7 +34,7 @@ return [
     'logged_in_and_change_password' => 'تم تسجيل الدخول بشكل بنجاح, من فضلك قم بتغغير كلمة المرور',
     'empty_field' => 'من فضلك املئ كافة الحقول المطلوبة',
 
-
+    'comment_deleted_successfully' => 'تم حذف التعليق بنجاح',
 
 
 

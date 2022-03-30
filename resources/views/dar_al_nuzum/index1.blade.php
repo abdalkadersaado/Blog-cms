@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Maya">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="userId" content="{{ auth()->check() ? auth()->id() : '' }}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
     <title>Dar AlNuzum</title>
@@ -17,7 +18,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
+    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{{ asset('frontend/css/style-'. $dir_lang .'.css') }}">
 
     <!-- Additionala CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}">
@@ -49,12 +51,18 @@
             font-size: 11px;
         }
     </style>
+
+
+    <!-- Styles -->
+
+
+
 </head>
 
     <body>
         <!-- ***** Header Area Start ***** -->
         <header class="header-area header-sticky">
-            <div class="container">
+            <div class="container" id="app">
                 <div class="row">
                     <div class="col-12">
                         @include('dar_al_nuzum.partial.nav_daralnuzum')
@@ -152,11 +160,11 @@
                             {{-- @foreach ($categories as $category)
                                 <li data-filter="*"  class="active"><a href="{{ route('frontend.filter_category',$category->url_slug()) }}" style="color: white">{{ $category->name() }}</a></li>
                             @endforeach --}}
+
                             @foreach($global_categories as $global_category)
+                                <li  class=""  style="color: white;line-height: 10px;background-color: #726d6d" ><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
 
-                                <li  class="active" style="color: white;line-height: 10px;background-color: #926a6a2b;" ><a href="{{ route('frontend.filter_category', $global_category->url_slug()) }}" style="color: white;line-height: 1px;">{{ $global_category->name() }}</a></li>
-
-                            @endforeach
+                           @endforeach
 
                         </ul>
                         </div>
@@ -269,6 +277,9 @@
         @include('dar_al_nuzum.partial.leave_message')
         <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ url('js/lang_'.config('app.locale').'.js') }}"></script>
+
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 

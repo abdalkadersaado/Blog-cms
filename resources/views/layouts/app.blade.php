@@ -74,6 +74,8 @@
 
     <script src="{{ asset('frontend/js/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script src="{{ asset('frontend/js/bootstrap-fileinput/themes/fa/theme.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+
     <script src="{{ url('js/lang_'.config('app.locale').'.js') }}"></script>
 
     <script src="{{ asset('frontend/js/custom.js') }}"></script>

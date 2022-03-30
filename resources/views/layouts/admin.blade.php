@@ -95,11 +95,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    @jquery
-    @toastr_js
-    @toastr_render
 
-    <!-- Core plugin JavaScript-->
+
+      <!-- Core plugin JavaScript-->
     <script src="{{ asset('backend/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
@@ -112,10 +110,10 @@
     <script src="{{ asset('backend/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script src="{{ asset('backend/vendor/bootstrap-fileinput/themes/fas/theme.min.js') }}"></script>
     <script src="{{ asset('backend/vendor/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ url('js/lang_'.config('app.locale').'.js') }}"></script>
 
     <script src="{{ asset('backend/js/custom.js') }}"></script>
-
+    @toastr_js
+    @toastr_render
     @yield('script')
     @livewireScripts
     @stack('scripts')

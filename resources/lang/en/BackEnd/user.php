@@ -14,7 +14,7 @@ return [
     'email' => 'Email',
     'status' => 'Status',
     'actions' => 'Actions',
-    'mobile' => 'mobile',
+    'mobile' => 'Mobile',
     'no_users_found' => 'No users found',
     'User' => 'User',
     'post_count' => 'Post Count',

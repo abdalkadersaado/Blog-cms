@@ -1,10 +1,8 @@
 <?php
 
 
-use App\Models\Post;
-use App\Models\User;
+
 use App\Models\Partner;
-use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +14,6 @@ use App\Http\Controllers\Backend\PostsController;
 use App\Http\Controllers\Backend\QuoteController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Frontend\IndexController;
-use App\Http\Controllers\Api\Users\UsersController;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\Backend\PostTagsController;
 use App\Http\Controllers\Backend\ServicesController;
@@ -116,11 +113,17 @@ Route::post('test-post', function (Request $request) {
         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
 })->name('dar.test.post');
+Route::fallback(function () {
+    return response()->json([
+        'message' => __('Not Found Page'),
+        'status' => 404
+    ], 404);
+})->name('api.fallback');
 #####################################################################################
 
 Route::group(['middleware' => 'web'], function () {
     // Route::get('/', [IndexController::class, 'index'])->name('frontend.index');
-    Route::get('/website-old', [IndexController::class, 'index'])->name('frontend.index');
+    Route::get('/dar-alnuzum', [IndexController::class, 'index'])->name('frontend.index');
 
     Route::get('js/lang_ar.js', [ServiceController::class, 'vue_translate_ar'])->name('vue_translate_ar');
     Route::get('js/lang_en.js', [ServiceController::class, 'vue_translate_en'])->name('vue_translate_en');
@@ -154,36 +157,11 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/dashboard', [FrontendUsersController::class, 'index'])->name('dashboard');
         Route::post('/user/notifications/read', [FrontendNotificationsController::class, 'markAsRead']);
 
-        Route::get('/edit-info', [FrontendUsersController::class, 'edit_info'])->name('edit_info');
-        Route::post('/update-info', [FrontendUsersController::class, 'update_info'])->name('update_info');
         //complete user info
         Route::post('/complete-user-info/{id}', [FrontendUsersController::class, 'complete_user_info'])->name('complete_user_info');
         // edit profile user
         Route::post('/edit_profile', [FrontendUsersController::class, 'edit_profile_user'])->name('edit_profile_user');
 
-        Route::post('/edit-info', [FrontendUsersController::class, 'update_personal_info'])->name('update_personal_info');
-
-
-
-
-        Route::get('/edit-information-company', [FrontendUsersController::class, 'edit_information_company'])->name('edit_information_company');
-
-
-
-        Route::get('/create-post', [FrontendUsersController::class, 'create_post'])->name('post.create');
-        Route::post('/create-post', [FrontendUsersController::class, 'store_post'])->name('post.store');
-        Route::get('/edit-post/{post_id}', [FrontendUsersController::class, 'edit_post'])->name('post.edit');
-        Route::put('/edit-post/{post_id}', [FrontendUsersController::class, 'update_post'])->name('post.update');
-        Route::delete('/delete-post/{post_id}', [FrontendUsersController::class, 'destroy_post'])->name('post.destroy');
-        Route::post('/delete-post-media/{media_id}', [FrontendUsersController::class, 'destroy_post_media'])->name('post.media.destroy');
-        Route::get('/comments', [FrontendUsersController::class, 'show_comments'])->name('comments');
-        Route::get('/edit-comment/{comment_id}', [FrontendUsersController::class, 'edit_comment'])->name('comment.edit');
-        Route::put('/edit-comment/{comment_id}', [FrontendUsersController::class, 'update_comment'])->name('comment.update');
-        Route::delete('/delete-comment/{comment_id}', [FrontendUsersController::class, 'destroy_comment'])->name('comment.destroy');
-
-
-        //comment on financial report
-        Route::get('financial-report-show', [FinancialReportController::class, 'financial_report'])->name('financial_report');
         // financial report upload from admin or editor and client
         Route::post('/financial/{id}', [FinancialReportController::class, 'store'])->name('financial.store');
         //show pdf in financial report
@@ -194,9 +172,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::delete('delete_file/{id}', [FinancialReportController::class, 'destroy'])->name('delete_file');
         // show comment on financial report
         Route::get('comment-on/{id}', [FinancialReportController::class, 'show_financial_report'])->name('show_financial_report');
-
-        // comment from client on  financial report
-        Route::post('/comment', [FinancialReportController::class, 'store_report_comment'])->name('frontend.store_report_comment');
+        Route::delete('delete_comment/{id}', [FinancialReportController::class, 'delete_comment'])->name('delete_comment');
     });
 });
 
@@ -207,6 +183,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('logout', [BackendLoginController::class, 'logout'])->name('logout');
 
     Route::group(['middleware' => ['roles', 'role:admin|editor']], function () {
+
         Route::any('/notifications/get', [BackendNotificationsController::class, 'getNotifications']);
         Route::any('/notifications/read', [BackendNotificationsController::class, 'markAsRead']);
         Route::get('/', [AdminController::class, 'index'])->name('index_route');
@@ -230,8 +207,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         //comment financial report
         Route::get('comment-on/{id}', [FinancialReportController::class, 'show_financial_report'])->name('show_financial_report');
 
-
-
         Route::post('users/under_processing/{id}', [BackendUsersController::class, 'order_under_processing'])->name('order.under_processing');
         Route::post('user1/accepted/{id}', [BackendUsersController::class, 'order_accepted'])->name('order.accepted');
 
@@ -246,14 +221,4 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 Route::get('/contact-us', [IndexController::class, 'contact'])->name('frontend.contact');
 
-
-
 Route::post('auditor/comment/{id}', [FinancialReportController::class, 'store_comment'])->name('financial.store_comment');
-
-Route::get('/category/{category_slug}', [IndexController::class, 'category'])->name('frontend.category.posts');
-Route::get('/tag/{tag_slug}', [IndexController::class, 'tag'])->name('frontend.tag.posts');
-Route::get('/archive/{date}', [IndexController::class, 'archive'])->name('frontend.archive.posts');
-Route::get('/author/{username}', [IndexController::class, 'author'])->name('frontend.author.posts');
-Route::get('/search', [IndexController::class, 'search'])->name('frontend.search');
-Route::get('/{post}', [IndexController::class, 'post_show'])->name('frontend.posts.show');
-Route::post('/{post}', [IndexController::class, 'store_comment'])->name('frontend.posts.add_comment');

@@ -253,6 +253,17 @@
                                                 <i class="fas fa-comment"></i>&nbsp;
                                                 Open Comments
                                             </a>
+                                            @if(auth()->user()->id == $f_file->user_id)
+                                            <button href="javascript:void(0)"
+                                                onclick="if (confirm('Are you sure to delete this file?') ) { document.getElementById('user-delete-{{ $f_file->id }}').submit(); } else { return false; }"
+                                                class="btn btn-outline-danger btn-sm "><i class="fa fa-trash"></i>
+                                                Delete
+                                            </button>
+                                            <form action="{{ route('users.delete_file', $f_file->id) }}" method="post" id="user-delete-{{ $f_file->id }}" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                            </form>
+                                            @endif
                                         </div>
                                     </div>
                                     <hr>
@@ -327,6 +338,8 @@
                                         <i class="fas fa-comment"></i>&nbsp;
                                         Comments on Financial Report
                                     </a>
+
+
                                     </div>
                                 </div>
                                 <br>

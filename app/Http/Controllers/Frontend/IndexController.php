@@ -28,62 +28,66 @@ class IndexController extends Controller
 
     public function index()
     {
+        $user = auth()->user();
+        if ($user && $user->category_id != null) {
 
-        $posts = Post::with(['media', 'user', 'tags'])
-            ->whereHas('category', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->whereHas('user', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->paginate(5)
-            ->withQueryString();
-
-        return view('frontend.index', compact('posts'));
-    }
-
-    public function search()
-    {
-
-        $posts = Post::with(['media', 'user', 'tags'])
-            ->whereHas('category', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->whereHas('user', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->when(request('keyword') != '', function ($query) {
-                $query->search(request('keyword'), null, true);
-            })
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->paginate(5)
-            ->withQueryString();
-
-        return view('frontend.index', compact('posts'));
-    }
-
-    public function category($slug)
-    {
-        $category = Category::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->whereStatus(1)->first()->id;
-
-        if ($category) {
             $posts = Post::with(['media', 'user', 'tags'])
-                ->whereCategoryId($category)
+                ->whereCategoryId($user->category_id)
+                ->post()
+                ->active()
+                ->orderBy('id', 'desc')
+                ->get();
+            // ->withQueryString();
+
+            $posts_by_category_id = Post::with(['media', 'user', 'tags'])
+                ->whereCategoryId($user->category_id)
                 ->post()
                 ->active()
                 ->orderBy('id', 'desc')
                 ->paginate(5)
                 ->withQueryString();
 
-            return view('frontend.index', compact('posts'));
-        }
+            $users = User::whereHas('roles', function ($query) use ($user) {
+                $query->where('name', 'user')->where('client_top', 1)->where('category_id', $user->category_id);
+            })->orderBy('sequential_order', 'asc')->get();
+            $services = Service::latest()->paginate(10);
+            $categories = Category::get();
+            return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id', 'services'));
+        } else {
+            $posts = Post::with(['media', 'user', 'tags'])
+                ->whereHas('category', function ($query) {
+                    $query->whereStatus(1);
+                })
+                ->whereHas('user', function ($query) {
+                    $query->whereStatus(1);
+                })
+                ->post()
+                ->active()
+                ->orderBy('id', 'desc')
+                ->get();
+            // ->withQueryString();
 
-        return redirect()->route('frontend.index');
+            $posts_by_category_id = Post::with(['media', 'user', 'tags'])
+                ->whereHas('category', function ($query) {
+                    $query->whereStatus(1);
+                })
+                ->whereHas('user', function ($query) {
+                    $query->whereStatus(1);
+                })
+                ->post()
+                ->active()
+                ->orderBy('id', 'desc')
+                ->paginate(5)
+                ->withQueryString();
+            $services = Service::get();
+            $categories = Category::get();
+
+            $users = User::whereHas('roles', function ($query) {
+                $query->where('name', 'user')->where('client_top', 1);
+            })->orderBy('sequential_order', 'asc')->get();
+
+            return view('dar_al_nuzum.index1', compact('posts', 'categories', 'users', 'user', 'posts_by_category_id', 'services'));
+        }
     }
 
     public function filterBy_category($slug)
@@ -129,137 +133,6 @@ class IndexController extends Controller
         return redirect()->route('frontend.index');
     }
 
-    public function tag($slug)
-    {
-        $tag = Tag::whereSlug($slug)->orWhere('slug_en', $slug)->orWhere('id', $slug)->first()->id;
-
-        if ($tag) {
-            $posts = Post::with(['media', 'user', 'tags'])
-                ->whereHas('tags', function ($query) use ($slug) {
-                    $query->where('slug', $slug)->orWhere('slug_en', $slug);
-                })
-                ->post()
-                ->active()
-                ->orderBy('id', 'desc')
-                ->paginate(5)
-                ->withQueryString();
-
-            return view('frontend.index', compact('posts'));
-        }
-
-        return redirect()->route('frontend.index');
-    }
-
-    public function archive($date)
-    {
-        $exploded_date = explode('-', $date);
-        $month = $exploded_date[0];
-        $year = $exploded_date[1];
-
-        $posts = Post::with(['media', 'user', 'tags'])
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
-            ->post()
-            ->active()
-            ->orderBy('id', 'desc')
-            ->paginate(5)
-            ->withQueryString();
-        return view('frontend.index', compact('posts'));
-    }
-
-    public function author($username)
-    {
-        $user = User::whereUsername($username)->whereStatus(1)->first()->id;
-
-        if ($user) {
-            $posts = Post::with(['media', 'user', 'tags'])
-                ->whereUserId($user)
-                ->post()
-                ->active()
-                ->orderBy('id', 'desc')
-                ->paginate(5)
-                ->withQueryString();
-
-            return view('frontend.index', compact('posts'));
-        }
-
-        return redirect()->route('frontend.index');
-    }
-
-    public function post_show($slug)
-    {
-        $post = Post::query()
-            ->with([
-                'category', 'media', 'user', 'tags',
-                'approved_comments' => function ($query) {
-                    $query->orderBy('id', 'desc');
-                }
-            ])
-            ->whereHas('category', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->whereHas('user', function ($query) {
-                $query->whereStatus(1);
-            })
-            ->whereSlug($slug)
-            ->active()
-            ->first();
-
-        if ($post) {
-
-            $blade = $post->post_type == 'post' ? 'post' : 'page';
-
-            return view('frontend.' . $blade, compact('post'));
-        } else {
-            return redirect()->route('frontend.index');
-        }
-    }
-
-    public function store_comment(Request $request, $slug)
-    {
-        $validation = Validator::make($request->all(), [
-            //'name'      => 'required',
-            //'email'     => 'required|email',
-            'url'       => 'nullable|url',
-            'comment'   => 'required|min:10',
-        ]);
-        if ($validation->fails()) {
-            toastr()->error(__('Frontend/general.empty_field'), __('Frontend/general.something_was_wrong'));
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-
-        $post = Post::whereSlug($slug)->wherePostType('post')->whereStatus(1)->first();
-        if ($post) {
-
-            $userId = auth()->check() ? auth()->id() : null;
-            $data['name']           = auth()->user()->name; //$request->name;
-            $data['email']          =  auth()->user()->email; //$request->email;
-            $data['url']            = $request->url;
-            $data['ip_address']     = $request->ip();
-            $data['comment']        = Purify::clean($request->comment);
-            $data['post_id']        = $post->id;
-            $data['user_id']        = $userId;
-
-            $comment = $post->comments()->create($data);
-
-            if (auth()->guest() || auth()->id() != $post->user_id) {
-                $post->user->notify(new NewCommentForPostOwnerNotify($comment));
-            }
-
-            User::whereHas('roles', function ($query) {
-                $query->whereIn('name', ['admin', 'editor']);
-            })->each(function ($admin, $key) use ($comment) {
-                $admin->notify(new NewCommentForAdminNotify($comment));
-            });
-            toastr()->success(__('Frontend/general.comment_added_successfully'));
-            return redirect()->back();
-        }
-
-        return redirect()->back()->with([
-            'message' => __('Frontend/general.something_was_wrong'),
-            'alert-type' => 'danger'
-        ]);
-    }
 
     public function complete_register()
     {
@@ -276,7 +149,6 @@ class IndexController extends Controller
     {
         return view('frontend.contact');
     }
-
 
     public function do_contact(Request $request)
     {

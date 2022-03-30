@@ -2438,6 +2438,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -44280,7 +44287,7 @@ var render = function () {
                   key: item.id,
                   staticClass: "dropdown-item d-flex align-items-center",
                   attrs: {
-                    href: "/admin/post_comments/" + item.data.id + "/edit",
+                    href: "/comment-on/" + item.data.financial_report_id,
                   },
                   on: {
                     click: function ($event) {
@@ -44305,7 +44312,7 @@ var render = function () {
                         "\n                    " +
                           _vm._s(
                             _vm.trans("notification.new_comment", {
-                              post_title: item.data.post_title,
+                              post_title: item.data.name,
                             })
                           ) +
                           "\n                "
@@ -44363,68 +44370,80 @@ var render = function () {
         : _vm._e(),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "block-minicart minicart__active" }, [
+    _c("div", { staticClass: "dropdown" }, [
       _vm.unreadCount > 0
-        ? _c("div", { staticClass: "minicart-content-wrapper" }, [
-            _c("div", { staticClass: "single__items" }, [
+        ? _c("div", {}, [
+            _c("div", {}, [
               _c(
                 "div",
-                { staticClass: "miniproduct" },
-                _vm._l(_vm.unread, function (item) {
-                  return _c(
-                    "div",
-                    { key: item.id, staticClass: "item01 d-flex mt--20" },
-                    [
-                      _c("div", { staticClass: "thumb" }, [
-                        _c(
-                          "a",
-                          {
-                            attrs: { href: "edit-comment/" + item.data.id },
-                            on: {
-                              click: function ($event) {
-                                return _vm.readNotifications(item)
-                              },
-                            },
-                          },
-                          [
-                            _c("img", {
+                {},
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _vm._l(_vm.unread, function (item) {
+                    return _c(
+                      "div",
+                      { key: item.id, staticClass: "dropdown-content" },
+                      [
+                        _c("div", { staticClass: "thumb" }, [
+                          _c(
+                            "a",
+                            {
                               attrs: {
-                                src: "/frontend/images/icons/comment.png",
-                                alt: "`${item.data.post_title}`",
+                                href:
+                                  "/comment-on/" +
+                                  item.data.financial_report_id,
                               },
-                            }),
-                          ]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "content" }, [
-                        _c(
-                          "a",
-                          {
-                            attrs: { href: "edit-comment/" + item.data.id },
-                            on: {
-                              click: function ($event) {
-                                return _vm.readNotifications(item)
+                              on: {
+                                click: function ($event) {
+                                  return _vm.readNotifications(item)
+                                },
                               },
                             },
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(
-                                  _vm.trans("notification.user_new_comment", {
-                                    post_title: item.data.post_title,
-                                  })
-                                ) +
-                                "\n                            "
-                            ),
-                          ]
-                        ),
-                      ]),
-                    ]
-                  )
-                }),
-                0
+                            [
+                              _c("img", {
+                                attrs: {
+                                  src: "/frontend/images/icons/comment.png",
+                                  alt: "`${item.data.post_title}`",
+                                },
+                              }),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "content" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href:
+                                  "/comment-on/" +
+                                  item.data.financial_report_id,
+                              },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.readNotifications(item)
+                                },
+                              },
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(
+                                    _vm.trans("notification.user_new_comment", {
+                                      post_title: item.data.name,
+                                    })
+                                  ) +
+                                  "\n                            "
+                              ),
+                            ]
+                          ),
+                        ]),
+                      ]
+                    )
+                  }),
+                ],
+                2
               ),
             ]),
           ])
@@ -44432,7 +44451,20 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "#" } }, [
+      _c("button", { staticClass: "dropbtn" }, [
+        _c("li", { staticClass: "dropbtn" }, [
+          _c("span", { staticClass: "drno" }, [_vm._v(" n ")]),
+        ]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 

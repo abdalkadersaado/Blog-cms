@@ -85,7 +85,7 @@
                 <div class="thumb">
 
                     <div class="date">
-                        <h6>Nov <span>{{ $post->created_at->format('M d, Y') }}</span></h6>
+                        <h6>{{ $post->created_at->format('M') }} <span>{{ $post->created_at->format('d - Y') }}</span></h6>
                     </div>
                     @if ($post->media->count() > 0)
                     <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
