@@ -190,8 +190,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/index', [AdminController::class, 'index'])->name('index');
         Route::post('/posts/removeImage/{media_id}', [PostsController::class, 'removeImage'])->name('posts.media.destroy');
         Route::resource('posts', PostsController::class);
-        Route::post('/pages/removeImage/{media_id}', [PagesController::class, 'removeImage'])->name('pages.media.destroy');
-        Route::resource('pages', PagesController::class);
+        // Route::post('/pages/removeImage/{media_id}', [PagesController::class, 'removeImage'])->name('pages.media.destroy');
+        // Route::resource('pages', PagesController::class);
         Route::resource('post_comments',  PostCommentsController::class);
         Route::resource('post_categories', PostCategoriesController::class);
         Route::resource('post_tags', PostTagsController::class);

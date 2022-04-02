@@ -33,7 +33,7 @@
 
                                 @endif
 
-                                    {{-- <user-notification></user-notification> --}}
+                                    <user-notification></user-notification>
                                 <li class="dropdown" >
                                     @guest
                                             <li >

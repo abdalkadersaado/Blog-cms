@@ -23,9 +23,10 @@
             aria-labelledby="alertsDropdown"
             v-if="unreadCount > 0"
         >
-            <h6 class="dropdown-header">
+            <!-- <h6 class="dropdown-header">
                 {{ trans("notification.alerts_Center") }}
-            </h6>
+            </h6> -->
+            <h6 class="dropdown-header">Notifications</h6>
 
             <a
                 class="dropdown-item d-flex align-items-center"
@@ -44,11 +45,8 @@
                         {{ item.data.created_at }}
                     </div>
                     <span class="font-weight-bold">
-                        {{
-                            trans("notification.new_comment", {
-                                post_title: item.data.name,
-                            })
-                        }}
+                        There is a new comment on Financial Report from:
+                        {{ item.data.name }}
                     </span>
                 </div>
             </a>

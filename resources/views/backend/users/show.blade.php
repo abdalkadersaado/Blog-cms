@@ -63,6 +63,26 @@
                 </div>
                 <hr>
                 <br>
+                 <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="assign_editor">Assign Auditor</label>
+                        <select name="assign_editor" class="form-control">
+                            <option value="">---</option>
+                            @foreach ($editors as $editor )
+                                <option value="{{ $editor->id }}" {{ old('assign_editor',$user->assign_editor) == $editor->id ? 'selected' : '' }} >{{ $editor->name }}</option>
+                                {{-- <option value="{{ $editor->id }}" {{ old('category_id') == $editor->id ? 'selected': '' }}>{{ $editor->name }}</option> --}}
+                            @endforeach
+
+                        </select>
+                        @error('assign_editor')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+            </div>
+
+
+                <hr>
+                <br>
                 <div class="row">
                 <div class="col-6">
                      <h4 class="main">Company Information:</h4>

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+{{-- @extends('layouts.admin')
 @section('content')
 
     <div class="card shadow mb-4">
@@ -48,4 +48,4 @@
             </table>
         </div>
     </div>
-@endsection
+@endsection --}}

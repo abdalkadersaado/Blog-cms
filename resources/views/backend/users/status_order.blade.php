@@ -9,16 +9,19 @@
 
         <div class="card-body">
     <form action="{{ route('admin.change-status') }}" method="get">
-    <div class="row">
+
+        <div class="row">
+
         <div class="col-2">
            <div class="form-group">
                 <input type="text" name="keyword" value="{{ old('keyword',request('keyword')) }}" class="form-control" autocomplete="off" placeholder="{{ __('BackEnd/contact_us.search_here') }}">
             </div>
         </div>
+
         <div class="col-2">
             <div class="form-group">
                 <select name="status_order" class="form-control">
-                    <option value=""> --- </option>
+                    <option value=""> Choose Status Order </option>
                     <option value="1" {{ old('status_order',request('status_order')) == '1' ? 'selected': '' }}>Under Processing</option>
                     <option value="2" {{ old('status_order',request('status_order')) == '2' ? 'selected': '' }}>Accepted</option>
                 </select>
@@ -28,7 +31,7 @@
         <div class="col-2">
            <div class="form-group">
                 <select name="sort_by" class="form-control">
-                    <option value=""> --- </option>
+                    <option value="">Sort By</option>
                     <option value="status_order" {{ old('sort_by',request('sort_by')) == 'status_order' ? 'selected': '' }}>status order</option>
                     <option value="id" {{ old('sort_by',request('sort_by')) == 'id' ? 'selected': '' }}>{{ __('BackEnd/user.id') }}</option>
                     <option value="name" {{ old('sort_by',request('sort_by')) == 'name' ? 'selected': '' }}>{{ __('BackEnd/user.name') }}</option>
@@ -40,7 +43,7 @@
         <div class="col-2">
             <div class="form-group">
                 <select name="order_by" class="form-control">
-                <option value=""> --- </option>
+                <option value=""> Order By </option>
                 <option value="asc" {{ old('order_by',request('order_by')) == 'asc' ? 'selected': '' }}>{{ __('BackEnd/user.asc') }}</option>
                 <option value="desc" {{ old('order_by',request('order_by')) == 'desc' ? 'selected': '' }}>{{ __('BackEnd/user.desc') }}</option>
                  </select>
@@ -109,19 +112,20 @@
                         <td>null</td>
                         @endif
                         <td>
-                            <div class="btn-group">
-                                @if($user->status_order == 1)
-                                <form action="{{ route('admin.order.accepted',$user->id) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger"> Tanslate to Accepted</button>
-                                </form>
-                            @else
-                                <form action="{{ route('admin.order.under_processing',$user->id) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">Translate to under processing</button>
-                                </form>
-                            @endif
-                            <a href="{{ route('admin.show_order',$user->id) }}" class="btn btn-info"> <i class="fa fa-eye"></i></a>
+
+                            <div class="col-12">
+                                 @if($user->status_order == 1)
+                                    <form action="{{ route('admin.order.accepted',$user->id) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-success btn-sm btn_submit"> Tanslate to Accepted</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('admin.order.under_processing',$user->id) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-success btn-sm btn_submit">Translate to under processing</button>
+                                    </form>
+                                @endif
+                                <a href="{{ route('admin.show_order',$user->id) }}" class="btn btn-info btn-sm "> <i class="fa fa-eye"></i></a>
                             </div>
                         </td>
                     </tr>

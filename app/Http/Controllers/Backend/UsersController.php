@@ -187,13 +187,18 @@ class UsersController extends Controller
             return redirect('admin/index');
         }
 
-        $user = User::whereId($id)->withCount('posts')->first();
+        $editors = User::query()
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'editor');
+            })->get();
 
+        // $user = User::whereId($id)->withCount('posts')->first();
+        $user = User::whereId($id)->first();
         $financial_file = FinancialReport::with('report_comments')->where('upload_to', $user->id)->get();
 
         $financial_file_final = FinancialReport::where('upload_to', $user->id)->latest()->first();
         if ($user) {
-            return view('backend.users.show', compact('user', 'financial_file', 'financial_file_final'));
+            return view('backend.users.show', compact('user', 'financial_file', 'financial_file_final', 'editors'));
         }
         return redirect()->route('admin.users.index')->with([
             'message' => 'Something was wrong',

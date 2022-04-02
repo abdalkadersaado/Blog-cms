@@ -23,7 +23,6 @@
     @else
         <link href="{{ asset('backend/css/sb-admin-2.min.css') }}" rel="stylesheet">
     @endif
-    @toastr_css
     <link href="{{ asset('backend/vendor/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/vendor/summernote/summernote-bs4.min.css') }}" rel="stylesheet">
     @yield('style')
@@ -112,8 +111,6 @@
     <script src="{{ asset('backend/vendor/summernote/summernote-bs4.min.js') }}"></script>
 
     <script src="{{ asset('backend/js/custom.js') }}"></script>
-    @toastr_js
-    @toastr_render
     @yield('script')
     @livewireScripts
     @stack('scripts')

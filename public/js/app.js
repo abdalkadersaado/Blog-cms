@@ -2328,8 +2328,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2391,13 +2389,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -44273,11 +44264,7 @@ var render = function () {
           },
           [
             _c("h6", { staticClass: "dropdown-header" }, [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.trans("notification.alerts_Center")) +
-                  "\n        "
-              ),
+              _vm._v("Notifications"),
             ]),
             _vm._v(" "),
             _vm._l(_vm.unread, function (item) {
@@ -44309,12 +44296,8 @@ var render = function () {
                     _vm._v(" "),
                     _c("span", { staticClass: "font-weight-bold" }, [
                       _vm._v(
-                        "\n                    " +
-                          _vm._s(
-                            _vm.trans("notification.new_comment", {
-                              post_title: item.data.name,
-                            })
-                          ) +
+                        "\n                    There is a new comment on Financial Report from:\n                    " +
+                          _vm._s(item.data.name) +
                           "\n                "
                       ),
                     ]),
@@ -44370,80 +44353,74 @@ var render = function () {
         : _vm._e(),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "dropdown" }, [
+    _c("div", { staticClass: "block-minicart minicart__active" }, [
       _vm.unreadCount > 0
-        ? _c("div", {}, [
-            _c("div", {}, [
+        ? _c("div", { staticClass: "minicart-content-wrapper" }, [
+            _c("div", { staticClass: "single__items" }, [
               _c(
                 "div",
-                {},
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _vm._l(_vm.unread, function (item) {
-                    return _c(
-                      "div",
-                      { key: item.id, staticClass: "dropdown-content" },
-                      [
-                        _c("div", { staticClass: "thumb" }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href:
-                                  "/comment-on/" +
-                                  item.data.financial_report_id,
-                              },
-                              on: {
-                                click: function ($event) {
-                                  return _vm.readNotifications(item)
-                                },
+                { staticClass: "miniproduct" },
+                _vm._l(_vm.unread, function (item) {
+                  return _c(
+                    "div",
+                    { key: item.id, staticClass: "item01 d-flex mt--20" },
+                    [
+                      _c("div", { staticClass: "thumb" }, [
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href:
+                                "/comment-on/" + item.data.financial_report_id,
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.readNotifications(item)
                               },
                             },
-                            [
-                              _c("img", {
-                                attrs: {
-                                  src: "/frontend/images/icons/comment.png",
-                                  alt: "`${item.data.post_title}`",
-                                },
-                              }),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "content" }, [
-                          _c(
-                            "a",
-                            {
+                          },
+                          [
+                            _c("img", {
                               attrs: {
-                                href:
-                                  "/comment-on/" +
-                                  item.data.financial_report_id,
+                                src: "/frontend/images/icons/comment.png",
+                                alt: "`${item.data.name}`",
                               },
-                              on: {
-                                click: function ($event) {
-                                  return _vm.readNotifications(item)
-                                },
+                            }),
+                          ]
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "content" }, [
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href:
+                                "/comment-on/" + item.data.financial_report_id,
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.readNotifications(item)
                               },
                             },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(
-                                    _vm.trans("notification.user_new_comment", {
-                                      post_title: item.data.name,
-                                    })
-                                  ) +
-                                  "\n                            "
-                              ),
-                            ]
-                          ),
-                        ]),
-                      ]
-                    )
-                  }),
-                ],
-                2
+                          },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(
+                                  _vm.trans("notification.user_new_comment", {
+                                    post_title: item.data.name,
+                                  })
+                                ) +
+                                "\n                            "
+                            ),
+                          ]
+                        ),
+                      ]),
+                    ]
+                  )
+                }),
+                0
               ),
             ]),
           ])
@@ -44451,20 +44428,7 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("button", { staticClass: "dropbtn" }, [
-        _c("li", { staticClass: "dropbtn" }, [
-          _c("span", { staticClass: "drno" }, [_vm._v(" n ")]),
-        ]),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
